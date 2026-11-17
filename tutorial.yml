@@ -1,0 +1,52 @@
+title: 'XPVaultEconomy'
+permission: xpeconomy.balance
+pages:
+  - title: 'XP als Guthaben'
+    text: |
+      XPVaultEconomy macht echte Minecraft-XP-Punkte zum Vault-Guthaben: 1 Guthaben entspricht 1 XP-Punkt. Das Guthaben eines online Spielers wird jede Sekunde mit seiner Erfahrungsanzeige abgeglichen und bleibt dauerhaft gespeichert.
+
+      1. Sammle oder verliere XP wie gewohnt.
+      2. Öffne dein Konto im Vystorm-Menü: /vmenu → Wirtschaft → XP-Konto (oder /economy). Im Chat: /money, /bal oder /economy balance.
+      3. Beim ersten Betreten werden deine vorhandenen echten XP in dein Konto übernommen.
+      4. Das Standardlimit beträgt 2.000.000.000 XP-Punkte; Währungsname und Limit kann die Serverkonfiguration ändern.
+  - title: 'Eigenes und fremdes Guthaben'
+    text: |
+      1. Schreibe /money oder /bal für dein Guthaben.
+      2. Alternativ: /economy balance oder /economy guthaben.
+      3. Für ein bekanntes Spielerkonto: /money <Spieler> oder /economy balance <Spieler>.
+      4. Die Abfrage fremder Konten erfordert xpeconomy.balance.others. Ohne dieses Recht siehst du nur dein eigenes Guthaben.
+  - title: 'XP an Spieler zahlen'
+    permission: xpeconomy.pay
+    text: |
+      Zahlungen übertragen echte XP-Punkte sofort zwischen bekannten Spielerkonten.
+
+      1. Öffne /vmenu → Wirtschaft → XP-Konto und wähle „Überweisen“.
+      2. Trage Spieler und Betrag ein, klicke „Weiter“ und bestätige die Zahlung.
+      3. Per Befehl: /pay <Spieler> <XP-Punkte> (z. B. /pay Alex 250), /economy pay oder /economy zahlen.
+      4. Der Betrag muss eine positive ganze Zahl sein. Du kannst dir nicht selbst zahlen. Das Ziel muss bereits ein bekanntes Konto haben; bei einem Fehler wird keine Teilzahlung behalten.
+  - title: 'Online-Zeitbonus'
+    text: |
+      Der Standard-Zeitbonus zahlt nach jeder vollen Online-Minute XP aus. Die erste Auszahlung beträgt 2 XP; jede abgeschlossene Minute erhöht die nächste Rate um 2 %.
+
+      1. Bleibe 60 Sekunden online.
+      2. Die Auszahlung erscheint standardmäßig in der Actionbar.
+      3. Das XP-Konto im Vystorm-Menü und /money zeigen Serie, nächste Rate und verbleibende Zeit.
+      4. Bei Rückkehr innerhalb von 30 Minuten bleiben Serie, Teilminute und Nachkommarest erhalten. Diese Standardwerte sind serverseitig konfigurierbar; der Bonus kann auch deaktiviert sein.
+  - title: 'XP-Rangliste'
+    permission: xpeconomy.top
+    text: |
+      Die Rangliste zeigt die Konten mit den meisten XP-Punkten: Platz, Name, Guthaben und Level.
+
+      1. Schreibe /baltop (auch /moneytop, /xptop oder /economy top).
+      2. Blättere mit /baltop <Seite> oder den Knöpfen [Weiter »] und [« Zurück].
+      3. Stehst du nicht auf der Seite, zeigt „Dein Platz“ deine Position. Im XP-Konto öffnet „Rangliste“ dieselbe Liste als Dialog.
+      4. Online-Spieler zählen mit ihren aktuellen XP. Die Liste wird kurz zwischengespeichert (Standard 30 Sekunden) und kann daher minimal hinterherhinken.
+  - title: 'Wirtschaftsverwaltung'
+    permission: xpeconomy.admin
+    text: |
+      Administratoren verwalten bekannte Konten mit /economy admin.
+
+      1. /economy admin info zeigt Anzahl der Konten und den verwendeten Speicher. Startguthaben, Währung, Zeitbonus und Rangliste stellst du unter /einstellungen → Server → XP-Wirtschaft ein; /economy admin reload lädt config.yml neu.
+      2. /economy admin give <Spieler> <XP-Punkte> schreibt XP gut.
+      3. /economy admin take <Spieler> <XP-Punkte> zieht XP ab.
+      4. /economy admin set <Spieler> <XP-Punkte> setzt das Guthaben. Beträge sind nichtnegative ganze Zahlen und dürfen das Kontolimit nicht überschreiten.

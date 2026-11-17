@@ -1,0 +1,1005 @@
+# Русский — UTF-8. Keep keys, placeholders and formatting tokens unchanged.
+currency:
+  singular: Точка XP
+  plural: XP баллов
+common:
+  no-permission: <red>У тебя нет на это разрешения.
+  unknown-account: Этот аккаунт игрока пока не известен.
+  players-only: <red>Эту команду могут использовать только игроки.
+  usage: '<gray>Использование: <yellow>{usage}'
+goal:
+  usage: <yellow>Использовать /economy goal [show|set <XP> [label]|clear|notify <on|off>].
+  default-label: Цель экономии
+  none: <gray>Цель экономии не установлена. Использовать /economy goal set <XP> [label].
+  progress: '<gold>{label}: {current} / {target} ({percent}%) · уведомление {notify}'
+  set: <green>Сберегательный гол {label} установлен на {target}. При этом не зарезервировано XP.
+  cleared: <gray>Цель экономии прояснилась.
+  bad-target: <red>Выберите цель XP от 1 до {max}.
+  notify-usage: <yellow>Использовать /economy goal notify <on|off>.
+  notify-on: <green>Уведомление о цели включено. Если цель уже достигнута, вы будете уведомлены сейчас.
+  notify-off: <gray>Уведомление о цели отключено.
+  notify-on-short: включено
+  notify-off-short: выключено
+  reached: '<green>Достигнута цель экономии: {label} ({target}).'
+favorite:
+  usage: <yellow>Использовать /economy favorite [list|add <player>|remove <player>]. вплоть до 20 получатели.
+  empty: <gray>У вас нет спасенных получателей. Добавить один с /economy favorite add <player>.
+  header: '<gold>Спасенные получатели:'
+  entry: <yellow>{index}. {name}
+  added: <green>{name} сэкономлено в качестве получателя. Выберите их в панели счетов или трансферном диалоге; оплата по-прежнему
+    требует подтверждения.
+  removed: <gray>{name} списаны со сэкономленных средств.
+  limit: <red>Вы можете сэкономить максимум {limit} получателей.
+  not-saved: <gray>{name} не является сэкономленным получателем.
+  choose: Оплата {name}
+  choose-hover: Нажмите, чтобы заполнить эту форму; еще не отправлено XP.
+button:
+  account: Счет
+  account-hover: 'Нажмите: Откройте свой аккаунт XP'
+  pay: Платить
+  pay-hover: 'Click: Подготовить /pay <player> <XP points>'
+  pay-usage-hover: 'Click: Подготовить команду'
+  fix: исправлять
+  fix-hover: 'Click: Подготовьте команду еще раз'
+  reply: Ответить
+  reply-hover: 'Клик: оплата от XP до {player}'
+  admin-edit: Редактировать баланс
+  admin-edit-hover: 'Click: Подготовить /economy admin <give|take|set>'
+  web: Интернет
+  web-hover: 'Нажмите: откройте свою учетную запись XP в браузере (или наложение с клиентом Vystorm)'
+balance:
+  console-usage: '<red>Консоль: /economy balance <player>'
+  line: <gold>{player} имеет номер {amount}.
+reward:
+  status-afk: Онлайн-бонус остановился из-за бездействия. Участок {streak} сохраняется, деятельность возобновляется.
+  notification: '<green>Онлайн бонус: +{xp} XP | Стрик: {streak} | Следующая выплата: {next_xp} XP'
+  status-disabled: '<gray>Онлайн бонус: отключен на этом сервере.'
+  status-none: '<gray>Онлайн-бонус: нет активной полосы.'
+  status-active: '<green>Онлайн бонус: серия {streak}, следующая выплата {next_xp} XP в {seconds} с.'
+  status-paused: '<yellow>Онлайн-бонус приостановился: серия {streak}, воссоединиться в течение {minutes} минуты, чтобы сохранить
+    его.'
+top:
+  bad-page: '<red>Страница должна быть положительным целым числом: /baltop [page]'
+  unavailable: <red>Доска лидеров сейчас недоступна.
+  empty: <gray>Список лидеров XP по-прежнему пуст.
+  header: <gold>XP таблица лидеров - страница {page}/{pages} ({total} счетов{age})
+  header-age: По состоянию на {seconds} лет назад
+  line: '<yellow>#{rank} </yellow>{name}<gold>: {amount}</gold><gray> (уровень {level})'
+  own: '<aqua>Ваш ранг: </aqua>{line}'
+  previous: « Назад
+  next: Далее »
+  page-hover: 'Клик: страница {page}'
+  dialog-title: XP таблица лидеров - страница {page}/{pages}
+pay:
+  usage: '<red>использование: /pay <player> <XP points> '
+  self: Вы не можете заплатить XP.
+  bad-amount: Сумма должна быть положительным целым числом (e.g). 500, 2.5k или 1m.
+  sent: <green>Выплачено от {amount} до {player}.
+  received: <green>{player} заплатили вам {amount}.
+  reverted: '{error}. Платеж был отменен.'
+error:
+  negative-amount: Отрицательная сумма
+  insufficient: Недостаточно {currency}
+  maximum-exceeded: Максимальный баланс XP превышен
+  out-of-range: Количество вне разрешенного диапазона
+admin:
+  reloaded: <green>Перезагрузка настроек XPVaultEconomy (хранение, интервалы синхронизации и лимит баланса требуют перезагрузки).
+  info: '<gold>XPVaultEconomy: {accounts} счета, хранилище {storage}.'
+  unknown-player: <red>Этот плеер пока не известен серверу.
+  bad-amount: <red>Сумма должна быть неотрицательным целым числом (e.g). 500, 2.5k или 1m.
+  new-balance: '<green>Новый баланс {player}: {amount}.'
+  history-usage: '<yellow>Использовать: /economy admin history player [count 1-50]'
+  history-empty: <gray>Зарегистрированных заказов на {player} нет.
+  history-header: '<gold>Последние {count} заказов {player} (новейший первый):'
+  history-row: '<gray>{time} · {cause} с {other}: {delta} XP → {balance} XP · ID {id}'
+  dashboard:
+    title: XP Vault Экономика
+    info: Состояние экономики
+    balance: Баланс игроков
+    top: Руководитель
+    give: Дайте XP
+    take: Возьмите XP
+    set: Установить баланс
+    reload: Перезагрузить настройки
+storage:
+  yaml: YAML ({file})
+  mysql: MySQL (таблица {table})
+  loading: <yellow>XP учетных записей все еще загружаются из базы данных, пожалуйста, попробуйте еще раз.
+vault:
+  bank-storage: XP банковских хранилищ недоступны
+  bank-unknown: Неизвестный банк XP
+  bank-name: Названия банков требуют 3-16 букв, цифр, _ или - и должны быть неиспользованными
+  bank-not-empty: Банк по-прежнему владеет XP, сначала опустошите его
+  bank-amount: XP должно быть целым неотрицательным числом
+  bank-insufficient: Не хватает XP в банке
+  bank-full: Банк превысит лимит баланса
+  bank-not-owner: Не владелец этого банка
+  bank-not-member: Не является членом этого банка
+  invalid-amount: XP - неотрицательные целые числа
+  invalid-amount-value: XP чисел должны быть неотрицательными целыми числами ({amount})
+  unknown-account: Аккаунт игрока не известен
+  no-banks: Банковские счета не поддерживаются
+  unsupported-currency: 'Поддерживаемая валюта: xp'
+menu:
+  title: Счет XP
+  description: Баланс, платежи и онлайн-бонус
+account:
+  fund: "Сборы"
+  fund-hover: "Собирать XP вместе на цель"
+  term: "Срочные вклады"
+  term-hover: "Отложить XP на время и получить с процентами"
+  banks: XP банков
+  banks-hover: Общие, безопасные для жизни XP горшков с другими игроками
+  standing: Постоянные приказы
+  standing-hover: Платите игроку автоматически каждый день, неделю или час
+  balance: '<gold>Баланс: {amount}'
+  info: '<gray>1 денежных единиц — 1 реальная XP точка. Предел: {limit}.'
+  transfer: Отправить XP
+  transfer-hover: Платить XP игрокам
+  leaderboard: Руководитель
+  leaderboard-hover: Список лидеров XP аккаунтов
+  refresh: освежить
+  web: Открыто в Web
+  web-hover: Ваша учетная запись XP, платежи и таблица лидеров в браузере или внутриигровое наложение
+transfer:
+  title: Отправить XP
+  intro: 'Ваш баланс: {amount}. Получатель нуждается в известном счете; вы подтверждаете перед оплатой.'
+  target: Игрок
+  amount: Количество ({currency})
+  continue: Продолжать
+  confirm-title: Подтвердить платеж
+  confirm-question: <gold>Отправить {amount} на {player}?
+  confirm-note: <gray>XP берется из вашего бара опыта немедленно.
+  level-preview: 'Текущий уровень: {current_level}, {current_progress}/{current_need} XP, {current_balance}. После оплаты:
+    уровень {projected_level}, {projected_progress}/{projected_need} XP, {projected_balance}.'
+  preview: 'Обзор {amount} - {player}: уровень {current_level} ({current_progress}/{current_need} XP) → уровень {projected_level}
+    ({projected_progress}/{projected_need} XP). Подтвердите на следующем экране, чтобы отправить.'
+  preview-expired: <red>Срок действия предоплаты истек. Начни сначала.
+  preview-changed: <yellow>Детали оплаты изменились. Просмотрите обновленный предварительный просмотр, прежде чем подтвердить.
+  confirm: Подтвердить
+  done: <green>Выплачено от {amount} до {player}.
+settings:
+  banks-enabled: XP банков
+  banks-enabled-description: общий XP банки (/economy bank); XP Внутри безопасно от смерти, а не внутри /baltop
+  banks-max: Банки на одного игрока
+  banks-max-description: Сколько банков может иметь один игрок
+  banks-members: Члены одного банка
+  banks-members-description: Члены, кроме владельца; они могут вносить депозиты и снимать деньги
+  banks-vault-api: Vault банк API
+  banks-vault-api-description: Пусть другие плагины используют XP банков через Vault (создавать, вносить, снимать)
+  standing-enabled: Постоянные приказы
+  standing-enabled-description: Повторяющиеся выплаты игрокам (/economy standing)
+  standing-max: Постоянные заказы на одного игрока
+  standing-max-description: Сколько заказов может иметь один игрок
+  standing-interval: Самый короткий интервал (минуты)
+  standing-interval-description: Заказы не могут выполняться чаще, чем это
+  standing-pause: Пауза после неудач
+  standing-pause-description: Приостановите заказ после того, как многие неудачные запуски подряд (0 = никогда)
+  away-summary: Прочь резюме
+  away-summary-description: При присоединении покажите платежи, полученные в автономном режиме (/pay and standing orders)
+    В одной строке
+  afk: AFK пауз после секунд (0 = отключены)
+  afk-description: Независимо от изящества воссоединения, позвольте спокойно играть с щедрым тайм-аутом или 0.
+  section: Экономика XP
+  section-description: Стартовый баланс, валюта, онлайн-бонус и таблица лидеров. Хранение, интервалы синхронизации и лимит
+    баланса только в config.yml (перезапуск).
+  starting-balance: Начало баланса
+  starting-balance-description: XP для учетных записей, созданных до первого присоединения игрока (реальный XP игрока добавляется
+    при присоединении)
+  currency-singular: Валюта (единственная)
+  currency-singular-description: Наименование для 1 точек, e.g. Точка XP (пустая = текст из языкового файла)
+  currency-plural: Валюта (множественная)
+  currency-plural-description: Наименование для нескольких пунктов, e.g. XP точек (пустые = текст из языкового файла)
+  rewards-enabled: Онлайн бонус включен
+  rewards-enabled-description: Платит XP за время, проведенное в Интернете; применяется немедленно
+  base-xp: 'Онлайн бонус: первая выплата'
+  base-xp-description: XP первых выплат полосы
+  growth: 'Онлайн бонус: рост'
+  growth-description: Фактор на завершенный интервал (1.02 = +2 %)
+  interval: 'Онлайн бонус: интервал (s)'
+  interval-description: Время онлайн за выплату
+  grace: Rejoin Grace Period (минимум)
+  grace-description: Сколько длится полоса после ухода
+  check-interval: Проверочный интервал (тикс)
+  check-interval-description: Как часто проверяется онлайн-бонус (20 клещей = 1 с)
+  show-status: Состояние /money
+  show-status-description: Показать полосу и следующую выплату в /money
+  notifications: Бонусное сообщение
+  notifications-description: Сообщение о каждой выплате
+  action-bar: Сообщение в Action Bar
+  action-bar-description: Off = чат
+  message: Текст сообщения
+  message-description: 'Заполнители: {xp}, {streak}, {next_xp}, {multiplier}, {balance} (пустые = текст из языкового файла)'
+  top-page-size: 'Руководящий совет: записи на страницу'
+  top-page-size-description: Рейтинг на страницу в /baltop
+  top-cache: 'Лидерборд: кэш (s)'
+  top-cache-description: Как долго сортированная таблица лидеров используется повторно (0 = всегда пересчитывать)
+command:
+  account: счет
+web:
+  unavailable: <red>Веб-страница нуждается в Vystorm Core 0.24.0 или новее с включенной веб-платформой.
+  module:
+    title: Счет XP
+    description: Баланс, платежи, таблица лидеров и онлайн бонусы
+  error:
+    offline: 'Для этого вам нужно быть в игре: XP взят из вашей панели опыта.'
+    bad-action: 'Неизвестное действие (разрешено: давать, брать, устанавливать).'
+    bad-request: Недействительная просьба.
+    busy: Этот запрос все еще обрабатывается. Подождите минутку.
+  ui:
+    goal:
+      title: XP голов
+      progress: '{progress} / {target} XP'
+      remaining: '{remaining} XP оставшиеся'
+    tab:
+      account: Счет
+      pay: Платить
+      top: Руководитель
+      admin: администратор
+    loading: Загрузка...
+    balance: Баланс
+    online: В игре
+    offline: Не в сети
+    limit: 'Предел: {limit}'
+    info: 1 денежных единиц — 1 реальная XP точка. Баланс следует за вашим баром опыта вживую.
+    no-account: У вас еще нет счета XP. Он создается, когда вы присоединяетесь к игре.
+    reward:
+      afk: Остановитесь, пока вы неактивны. Протяженность сохраняется, активность возобновляет бонус.
+      title: Онлайн бонус
+      disabled: Онлайн-бонус отключен на этом сервере.
+      none: Никакой активной полосы. Оставайтесь в игре, чтобы начать.
+      active: Стрик {streak} · следующая выплата {xp} XP
+      next-in: Следующая выплата в {time}
+      due: Выплата должна быть...
+      paused: 'Приостановлено: воссоединиться в течение {minutes} минут, чтобы сохранить серию {streak} (следующая выплата
+        {xp} XP).'
+      rules: Первая выплата {base} XP после {interval}; каждый завершенный интервал увеличивает следующую выплату на {growth}
+        %. Уход держит полосу в течение {grace} минут.
+    pay:
+      intro: 'Ваш баланс: {amount}. XP берется из вашего бара опыта немедленно.'
+      target: Игрок
+      amount: Количество ({currency})
+      submit: Продолжать
+      confirm-title: Подтвердить платеж
+      confirm: Отправить {amount} на {player}? XP берется из вашего бара опыта немедленно.
+      confirm-button: Платить
+      offline: 'Присоединяйтесь к игре, чтобы заплатить: XP взят из вашего бара опыта.'
+      sending: Отправить...
+      unsure: Сервер вовремя не ответил. Проверьте свой баланс - отправка одной и той же формы снова не может заплатить дважды.
+    top:
+      empty: Список лидеров XP по-прежнему пуст.
+      rank: Ранг
+      player: Игрок
+      amount: Баланс
+      level: Уровень
+      you: ты
+      own: 'Ваш ранг: #{rank} - {amount}'
+      page: Страница {page} из {pages} · {total} аккаунтов
+      age: '{seconds} лет назад'
+      previous: « Назад
+      next: Далее »
+      refresh: освежить
+      pay: Платить
+      pay-hint: Оплата от XP до {player}
+    admin:
+      lookup-title: Найдите баланс
+      lookup: Смотри
+      lookup-result: '{player}: {amount} (уровень {level})'
+      change-title: Изменить баланс
+      action: Меры
+      give: давать
+      take: Взять
+      set: Настройка
+      player: Игрок
+      amount: XP баллов
+      apply: Применить
+      confirm-title: Подтвердить изменение
+      confirm-give: Отдать {amount} {player}?
+      confirm-take: Возьмите {amount} из {player}?
+      confirm-set: Установить баланс {player} на {amount}?
+      settings: Настройки сервера
+      settings-hint: Стартовый баланс, валюта, онлайн-бонус и таблица лидеров.
+      settings-open: Открытые настройки
+      settings-game: 'В игре: /vsettings → сервер → XP Экономика'
+client:
+  settings-title: Дисплей XP аккаунтов
+  settings-description: Нативные дисплеи клиентского мода Vystorm (только с модом).
+  hud: Баланс в HUD
+  hud-description: Показывает баланс XP и обратный отсчет онлайн-бонусов в правом верхнем углу.
+  hud-title: XP аккаунт
+  hud-balance: '{amount}'
+  hud-level: Уровень {level}
+  hud-reward-active: Бонус +{next_xp} XP в {seconds} с
+  hud-reward-none: Без онлайн-бонусов
+  reward-title: Онлайн бонус +{xp} XP
+  reward-text: Стрик {streak} · следующая выплата {next_xp} XP
+  payment-title: Получено {amount}
+  payment-text: от {player}
+  panel-balance: Баланс
+  panel-level: Уровень
+  panel-limit: предел
+  panel-reward: Онлайн бонус
+  panel-reward-next: Следующая выплата {next_xp} XP (стрик {streak})
+  panel-goal: Цель экономии
+  panel-goal-default: Цель экономии
+  panel-goal-progress: '{label}: {current} / {target}'
+  panel-goal-notify: Вы будете уведомлены, когда цель достигнута.
+  panel-pay: Отправить XP
+  panel-pay-target: Игрок
+  panel-pay-amount: XP баллов
+  panel-pay-submit: Предварительный просмотр оплаты
+  panel-pay-favorite: Спасенный получатель
+  panel-pay-favorite-none: Выберите имя
+  panel-pay-preview-title: Обзор платежа
+  panel-pay-preview: 'Отправить {amount} в {player}: уровень {current_level} → {projected_level}; баланс {current_balance}
+    → {projected_balance}.'
+  panel-pay-confirm: Подтвердить платеж
+  panel-pay-cancel: Отмена
+  panel-top: Руководитель
+  panel-top-loading: Загрузить лид-борд...
+  panel-top-rank: '#'
+  panel-top-name: Игрок
+  panel-top-amount: XP баллов
+  panel-top-own: 'Ваш ранг: #{rank} - {amount}'
+  panel-refresh: освежить
+  panel-web: Открыто в Web
+  panel-settings: Настройки сервера
+  hud-bonus: Бонус +{next_xp} XP в {time}
+  panel-hud-settings: Дисплей HUD
+  panel-more: Ещё
+  panel-more-requests: Запросы на оплату
+privacy:
+  title: Видимость счета
+  description: Применяется на этом сервере независимо от баланса бэкэнда. Ваш собственный взгляд и авторизованные запросы
+    администратора остаются доступными.
+  hidden: Скрыть баланс и вход в таблицу лидеров от других игроков
+  unavailable: Этот баланс не является общедоступным.
+  save-failed: Не удалось сохранить видимость. Предыдущая установка остается активной.
+  usage: /economy privacy <on|off> — Скрыть свой аккаунт.
+  enabled: Ваша учетная запись теперь скрыта от публичных рейтингов и запросов баланса игроков.
+  disabled: Ваша учетная запись может снова отображаться публично.
+requests:
+  cancel: '[Cancel]'
+  cancelled: Запрос отменен. XP человек не переехали.
+  created: Создано {count} запросов на общую сумму {amount}. XP еще не переехали.
+  received: '{player} requests {amount} для: {purpose}. Обзор с /economy requests.'
+  empty: У вас нет последних запросов на оплату.
+  row: '{payer} → {payee}: {amount} · {purpose} · {state}'
+  accept: '[Review payment]'
+  decline: '[Decline]'
+  declined: Запрос отклонили.
+  saved: Предпочтение сохранено.
+  limits: 'Ваши лимиты оплаты: {single} за перевод, {daily} за UTC день (0 = неограниченно). Используется/зарезервировано
+    сегодня: {spent}. Эти ограничения распространяются на выплаты игрокам, а не на изменения Shop/Vault или Vanilla XP.'
+  confirm: 'Платить от {amount} до {player}? Цель: {purpose}'
+  preview: 'Баланс: {before} → {after}; уровень: {levelBefore} → {levelAfter}.'
+  paid: Оплата завершена.
+  review: Результат платежа требует проверки администратора. Не отправляйте другой платеж, пока он не будет проверен.
+  dialog-title: Запрос XP от {player}
+  dialog-intro: '{player} получает запрос и подтверждает его до переезда XP. Срок действия истекает через 24 часов.'
+  dialog-purpose: Цель
+  dialog-send: Отправить запрос
+  state:
+    cancelled: отмененный
+    open: ожидая вашего подтверждения (24-часовой срок действия)
+    processing: прерывается или ожидает проверки; не повторяется
+    paid: оплачиваемый
+    declined: снижение
+    failed: не завершено
+    expired: истекший
+  error:
+    usage: Использовать /economy request <player> <XP> <purpose>, split <total XP> <player,player> <purpose>, requests [accept|decline|cancel
+      <ID>], requestblock <player> on|off, или пределы [single daily].
+    invalid: Используйте действительные идентификаторы плеера / запроса и целых XP значений от 0 до 2147483647. Запросы требуют
+      не менее 1 XP на одного плательщика.
+    account: У этого игрока нет известного аккаунта.
+    purpose: Введите цель 1–80 символов без управляющих символов.
+    capacity: Предел запроса или бронирования был достигнут. Решите сначала существующие записи.
+    rate: Вы можете создать не более 16 запросов на оплату в минуту.
+    blocked: Получатель заблокировал ваши платежные запросы.
+    not-open: Этот запрос недоступен, истек или уже обработан.
+    single: Этот платеж превышает ваш лимит на перевод. Изменить его с помощью /economy limits.
+    daily: Этот платеж превышает ваш оставшийся лимит в UTC дней.
+    storage: Запрос на оплату / лимит хранения недоступен. Новый платеж не был начат, попросите администратора проверить его.
+history:
+  scope: Недавнее бронирование эконом-класса (до 2,000 записей на этом сервере). Изменения Vanilla XP не включены; последние
+    записи могут быть потеряны при аварии до следующего сохранения.
+  empty: Никаких записей для вашего аккаунта.
+  row: '{time} · {cause}: {delta} XP → {balance} XP · ID {id}'
+  exported: Последние 100 сохраненных записей хранятся в экспортной папке плагина как {file}. Попросите администратора для
+    файла. Новый экспорт заменяет предыдущий.
+  unavailable: История бронирования не может быть прочитана или сохранена. Баланс управляется отдельно.
+  usage: Использовать /economy history или /economy history export.
+  cause:
+    fund: "Сбор"
+    term: "Срочный вклад"
+    bank: Банк XP
+    standing: Постоянный приказ
+    pay: Игрок платит
+    debit: Экономика/API дебет
+    credit: Экономика/API кредитов
+    set: Корректировка баланса
+config-editor:
+  storage-yaml: Локальный файл
+  storage-mysql: MySQL (общая база данных Vystorm)
+cheque:
+  usage: '<yellow>Использовать /economy cheque <XP> [count]: вопросы XP чеки (count 1 to 64). Нажмите правой кнопкой мыши
+    чек, чтобы выкупить его.'
+  insufficient: <red>Для этого нужно {amount}.
+  no-space: <red>Бесплатные {count} слотов.
+  issued: <green>Выдано {count} XP чеков по {amount} (всего {total}). Передайте их, продайте или храните в сундуках; щелкните
+    правой кнопкой мыши.
+  redeemed: <green>Выкуплен чек на {amount} (выдан {player}).
+  invalid: <red>Этот чек недействителен или уже выкуплен.
+  full: <red>Ваш баланс XP слишком велик для этого чека. Оно остается в силе.
+  unavailable: <red>Чеки сейчас недоступны. Администратор должен проверить журнал сервера.
+  item-name: XP чеков · {amount}
+  item-issuer: Выпущено {player}
+  item-hint: Правый клик для выкупа
+  admin-info: '<gray>Выдающийся XP чеков: {count} общей стоимостью {amount}.'
+playermenu:
+  standing: <aqua>Постоянный заказ {player}
+  standing-lore: <gray>Платить автоматически каждый интервал
+  bank: <light_purple>Добавьте {player} в свой банк XP
+  bank-lore: <gray>Затем они могут депонировать и выводить
+  pay: <green>Оплата {player}
+  pay-lore: '<gray>Ваш баланс: {amount}'
+  request: <yellow>Запрос XP от {player}
+  request-lore: <gray>Подтверждается перед любыми XP ходами
+  history: <gold>История бронирования {player}
+  history-lore: '<gray>Баланс: {amount} · последние 10 бронирования в чате'
+bank:
+  disabled: <red>На этом сервере отключено XP банков.
+  usage: <yellow>Использовать /economy bank [list | info BANK | create NAME | deposit BANK XP | withdraw BANK XP | add BANK
+    PLAYER | remove BANK PLAYER | delete BANK].
+  created: '<green>XP bank {bank} созданный. Добавить членов и внести депозит XP: /economy bank'
+  deposited: '<green>Депонировано {amount} в {bank}. Баланс банка: {balance}.'
+  withdrawn: '<green>Вывел {amount} из {bank}. Баланс банка: {balance}.'
+  member-added: <green>{player} в настоящее время является членом {bank} и может вносить и снимать средства.
+  member-removed: <gray>{player} больше не является членом {bank}.
+  closed: <gray>XP банк {bank} закрылся, его XP досталось владельцу.
+  close-title: Закрыть {bank}?
+  close-question: Закрыть банк XP {bank}? Его {amount} достается владельцу {player}. Это нельзя отменить.
+  none: <gray>Вы не являетесь частью какого-либо XP Банк еще. Создайте единое с /economy bank create NAME
+  list-header: '<gold>XP банков ({count}):'
+  list-row: '<yellow>{bank}<gray>: {amount} · владелец {owner} · {members} членов'
+  button-open: '[Open]'
+  button-open-hover: 'Кликните: покажите этот банк'
+  button-manage: '[Manage]'
+  button-manage-hover: 'Нажмите: внести, вывести и управлять членами в диалоге'
+  info-balance: '<gold>XP банк {bank}: {amount}'
+  info-owner: '<gray>Владелец: {player}'
+  info-members: '<gray>Члены: {players}'
+  info-no-members: нет
+  log-empty: <gray>Пока никаких заказов.
+  log-header: '<gray>Последние заказы:'
+  log-row: '<gray>{time} · {player}: <white>{delta}</white> → {balance}'
+  dialog-title: XP банков
+  dialog-intro: XP в банке делится со своими членами, безопасно, когда вы умираете, и не является частью вашего XP бара или
+    таблицы лидеров.
+  dialog-bank: '{bank} ({amount})'
+  dialog-name: Название нового банка (3-16 буквы, цифры, _ или -)
+  dialog-create: Создать банк
+  dialog-bank-title: XP банк {bank}
+  dialog-yours: 'Собственный баланс: {amount}'
+  dialog-member: Имя игрока (для добавления или удаления участников)
+  dialog-deposit: депозит
+  dialog-withdraw: отозвать
+  dialog-add: Добавить член
+  dialog-remove: Удалить члена
+  dialog-close: Закрыть банк
+  dialog-add-title: Добавить {player} в банк
+  dialog-add-intro: Выберите банк {player}. Члены могут депонировать и снимать.
+  admin-info: '<gray>XP банков: {count}, в общей сложности {amount}.'
+  error:
+    amount: Введите целое количество XP по меньшей мере 1 (также 2.5k или 1m).
+    unknown: Банк XP не существует или вы не являетесь его членом.
+    not-member: Пользоваться этим банком могут только собственник и члены банка.
+    not-owner: Это может сделать только владелец банка.
+    full: Банк не может вместить столько XP.
+    insufficient: Для этого недостаточно XP.
+    player-full: Ваш баланс не может занять столько XP; банк сохраняет его.
+    owner-full: Баланс владельца не может взять XP банка; банк остается открытым.
+    name: Названия банков требуют 3-16 букв, цифр, _ или -.
+    taken: Это название банка уже занято.
+    owned: Вы уже владеете {max} банков.
+    member: Этот игрок уже находится в этом банке (или не является участником для удаления).
+    members: Банк может иметь не более {max} членов.
+    account: Этот аккаунт игрока пока не известен.
+    invalid: Эта сумма не действительна.
+    capacity: Сервер достиг своего банковского лимита.
+    storage: В настоящее время недоступно XP банков, XP не переехал. Администратор должен проверить журнал сервера.
+    deposit-denied: "Вам запрещено вносить средства в эту казну."
+    spend-denied: "Вам запрещено снимать средства из этой казны."
+    single-limit: "Снятие превышает разовый лимит."
+    daily-limit: "Снятие превышает оставшийся суточный лимит."
+fund:
+  title: "🎯 Сборы"
+  close: "Закрыть"
+  intro: "Собирайте XP вместе: если цель достигнута, её получает создатель; если срок истёк раньше, каждому вернут XP."
+  none: "<gray>Открытых сборов нет."
+  row: "<gold>#{id}</gold> <white>{title}</white> <gray>от {owner} · {raised}/{target} ({percent} %) · осталось {time}"
+  button-create: "＋ Открыть сбор"
+  button-donate: "Пожертвовать в #{id} {title}"
+  button-cancel: "Отменить #{id}"
+  button-open: "Открыть"
+  button-give: "Пожертвовать"
+  create-title: "Новый сбор"
+  create-intro: "Название, цель (минимум {min}) и срок до {days} дн."
+  input-title: "Название"
+  input-target: "Цель"
+  input-days: "Дни"
+  donate-title: "Пожертвовать: {title}"
+  opened: "<green>✔ Ваш сбор открыт."
+  donated: "<green>✔ Вы пожертвовали {amount} в «{title}»."
+  donation-received: "<green>{player} пожертвовал {amount} в «{title}»."
+  reached: "<gold>🎯 «{title}» достиг цели: {amount} на вашем счёте."
+  reached-inbox: "Ваш сбор «{title}» достиг цели: {amount} XP зачислены на счёт."
+  expired: "<gray>«{title}» истёк, не достигнув цели; ваши {amount} возвращены."
+  expired-inbox: "Сбор «{title}» истёк; ваши {amount} XP возвращены."
+  cancelled: "<gray>«{title}» отменён; ваши {amount} возвращены."
+  cancelled-inbox: "Сбор «{title}» отменён; ваши {amount} XP возвращены."
+  cancel-done: "<green>«{title}» отменён, все пожертвования возвращены."
+  disabled: "<gray>Сборы на этом сервере отключены."
+  usage: "<gray>/economy fund [list|create|cancel ID]"
+  admin-info: "<gray>Сборы: {count}"
+  error:
+    title: "<red>Введите название (до 48 символов)."
+    target: "<red>Цель должна быть не меньше {min}."
+    days: "<red>Выберите от 1 до {days} дн."
+    capacity: "<red>У вас уже {max} открытых сборов."
+    amount: "<red>Введите целое положительное число."
+    insufficient: "<red>У вас нет столько XP."
+    unknown: "<red>Такого сбора нет или он уже заполнен."
+    closed: "<red>Этот сбор завершён."
+    storage: "<red>Сборы заблокированы: файл не удалось прочитать или сохранить. Сообщите администратору."
+term:
+  title: "🏦 Срочные вклады"
+  close: "Закрыть"
+  intro: "Отложите XP на фиксированный срок и получите его с процентами в конце – даже офлайн. При досрочном снятии XP возвращается без процентов."
+  offer: "<gray>• {days} дн.: <green>+{rate}"
+  none: "<gray>У вас нет срочных вкладов."
+  row: "<gold>#{id}</gold> <white>{amount}</white> <gray>· +{interest} ({rate}) · закончится через {time}"
+  button-new: "＋ Новый вклад"
+  button-early: "Снять #{id} досрочно"
+  button-term: "{days} дн. · +{rate}"
+  create-title: "Новый срочный вклад"
+  create-intro: "Сколько XP вы хотите отложить? Минимум {min}. Ваш баланс: {balance}. Затем выберите срок."
+  confirm-title: "Открыть вклад?"
+  confirm: "Отложить {amount} на {days} дн.? В конце вы получите {interest} процентов ({rate})."
+  opened: "<green>✔ {amount} отложено на {days} дн."
+  early-title: "Снять досрочно?"
+  early-question: "Снять #{id} ({amount}) сейчас? Проценты {interest} будут потеряны."
+  withdrawn: "<green>✔ #{id}: {amount} вернулись на ваш счёт."
+  matured: "<green>🏦 Вклад #{id} завершён: {amount} + {interest} процентов на вашем счёте."
+  matured-inbox: "Срочный вклад #{id} завершён: {amount} XP + {interest} XP процентов зачислены на ваш счёт."
+  payout-blocked: "<red>Вклад #{id} не удалось выплатить: ваш баланс на максимуме. Выплата пройдёт, как только появится место."
+  disabled: "<gray>Срочные вклады на этом сервере отключены."
+  usage: "<gray>/economy term [list|open|withdraw <id>]"
+  admin-info: "<gray>Срочные вклады: {count} ({amount})"
+  error:
+    amount: "<red>Введите целое положительное число."
+    minimum: "<red>Для вклада нужно минимум {min}."
+    capacity: "<red>У вас уже {max} срочных вкладов."
+    insufficient: "<red>У вас нет столько XP."
+    storage: "<red>Срочные вклады заблокированы: файл не удалось прочитать или сохранить. Сообщите администратору."
+    unknown: "<red>Такого вклада нет."
+    full: "<red>Ваш баланс на максимуме; выплата подождёт."
+    early: "<red>Досрочное снятие на этом сервере отключено."
+standing:
+  disabled: <red>Постоянные заказы отключаются на этом сервере.
+  usage: <yellow>Использовать /economy standing [list | add PLAYER XP INTERVAL [RUNS] | pause ID | resume ID | cancel ID].
+    Интервал 12h, 1d или 1w; 0 = до отмены.
+  created: '<green>Постоянный заказ #{id} сохранен: от {amount} до {player} каждые {interval}. Первый платеж уже запущен.'
+  paid: '<gray>Постоянный заказ #{id}: оплачено {amount} - {player}.'
+  paid-last: '<gray>Постоянный заказ #{id}: оплачено {amount} - {player}. Это был последний забег, заказ закончен.'
+  received: <green>{player} оплатил вам {amount} (постоянный заказ).
+  failed: 'Постоянный заказ от {id} до {player} не может быть оплачен: {reason}'
+  failed-paused: 'Постановление No {id}-{player} снова не удалось и теперь приостановлено: {reason}'
+  join-paused: <yellow>{count} Ваши постоянные заказы были приостановлены после неудавшихся платежей.
+  confirm-title: Подтвердить постоянный порядок
+  confirm: Платить {amount} то {player} каждый {interval} ({runs})? Первый платеж запускается сразу же, позже, когда вы находитесь
+    в автономном режиме. приостановить или отменить в любое время /economy standing.
+  runs-unlimited: до отмены
+  runs-count: Осталось {runs} пробегов
+  cancelled: <gray>Постановление No {id} отменено.
+  paused: <gray>Постановление No{id} приостановлено.
+  resumed: <green>Постановление No{id} возобновлено.
+  state-paused: приостановлено
+  state-active: активный
+  state-next: Далее в {time}
+  row: '<yellow>#{id}</yellow> → {player}: {amount} каждые {interval} · {runs} · {state}'
+  last-error: '<red>(последний пробег не удался: {reason})'
+  none: <gray>У вас нет постоянных приказов.
+  list-header: '<gold>Ваши постоянные заказы ({count}/{max}):'
+  button-pause: '[Pause]'
+  button-resume: '[Resume]'
+  button-cancel: '[Cancel]'
+  button-hover: 'Click: Изменить порядок'
+  button-list: '[Standing orders]'
+  button-list-hover: 'Кликните: покажите свои постоянные заказы'
+  incoming-header: '<gold>Выплачено ({count}):'
+  incoming-row: '<gray>{player}: {amount} каждые {interval} · {state}'
+  dialog-title: Постоянные приказы
+  dialog-intro: Платите игроку одну и ту же сумму каждый интервал, e.g. арендная плата или заработная плата. Работает также,
+    когда вы находитесь в автономном режиме; применяются ваши лимиты платежей.
+  dialog-incoming: '{count} действующих постоянных заказов.'
+  dialog-new: Новый постоянный порядок
+  dialog-pause: 'Пауза #{id}'
+  dialog-resume: 'Резюме #{id}'
+  dialog-cancel: 'Отменить #{id}'
+  dialog-create-title: Новый постоянный порядок
+  dialog-create-intro: 'Интервал 12h, 1d или 2w (не менее {min}). Бег: 0 = пока вы не отмените его.'
+  dialog-interval: Интервал
+  dialog-runs: Количество пробегов (0 = неограниченно)
+  admin-info: '<gray>Постоянные заказы: {count}.'
+  error:
+    amount: Введите целое количество XP по меньшей мере 1 (также 2.5k или 1m).
+    interval: Введите интервал 12 ч, 1д или 2в, по крайней мере {min} и максимум в год.
+    runs: Пробеги должны быть целым числом от 0 (без ограничений) до 1000.
+    capacity: Вы можете иметь не более {max} постоянных заказов.
+    insufficient: Недостаточно XP
+    unknown: У вас нет постоянного порядка с этим номером.
+    account: Счет больше не известен
+    permission: У вас больше нет разрешения
+    payee-full: Баланс получателя заполнен; ваши XP были возвращены
+    limit: превышает ваш личный лимит оплаты
+    review: Неожиданная ошибка; администратор должен проверить журнал
+    storage: Постоянные заказы сейчас недоступны, ничего не оплачено. Администратор должен проверить журнал сервера.
+away:
+  summary: <green>Пока тебя не было, ты получил <yellow>{amount}</yellow> {count} платежей от {players}.
+  summary-one: <green>Пока тебя не было, {players} заплатили тебе <yellow>{amount}</yellow>.
+commands:
+  money:
+    description: Показать баланс XP (или другого игрока)
+    aliases: []
+    usage: '[PLAYER]'
+  pay:
+    description: Оплатить игроку XP очков
+    aliases: []
+    usage: PLAYER XP
+  baltop:
+    description: XP таблицы лидеров всех учетных записей
+    aliases: []
+    usage: '[PAGE]'
+  economy:
+    description: XP счетов, платежей, банков, постоянных заказов и администрирования
+    aliases: []
+    sub:
+      account:
+        name: account
+        aliases: []
+        description: Откройте диалог аккаунта
+        usage: '[PLAYER]'
+      balance:
+        name: balance
+        aliases: []
+        description: Показать баланс или другого игрока
+        usage: '[PLAYER]'
+      web:
+        name: web
+        aliases: []
+        description: Откройте свой аккаунт на сайте
+      goal:
+        name: goal
+        aliases: []
+        description: Покажите свою цель экономии
+        sub:
+          show:
+            name: show
+            aliases: []
+            description: Покажите свою цель экономии
+          set:
+            name: set
+            aliases: []
+            description: Установите цель экономии
+            usage: XP [LABEL]
+          clear:
+            name: clear
+            aliases: []
+            description: Удалите свою цель экономии
+          notify:
+            name: notify
+            aliases: []
+            description: Уведомление, когда цель достигнута или выключена
+      privacy:
+        name: privacy
+        aliases: []
+        description: Спрячьте свой баланс от других игроков (включено) или покажите его (выключено)
+      statement:
+        name: statement
+        aliases: []
+        description: Обобщайте ваши сохраненные бронирования по срокам и причинам
+        usage: '[1|7|30]'
+        sub:
+          summary:
+            name: summary
+            aliases: []
+            description: Покажите в частном чате резюме ваших сохраненных бронирований
+            usage: '[1|7|30]'
+          export:
+            name: export
+            aliases: []
+            description: Экспорт личного заявления с суммами и бронированиями
+            usage: '[1|7|30]'
+      history:
+        name: history
+        aliases: []
+        description: Ваши последние заказы
+        sub:
+          export:
+            name: export
+            aliases: []
+            description: Экспортируйте свои заказы в файл
+      pay:
+        name: pay
+        aliases: []
+        description: Оплатить игроку XP очков
+        usage: PLAYER XP
+      favorite:
+        name: favorite
+        aliases: []
+        description: Ваши любимые плательщики
+        sub:
+          list:
+            name: list
+            aliases: []
+            description: Список ваших любимых плательщиков
+          add:
+            name: add
+            aliases: []
+            description: Добавить любимый плательщик
+            usage: PLAYER
+          remove:
+            name: remove
+            aliases: []
+            description: Удалить любимого плательщика
+            usage: PLAYER
+          pay:
+            name: pay
+            aliases: []
+            description: Платите любимому плательщику
+            usage: ID XP
+      request:
+        name: request
+        aliases: []
+        description: Попросите игрока заплатить
+        usage: PLAYER XP PURPOSE
+      requests:
+        name: requests
+        aliases: []
+        description: Ваши открытые платежные запросы
+        sub:
+          list:
+            name: list
+            aliases: []
+            description: Перечислите открытые платежные запросы
+          accept:
+            name: accept
+            aliases: []
+            description: Оплатить запрос
+            usage: ID
+          decline:
+            name: decline
+            aliases: []
+            description: Отклонить просьбу
+            usage: ID
+          cancel:
+            name: cancel
+            aliases: []
+            description: Отмените свой открытый платежный запрос
+            usage: ID
+      split:
+        name: split
+        aliases: []
+        description: Разделите сумму между несколькими игроками в качестве платежных запросов
+        usage: XP PLAYER,PLAYER... PURPOSE
+      requestblock:
+        name: requestblock
+        aliases: []
+        description: блокировать или разрешать платежные запросы от игрока;
+        usage: PLAYER on |off
+      limits:
+        name: limits
+        aliases: []
+        description: Показать или установить свои личные лимиты оплаты
+        usage: '[SINGLE DAILY]'
+      cheque:
+        name: cheque
+        aliases: []
+        description: Напишите XP чеков с баланса
+        usage: XP [COUNT]
+      bank:
+        name: bank
+        aliases: []
+        description: Акционерные XP банков
+        sub:
+          list:
+            name: list
+            aliases: []
+            description: Перечислите свои банки
+          info:
+            name: info
+            aliases: []
+            description: Баланс, члены и бронирования банка
+            usage: BANK
+          create:
+            name: create
+            aliases: []
+            description: Создать банк
+            usage: NAME
+          deposit:
+            name: deposit
+            aliases: []
+            description: Выплатить XP в банк
+            usage: BANK XP
+          withdraw:
+            name: withdraw
+            aliases: []
+            description: Вывезти XP из банка
+            usage: BANK XP
+          add:
+            name: add
+            aliases: []
+            description: Добавить члена
+            usage: BANK PLAYER
+          remove:
+            name: remove
+            aliases: []
+            description: Удалить члена
+            usage: BANK PLAYER
+          delete:
+            name: delete
+            aliases: []
+            description: Закрыть банк (остальная часть идет владельцу)
+            usage: BANK
+          policy:
+            name: policy
+            aliases: []
+            description: "Права казны"
+          history:
+            name: history
+            aliases: []
+            description: "Журнал операций"
+      fund:
+        name: "fund"
+        aliases: []
+        description: "Сборы"
+        sub:
+          list:
+            name: "list"
+            aliases: []
+            description: "Все открытые сборы"
+          create:
+            name: "create"
+            aliases: []
+            description: "Открыть сбор"
+          cancel:
+            name: "cancel"
+            aliases: []
+            description: "Отменить свой сбор; жертвователям вернут XP"
+            usage: "ID"
+      term:
+        name: "term"
+        aliases: []
+        description: "Срочные вклады"
+        sub:
+          list:
+            name: "list"
+            aliases: []
+            description: "Список ваших вкладов"
+          open:
+            name: "open"
+            aliases: []
+            description: "Отложить XP под проценты"
+          withdraw:
+            name: "withdraw"
+            aliases: []
+            description: "Снять вклад досрочно"
+            usage: "ID"
+      standing:
+        name: standing
+        aliases: []
+        description: Постоянные приказы
+        sub:
+          list:
+            name: list
+            aliases: []
+            description: Перечислите свои постоянные приказы
+          add:
+            name: add
+            aliases: []
+            description: Платить игроку фиксированную сумму каждый интервал
+            usage: PLAYER XP INTERVAL [RUNS]
+          pause:
+            name: pause
+            aliases: []
+            description: Приостановить постоянный порядок
+            usage: ID
+          resume:
+            name: resume
+            aliases: []
+            description: Возобновить постоянный приказ
+            usage: ID
+          cancel:
+            name: cancel
+            aliases: []
+            description: Отменить постоянный приказ
+            usage: ID
+      top:
+        name: top
+        aliases: []
+        description: XP лидеров
+        usage: '[PAGE]'
+      admin:
+        name: admin
+        aliases: []
+        description: Управление экономикой
+        sub:
+          give:
+            name: give
+            aliases: []
+            description: Дайте игроку XP
+            usage: PLAYER XP
+          take:
+            name: take
+            aliases: []
+            description: Получить XP от игрока
+            usage: PLAYER XP
+          set:
+            name: set
+            aliases: []
+            description: Установить баланс игрока
+            usage: PLAYER XP
+          history:
+            name: history
+            aliases: []
+            description: Последние бронирования игрока
+            usage: PLAYER [COUNT]
+          info:
+            name: info
+            aliases: []
+            description: Счета, хранение, чеки, банки и постоянные заказы
+          reload:
+            name: reload
+            aliases: []
+            description: Перезагрузка конфигурационных и языковых файлов
+statement:
+  title: Заявление XP
+  close: Закрыть
+  scope: 'Только сохраненные экономичные бронирования: журнал хранит 2,000 записей на этом сервере. Старые записи и изменения
+    ванили XP отсутствуют; несохраненные записи могут быть потеряны при аварии. Эти суммы не являются вашим балансом или полным
+    отчетом о счете.'
+  period: 'Период проката (UTC): от {from} до {until}'
+  total: '{count} бронирований: входящие {incoming} XP, исходящие {outgoing} XP, нетто {net} XP'
+  row: '{cause}: {count} бронирования, +{incoming} / -{outgoing} XP, нетто {net} XP'
+  empty: Никаких бронирований в этот период не сохранилось.
+  days: Последние {days} дней
+  export: Экспортировать этот снимок
+  back: Назад к аккаунту
+  exported: Заявление сохранено как {file} в экспортной папке плагина. Попросите администратора для файла. Замените предыдущее
+    заявление на этот период.
+  usage: 'Использовать /economy statement [1|7|30], /economy statement summary [1|7|30] или /economy statement export [1|7|30].
+    по умолчанию: 7 дни.'
+  summary-scope: 'Последние {days} дней: только сохраненное экономичное бронирование (серверный журнал: 2,000 записей). Старые
+    бронирования и изменения ванили XP могут отсутствовать; это не ваш баланс.'
+
+treasury:
+  title: "Права казны"
+  intro: "Настройте внесение и снятие средств участников банка. Суточный лимит обновляется в полночь UTC; владельцы и администраторы имеют полный доступ."
+  single: "Максимум за снятие (XP)"
+  daily: "Максимум за сутки UTC (XP)"
+  save: "Сохранить права"
+  saved: "Права {player} в {bank} сохранены."
+  usage: "/economy bank policy БАНК ИГРОК on/off on/off РАЗОВЫЙ СУТОЧНЫЙ; /economy bank history БАНК [СТРАНИЦА]"
+  history-button: "Журнал операций"
+  history: "{bank}: журнал, страница {page}/{pages}"
+  entry: "{time} {player}: {kind}, {delta} XP; баланс {balance}"
+  policy-change: "Права изменены"
+  policy-detail: "{player}: внесение {deposit}, снятие {withdraw}; разово {single}, за сутки {daily}"
+  "yes": "да"
+  "no": "нет"
+  deposit-denied: "Вам запрещено вносить средства в эту казну."
+  spend-denied: "Вам запрещено снимать средства из этой казны."
+  single-limit: "Снятие превышает разовый лимит."
+  daily-limit: "Снятие превышает оставшийся суточный лимит."

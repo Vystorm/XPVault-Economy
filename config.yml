@@ -1,0 +1,125 @@
+# XPVaultEconomy – 1 unit of money = 1 real Minecraft XP point.
+# Texts are in plugins/XPVaultEconomy/lang/<code>.yml (en, de; add your own).
+
+# Language of this plugin's texts: auto = follow Vystorm Core (each player's Minecraft language,
+# or Core's language.default). Or a fixed code such as en or de. A player's own choice in /vsettings still wins.
+language: auto
+
+economy:
+  # New players are imported with the real XP they already have when they join for the first time.
+  starting-balance: 0
+  maximum-balance: 2000000000
+  # Currency names. Leave empty to use the names from the language files ("XP point"/"XP points",
+  # "XP-Punkt"/"XP-Punkte"); set a text to use the same name for everyone.
+  currency-singular: ''
+  currency-plural: ''
+  # Players who were offline get one chat line on their next join: "While you were away you received 1,500 XP in
+  # 3 payments from Steve, Alex" (/pay and standing orders).
+  away-summary: true
+
+# In game: /vsettings -> Server -> XP Economy (xpeconomy.admin) changes starting balance, currency,
+# online bonus, messages and leaderboard immediately. storage.*, sync.* and economy.maximum-balance need a restart.
+
+storage:
+  # yaml  = local file data/balances.yml (versioned JSON state through Vystorm Core). Default.
+  # mysql = Vystorm Core's shared database (database.shared in plugins/vystorm_core/config.yml, credentials only
+  #         there). Without a working database the plugin stays disabled (no fallback to the local file).
+  # Restart the server after changing it. Old data (balances.yml in the plugin folder, own MySQL tables of
+  # 1.7.0 and older) is not imported automatically.
+  type: yaml
+  # Table prefix in the shared database (2-16 chars, a-z/0-9, starting with a letter): <prefix>_balances.
+  table-prefix: 'xpeco'
+
+top:
+  # /baltop and /economy top: entries per page (1-50).
+  page-size: 10
+  # How long (seconds) the sorted leaderboard is reused before it is recalculated with the
+  # current live XP of online players (0-3600; 0 = recalculate on every request).
+  cache-seconds: 30
+  # Accounts whose name starts with one of these prefixes are hidden from /baltop (e.g. "npc_").
+  hide-name-prefixes: []
+
+sync:
+  # Online XP is synchronised with the economy account every second.
+  online-interval-ticks: 20
+  # Changed accounts are saved every five seconds.
+  save-interval-ticks: 100
+
+online-rewards:
+  afk:
+    # 0 preserves quiet play (no AFK pause). Otherwise pause accrual after this inactivity period.
+    # Movement/look, interaction, building, inventory actions, commands and chat count as activity.
+    pause-after-seconds: 0
+  # Turns the whole system on/off. Applies immediately after /economy admin reload or in the settings menu.
+  enabled: true
+  # First payout: 2 real XP points after 60 seconds online.
+  base-xp: 2.0
+  interval-seconds: 60
+  # Every completed online minute raises the next payout by 2 %.
+  growth-multiplier: 1.02
+  # Within this time the streak, the started minute and fractional XP are kept
+  # (disconnects, timeouts, kicks and server restarts).
+  reconnect-grace-minutes: 30
+  # How often the bonus is checked; online time itself is measured in real time.
+  check-interval-ticks: 20
+  # Also shows streak and next payout in /money.
+  show-status-in-expbal: true
+  notifications:
+    enabled: true
+    action-bar: true
+    # Leave empty to use reward.notification from the language files.
+    # Custom plain text with placeholders: {xp}, {streak}, {next_xp}, {multiplier}, {balance}
+    message: ''
+
+banks:
+  # Shared XP banks (/economy bank): named pots with an owner and members. XP in a bank is not on anyone's
+  # XP bar, so it survives deaths and does not count for /baltop. Saved in data/banks.json.
+  enabled: true
+  # How many banks one player may own (0-100).
+  max-per-player: 3
+  # Members per bank besides the owner (0-50). Owner and members can deposit and withdraw.
+  max-members: 10
+  # Offer the banks to other plugins through the Vault bank API (hasBankSupport). Off by default because
+  # plugins then create/charge banks themselves; non-empty banks are never deleted through the API.
+  vault-api: false
+
+funds:
+  # Donation goals (/economy fund, account menu): a player opens a public goal with a title, a target and a
+  # deadline; anyone donates XP. Reached = the XP goes to the owner at once. Deadline passed or cancelled = every
+  # donor gets their XP back. Crash-safe like XP banks.
+  enabled: true
+  # Open goals per player (0-20).
+  max-per-player: 2
+  # Smallest target.
+  min-target: 100
+  # Longest running time in days (1-365).
+  max-days: 30
+
+term-deposits:
+  # Term deposits (/economy term, account menu): players lock XP for a fixed term and get it back with interest when
+  # the term ends, also while offline. The interest is new XP (a reward for saving), so keep the rates modest.
+  enabled: true
+  # Offered terms as "days:interest in percent for the whole term" (1-365 days, up to two decimals).
+  terms:
+  - "1:1"
+  - "7:5"
+  - "30:15"
+  # Smallest amount for one deposit.
+  minimum: 100
+  # Deposits one player may have at the same time (0-50).
+  max-per-player: 3
+  # Most interest one deposit can earn (0 = no limit).
+  interest-cap: 0
+  # Players may take a deposit back before the end; they get the XP without interest.
+  early-withdrawal: true
+
+standing-orders:
+  # Standing orders (/economy standing): pay a player a fixed amount every interval, also while the payer
+  # is offline. Personal payment limits apply. Missed dates during downtime are not paid afterwards.
+  enabled: true
+  # Orders per player (0-100).
+  max-per-player: 10
+  # Shortest allowed interval in minutes.
+  minimum-interval-minutes: 60
+  # Pause an order after this many failed runs in a row (0 = never pause). The payer is told on join.
+  pause-after-failures: 3

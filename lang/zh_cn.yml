@@ -1,0 +1,990 @@
+# XPVaultEconomy – 简体中文文本（MiniMessage 格式，占位符写在 {花括号} 中）。
+# 将 en.yml 复制为 <code>.yml（例如 fr.yml）即可添加语言。缺失的键会回退为英语。
+# 编辑后执行 /economy admin reload（或 /vadmin language reload）。
+currency:
+  singular: "经验值"
+  plural: "经验值"
+common:
+  no-permission: "<red>你没有权限执行此操作。"
+  unknown-account: "尚未知晓此玩家账户。"
+  players-only: "<red>此命令只能由玩家使用。"
+  usage: "<gray>用法：<yellow>{usage}"
+goal:
+  usage: "<yellow>用法：/economy goal [show|set <XP> [label]|clear|notify <on|off>]。"
+  default-label: "储蓄目标"
+  none: "<gray>尚未设置储蓄目标。使用 /economy goal set <XP> [label]。"
+  progress: "<gold>{label}：{current} / {target}（{percent}%）· 通知 {notify}"
+  set: "<green>储蓄目标 {label} 已设为 {target}。这不会预留经验。"
+  cleared: "<gray>储蓄目标已清除。"
+  bad-target: "<red>请选择 1 到 {max} 之间的整数经验目标。"
+  notify-usage: "<yellow>用法：/economy goal notify <on|off>。"
+  notify-on: "<green>目标通知已开启。如果目标已达成，你会立即收到通知。"
+  notify-off: "<gray>目标通知已关闭。"
+  notify-on-short: "开"
+  notify-off-short: "关"
+  reached: "<green>储蓄目标已达成：{label}（{target}）。"
+favorite:
+  usage: "<yellow>用法：/economy favorite [list|add <player>|remove <player>]。最多 20 个收款人。"
+  empty: "<gray>你没有已保存的收款人。使用 /economy favorite add <player> 添加。"
+  header: "<gold>已保存的收款人："
+  entry: "<yellow>{index}. {name}"
+  added: "<green>{name} 已保存为收款人。可在账户面板或转账对话框中选择；付款仍需确认。"
+  removed: "<gray>已将 {name} 从收款人中移除。"
+  limit: "<red>你最多只能保存 {limit} 个收款人。"
+  not-saved: "<gray>{name} 不是已保存的收款人。"
+  choose: "向 {name} 付款"
+  choose-hover: "点击将此收款人填入表单；暂不发送经验。"
+button:
+  account: "账户"
+  account-hover: "点击：打开你的经验账户"
+  pay: "付款"
+  pay-hover: "点击：准备 /pay <player> <XP points>"
+  pay-usage-hover: "点击：准备该命令"
+  fix: "修正"
+  fix-hover: "点击：重新准备该命令"
+  reply: "回复"
+  reply-hover: "点击：向 {player} 支付经验"
+  admin-edit: "编辑余额"
+  admin-edit-hover: "点击：准备 /economy admin <give|take|set>"
+  web: "网页"
+  web-hover: "点击：在浏览器中打开你的经验账户（使用 Vystorm 客户端时打开覆盖界面）"
+balance:
+  console-usage: "<red>控制台：/economy balance <player>"
+  line: "<gold>{player} 拥有 {amount}。"
+reward:
+  status-afk: "因不活跃，在线奖励已暂停。连续 {streak} 次保留；恢复活动后继续累积。"
+  notification: "<green>在线奖励：+{xp} XP | 连续：{streak} | 下次发放：{next_xp} XP"
+  status-disabled: "<gray>在线奖励：本服务器已禁用。"
+  status-none: "<gray>在线奖励：没有进行中的连续记录。"
+  status-active: "<green>在线奖励：连续 {streak}，{seconds} 秒后发放 {next_xp} XP。"
+  status-paused: "<yellow>在线奖励已暂停：连续 {streak}，请在 {minutes} 分钟内重新加入以保留。"
+top:
+  bad-page: "<red>页码必须为正整数：/baltop [page]"
+  unavailable: "<red>排行榜暂时不可用。"
+  empty: "<gray>经验排行榜仍为空。"
+  header: "<gold>经验排行榜 – 第 {page}/{pages} 页（{total} 个账户{age}）"
+  header-age: "，{seconds} 秒前的数据"
+  line: "<yellow>#{rank} </yellow>{name}<gold>：{amount}</gold><gray>（等级 {level}）"
+  own: "<aqua>你的排名：</aqua>{line}"
+  previous: "« 返回"
+  next: "下一页 »"
+  page-hover: "点击：第 {page} 页"
+  dialog-title: "经验排行榜 – 第 {page}/{pages} 页"
+pay:
+  usage: "<red>用法：/pay <player> <XP points> "
+  self: "你不能向自己支付经验。"
+  bad-amount: "金额必须为正整数（例如 500、2.5k 或 1m）。"
+  sent: "<green>已向 {player} 支付 {amount}。"
+  received: "<green>{player} 向你支付了 {amount}。"
+  reverted: "{error}。付款已撤销。"
+error:
+  negative-amount: "金额为负数"
+  insufficient: "{currency}不足"
+  maximum-exceeded: "超出经验余额上限"
+  out-of-range: "金额超出允许范围"
+admin:
+  reloaded: "<green>XPVaultEconomy 设置已重新加载（存储方式、同步间隔和余额上限需要重启）。"
+  info: "<gold>XPVaultEconomy：{accounts} 个账户，存储方式 {storage}。"
+  unknown-player: "<red>服务器尚不知晓此玩家。"
+  bad-amount: "<red>金额必须为非负整数（例如 500、2.5k 或 1m）。"
+  new-balance: "<green>{player} 的新余额：{amount}。"
+  history-usage: "<yellow>用法：/economy admin history player [count 1-50]"
+  history-empty: "<gray>{player} 没有记录的交易。"
+  history-header: "<gold>{player} 最近的 {count} 笔交易（最新在前）："
+  history-row: "<gray>{time} · {cause}，对方 {other}：{delta} XP → {balance} XP · ID {id}"
+  dashboard:
+    title: "XP Vault Economy"
+    info: "经济状态"
+    balance: "玩家余额"
+    top: "排行榜"
+    give: "给予经验"
+    take: "扣除经验"
+    set: "设置余额"
+    reload: "重新加载设置"
+storage:
+  yaml: "YAML（{file}）"
+  mysql: "MySQL（表 {table}）"
+  loading: "<yellow>经验账户仍在从数据库加载，请稍后再试。"
+vault:
+  bank-storage: "经验银行存储不可用"
+  bank-unknown: "未知的经验银行"
+  bank-name: "银行名称需由 3-16 个字母、数字、_ 或 - 组成，且不能重复"
+  bank-not-empty: "银行中仍有经验；请先清空"
+  bank-amount: "经验数量必须为非负整数"
+  bank-insufficient: "银行中的经验不足"
+  bank-full: "银行将超出余额上限"
+  bank-not-owner: "不是此银行的所有者"
+  bank-not-member: "不是此银行的成员"
+  invalid-amount: "经验数量必须为非负整数"
+  invalid-amount-value: "经验数量必须为非负整数（收到：{amount}）"
+  unknown-account: "未知的玩家账户"
+  no-banks: "不支持银行账户"
+  unsupported-currency: "支持的货币：xp"
+menu:
+  title: "经验账户"
+  description: "余额、付款和在线奖励"
+account:
+  fund: "众筹目标"
+  fund-hover: "一起为目标筹集经验"
+  term: "定期存款"
+  term-hover: "把经验锁定一段时间，到期连本带息取回"
+  banks: "经验银行"
+  banks-hover: "与其他玩家共享的经验池，死亡时不会丢失"
+  standing: "定期付款"
+  standing-hover: "每天、每周或每小时自动向玩家付款"
+  balance: "<gold>余额：{amount}"
+  info: "<gray>1 单位货币等于 1 点真实经验。上限：{limit}。"
+  transfer: "发送经验"
+  transfer-hover: "向玩家支付经验"
+  leaderboard: "排行榜"
+  leaderboard-hover: "所有账户的经验排行榜"
+  refresh: "刷新"
+  web: "在网页中打开"
+  web-hover: "在浏览器或游戏内覆盖界面中查看你的经验账户、付款和排行榜"
+transfer:
+  title: "发送经验"
+  intro: "你的余额：{amount}。收款人需要有已知账户；付款前你需要确认。"
+  target: "玩家"
+  amount: "金额（{currency}）"
+  continue: "继续"
+  confirm-title: "确认付款"
+  confirm-question: "<gold>要向 {player} 发送 {amount} 吗？"
+  confirm-note: "<gray>经验会立即从你的经验条中扣除。"
+  level-preview: "当前：等级 {current_level}，{current_progress}/{current_need} XP，{current_balance}。付款后：等级 {projected_level}，{projected_progress}/{projected_need} XP，{projected_balance}。"
+  preview: "确认向 {player} 支付 {amount}：等级 {current_level}（{current_progress}/{current_need} XP）→ 等级 {projected_level}（{projected_progress}/{projected_need} XP）。在下一页确认后发送。"
+  preview-expired: "<red>付款预览已过期。请重新开始。"
+  preview-changed: "<yellow>付款详情已更改。请在确认前查看更新后的预览。"
+  confirm: "确认"
+  done: "<green>已向 {player} 支付 {amount}。"
+settings:
+  banks-enabled: "经验银行"
+  banks-enabled-description: "共享经验银行（/economy bank）；其中的经验死亡时不会丢失，也不计入 /baltop"
+  banks-max: "每名玩家的银行数"
+  banks-max-description: "一名玩家最多可拥有多少个银行"
+  banks-members: "每个银行的成员数"
+  banks-members-description: "除所有者外的成员；他们可以存入和取出"
+  banks-vault-api: "Vault 银行 API"
+  banks-vault-api-description: "允许其他插件通过 Vault 使用经验银行（创建、存入、取出）"
+  standing-enabled: "定期付款"
+  standing-enabled-description: "向玩家定期付款（/economy standing）"
+  standing-max: "每名玩家的定期付款数"
+  standing-max-description: "一名玩家最多可拥有多少个定期付款"
+  standing-interval: "最短间隔（分钟）"
+  standing-interval-description: "定期付款的执行频率不能高于此值"
+  standing-pause: "失败后暂停"
+  standing-pause-description: "连续失败这么多次后暂停定期付款（0 = 从不）"
+  away-summary: "离线收入汇总"
+  away-summary-description: "进入服务器时用一行显示离线期间收到的付款（/pay 和定期付款）"
+  afk: "多少秒后挂机暂停（0 = 禁用）"
+  afk-description: "与重连宽限期无关；设置较长的超时或 0 以允许安静游玩。"
+  section: "XP Economy"
+  section-description: "初始余额、货币、在线奖励和排行榜。存储方式、同步间隔和余额上限只能在 config.yml 中设置（需重启）。"
+  starting-balance: "初始余额"
+  starting-balance-description: "在玩家首次加入前创建的账户的经验（玩家加入时会加上其真实经验）"
+  currency-singular: "货币（单数）"
+  currency-singular-description: "恰好 1 点时的名称，例如 经验值（留空 = 使用语言文件中的文本）"
+  currency-plural: "货币（复数）"
+  currency-plural-description: "多点时的名称，例如 经验值（留空 = 使用语言文件中的文本）"
+  rewards-enabled: "启用在线奖励"
+  rewards-enabled-description: "根据在线时间发放经验；立即生效"
+  base-xp: "在线奖励：首次发放"
+  base-xp-description: "连续记录中首次发放的经验"
+  growth: "在线奖励：增长"
+  growth-description: "每完成一个间隔的倍率（1.02 = +2 %）"
+  interval: "在线奖励：间隔（秒）"
+  interval-description: "每次发放所需的在线时间"
+  grace: "重新加入宽限期（分钟）"
+  grace-description: "离开后连续记录保留多久"
+  check-interval: "检查间隔（刻）"
+  check-interval-description: "在线奖励的检查频率（20 刻 = 1 秒）"
+  show-status: "在 /money 中显示状态"
+  show-status-description: "在 /money 中显示连续记录和下次发放"
+  notifications: "奖励消息"
+  notifications-description: "每次发放时发送消息"
+  action-bar: "在动作栏中显示消息"
+  action-bar-description: "关闭 = 聊天消息"
+  message: "消息文本"
+  message-description: "占位符：{xp}、{streak}、{next_xp}、{multiplier}、{balance}（留空 = 使用语言文件中的文本）"
+  top-page-size: "排行榜：每页条目数"
+  top-page-size-description: "/baltop 中每页的排名数"
+  top-cache: "排行榜：缓存（秒）"
+  top-cache-description: "排序后的排行榜复用多久（0 = 每次重新计算）"
+command:
+  account: "account"
+web:
+  unavailable: "<red>网页需要 Vystorm Core 0.24.0 或更高版本并启用网页平台。"
+  module:
+    title: "经验账户"
+    description: "余额、付款、排行榜和在线奖励"
+  error:
+    offline: "你需要在游戏中才能执行此操作：经验会从你的经验条中扣除。"
+    bad-action: "未知操作（允许：give、take、set）。"
+    bad-request: "无效的请求。"
+    busy: "此请求仍在处理中。请稍候。"
+  # 网页文本（浏览器 / Vystorm 客户端覆盖界面）；占位符写在 {花括号} 中。
+  ui:
+    goal:
+      title: "经验目标"
+      progress: "{progress} / {target} XP"
+      remaining: "还差 {remaining} XP"
+    tab:
+      account: "账户"
+      pay: "付款"
+      top: "排行榜"
+      admin: "管理"
+    loading: "加载中…"
+    balance: "余额"
+    online: "游戏中"
+    offline: "离线"
+    limit: "上限：{limit}"
+    info: "1 单位货币等于 1 点真实经验。余额会实时跟随你的经验条。"
+    no-account: "你还没有经验账户。加入游戏时会自动创建。"
+    reward:
+      afk: "你不活跃时已暂停。连续记录会保留；恢复活动后继续发放奖励。"
+      title: "在线奖励"
+      disabled: "在线奖励在本服务器上已禁用。"
+      none: "没有进行中的连续记录。留在游戏中即可开始。"
+      active: "连续 {streak} · 下次发放 {xp} XP"
+      next-in: "{time} 后下次发放"
+      due: "即将发放…"
+      paused: "已暂停：请在 {minutes} 分钟内重新加入以保留连续 {streak}（下次发放 {xp} XP）。"
+      rules: "{interval} 后首次发放 {base} XP；每完成一个间隔，下次发放增加 {growth} %。离开后连续记录保留 {grace} 分钟。"
+    pay:
+      intro: "你的余额：{amount}。经验会立即从你的经验条中扣除。"
+      target: "玩家"
+      amount: "金额（{currency}）"
+      submit: "继续"
+      confirm-title: "确认付款"
+      confirm: "要向 {player} 发送 {amount} 吗？经验会立即从你的经验条中扣除。"
+      confirm-button: "付款"
+      offline: "请加入游戏后付款：经验会从你的经验条中扣除。"
+      sending: "发送中…"
+      unsure: "服务器未及时响应。请检查你的余额 – 再次提交同一表单不会重复付款。"
+    top:
+      empty: "经验排行榜仍为空。"
+      rank: "排名"
+      player: "玩家"
+      amount: "余额"
+      level: "等级"
+      you: "你"
+      own: "你的排名：#{rank} – {amount}"
+      page: "第 {page} 页，共 {pages} 页 · {total} 个账户"
+      age: "{seconds} 秒前的数据"
+      previous: "« 返回"
+      next: "下一页 »"
+      refresh: "刷新"
+      pay: "付款"
+      pay-hint: "向 {player} 支付经验"
+    admin:
+      lookup-title: "查询余额"
+      lookup: "查询"
+      lookup-result: "{player}：{amount}（等级 {level}）"
+      change-title: "更改余额"
+      action: "操作"
+      give: "给予"
+      take: "扣除"
+      set: "设置"
+      player: "玩家"
+      amount: "经验值"
+      apply: "应用"
+      confirm-title: "确认更改"
+      confirm-give: "要给予 {player} {amount} 吗？"
+      confirm-take: "要从 {player} 扣除 {amount} 吗？"
+      confirm-set: "要将 {player} 的余额设为 {amount} 吗？"
+      settings: "服务器设置"
+      settings-hint: "初始余额、货币、在线奖励和排行榜。"
+      settings-open: "打开设置"
+      settings-game: "游戏内：/vsettings → Server → XP Economy"
+# Vystorm 客户端模组（原生 HUD、提示和面板）；未安装模组的玩家仍使用聊天、动作栏和对话框。
+client:
+  settings-title: "经验账户显示"
+  settings-description: "Vystorm 客户端模组的原生显示（仅限安装模组时）。"
+  hud: "在 HUD 中显示余额"
+  hud-description: "在右上角显示你的经验余额和在线奖励倒计时。"
+  hud-title: "经验账户"
+  hud-balance: "{amount}"
+  hud-level: "等级 {level}"
+  hud-reward-active: "{seconds} 秒后奖励 +{next_xp} XP"
+  hud-reward-none: "没有在线奖励连续记录"
+  reward-title: "在线奖励 +{xp} XP"
+  reward-text: "连续 {streak} · 下次发放 {next_xp} XP"
+  payment-title: "收到 {amount}"
+  payment-text: "来自 {player}"
+  panel-balance: "余额"
+  panel-level: "等级"
+  panel-limit: "上限"
+  panel-reward: "在线奖励"
+  panel-reward-next: "下次发放 {next_xp} XP（连续 {streak}）"
+  panel-goal: "储蓄目标"
+  panel-goal-default: "储蓄目标"
+  panel-goal-progress: "{label}：{current} / {target}"
+  panel-goal-notify: "达成目标时你会收到通知。"
+  panel-pay: "发送经验"
+  panel-pay-target: "玩家"
+  panel-pay-amount: "经验值"
+  panel-pay-submit: "预览付款"
+  panel-pay-favorite: "已保存的收款人"
+  panel-pay-favorite-none: "按名称选择"
+  panel-pay-preview-title: "查看付款"
+  panel-pay-preview: "向 {player} 发送 {amount}：等级 {current_level} → {projected_level}；余额 {current_balance} → {projected_balance}。"
+  panel-pay-confirm: "确认付款"
+  panel-pay-cancel: "取消"
+  panel-top: "排行榜"
+  panel-top-loading: "正在加载排行榜…"
+  panel-top-rank: "#"
+  panel-top-name: "玩家"
+  panel-top-amount: "经验值"
+  panel-top-own: "你的排名：#{rank} – {amount}"
+  panel-refresh: "刷新"
+  panel-web: "在网页中打开"
+  panel-settings: "服务器设置"
+  hud-bonus: "{time} 后奖励 +{next_xp} XP"
+  panel-hud-settings: "HUD 显示"
+  panel-more: "更多"
+  panel-more-requests: "付款请求"
+
+privacy:
+  title: "账户可见性"
+  description: "在本服务器上生效，与余额后端无关。你自己的视图和授权管理员的查询仍然可用。"
+  hidden: "对其他玩家隐藏余额和排行榜条目"
+  unavailable: "此余额未公开。"
+  save-failed: "无法保存可见性设置。之前的设置仍然有效。"
+  usage: "/economy privacy <on|off> — on 会隐藏你的账户。"
+  enabled: "你的账户现在已从公开排行榜和玩家余额查询中隐藏。"
+  disabled: "你的账户可以再次公开显示。"
+requests:
+  cancel: "[撤回]"
+  cancelled: "请求已撤回，未转移任何经验值。"
+  created: "已创建 {count} 个请求，总计 {amount}。尚未转移任何经验。"
+  received: "{player} 请求 {amount}，用途：{purpose}。使用 /economy requests 查看。"
+  empty: "你最近没有付款请求。"
+  row: "{payer} → {payee}：{amount} · {purpose} · {state}"
+  accept: "[查看付款]"
+  decline: "[拒绝]"
+  declined: "请求已拒绝。"
+  saved: "请求偏好已保存。"
+  limits: "你的付款限额：每笔转账 {single}，每个 UTC 日 {daily}（0 = 无限制）。今日已用/已预留：{spent}。这些限额适用于玩家付款，不适用于商店/Vault 或原版经验变化。"
+  confirm: "要向 {player} 支付 {amount} 吗？用途：{purpose}"
+  preview: "余额：{before} → {after}；等级：{levelBefore} → {levelAfter}。"
+  paid: "付款已完成。"
+  review: "付款结果需要管理员审核。在核查完成前请勿再次付款。"
+  dialog-title: "向 {player} 请求经验"
+  dialog-intro: "{player} 会收到请求，并在转移任何经验前进行确认。请求在 24 小时后过期。"
+  dialog-purpose: "用途"
+  dialog-send: "发送请求"
+  state:
+    cancelled: "已撤回"
+    open: "等待你确认（24 小时后过期）"
+    processing: "已中断或等待核实；请勿重复"
+    paid: "已支付"
+    declined: "已拒绝"
+    failed: "未完成"
+    expired: "已过期"
+  error:
+    usage: "用法：/economy request <player> <XP> <purpose>、split <total XP> <player,player> <purpose>、requests [accept|decline|cancel <ID>]、requestblock <player> on|off 或 limits [single daily]。"
+    invalid: "请使用有效的玩家/请求 ID 以及 0 到 2147483647 之间的整数经验值。每个付款人至少需要 1 XP。"
+    account: "该玩家没有已知账户。"
+    purpose: "请输入 1–80 个字符的用途，不含控制字符。"
+    capacity: "已达到请求或预留上限。请先处理现有条目。"
+    rate: "你每分钟最多只能创建 16 个付款请求。"
+    blocked: "收款人已屏蔽你的付款请求。"
+    not-open: "该请求不可用、已过期或已处理。"
+    single: "此笔付款超出你的单笔转账限额。使用 /economy limits 更改。"
+    daily: "此笔付款超出你今日（UTC）的剩余限额。"
+    storage: "付款请求/限额存储不可用。尚未开始新的付款；请联系管理员检查。"
+history:
+  scope: "最近记录的经济交易（本服务器最多 2,000 条）。不包括原版经验变化；在下次保存前崩溃可能会丢失最近的条目。"
+  empty: "你的账户没有记录的交易。"
+  row: "{time} · {cause}：{delta} XP → {balance} XP · ID {id}"
+  exported: "你最近保留的 100 条记录已保存到插件的 exports 文件夹，文件名为 {file}。请向管理员索取该文件。新的导出会替换之前的导出。"
+  unavailable: "无法读取或保存交易记录。你的余额是单独管理的。"
+  usage: "用法：/economy history 或 /economy history export。"
+  cause:
+    fund: "众筹目标"
+    term: "定期存款"
+    bank: "经验银行"
+    standing: "定期付款"
+    pay: "玩家付款"
+    debit: "经济/API 扣款"
+    credit: "经济/API 入账"
+    set: "余额调整"
+
+# Core 配置编辑器（/vadmin config XPVaultEconomy，Core 0.27.0+）
+config-editor:
+  storage-yaml: "本地文件"
+  storage-mysql: "MySQL（共享 Vystorm 数据库）"
+cheque:
+  usage: "<yellow>用法：/economy cheque <XP> [count]：签发经验支票（数量 1 到 64）。右键支票即可兑现。"
+  insufficient: "<red>你需要 {amount} 才能这样做。"
+  no-space: "<red>请先腾出 {count} 个物品栏空位。"
+  issued: "<green>已签发 {count} 张经验支票，每张 {amount}（共 {total}）。可以转交、出售或存入箱子；右键兑现一张。"
+  redeemed: "<green>已兑现一张 {amount} 的支票（签发人：{player}）。"
+  invalid: "<red>此支票无效或已被兑现。"
+  full: "<red>你的经验余额已满，无法兑现此支票。支票仍然有效。"
+  unavailable: "<red>支票暂时不可用。管理员应检查服务器日志。"
+  item-name: "经验支票 · {amount}"
+  item-issuer: "签发人：{player}"
+  item-hint: "右键兑现"
+  admin-info: "<gray>未兑现的经验支票：{count} 张，总计 {amount}。"
+playermenu:
+  standing: "<aqua>向 {player} 定期付款"
+  standing-lore: "<gray>每个间隔自动向其付款"
+  bank: "<light_purple>将 {player} 加入你的经验银行"
+  bank-lore: "<gray>之后对方可以存入和取出"
+  pay: "<green>向 {player} 付款"
+  pay-lore: "<gray>你的余额：{amount}"
+  request: "<yellow>向 {player} 请求经验"
+  request-lore: "<gray>对方会在转移任何经验前确认"
+  history: "<gold>{player} 的交易记录"
+  history-lore: "<gray>余额：{amount} · 在聊天栏中显示最近 10 笔交易"
+bank:
+  disabled: "<red>经验银行在本服务器上已关闭。"
+  usage: "<yellow>用法：/economy bank [list | info BANK | create NAME | deposit BANK XP | withdraw BANK XP | add BANK PLAYER | remove BANK PLAYER | delete BANK]。"
+  created: "<green>经验银行 {bank} 已创建。添加成员并存入经验：/economy bank"
+  deposited: "<green>已向 {bank} 存入 {amount}。银行余额：{balance}。"
+  withdrawn: "<green>已从 {bank} 取出 {amount}。银行余额：{balance}。"
+  member-added: "<green>{player} 现在是 {bank} 的成员，可以存入和取出。"
+  member-removed: "<gray>{player} 不再是 {bank} 的成员。"
+  closed: "<gray>经验银行 {bank} 已关闭；其中的经验已转给所有者。"
+  close-title: "要关闭 {bank} 吗？"
+  close-question: "要关闭经验银行 {bank} 吗？其中的 {amount} 将转给所有者 {player}。此操作无法撤销。"
+  none: "<gray>你还没有加入任何经验银行。使用 /economy bank create NAME 创建一个"
+  list-header: "<gold>经验银行（{count}）："
+  list-row: "<yellow>{bank}<gray>：{amount} · 所有者 {owner} · {members} 名成员"
+  button-open: "[打开]"
+  button-open-hover: "点击：显示此银行"
+  button-manage: "[管理]"
+  button-manage-hover: "点击：在对话框中存入、取出和管理成员"
+  info-balance: "<gold>经验银行 {bank}：{amount}"
+  info-owner: "<gray>所有者：{player}"
+  info-members: "<gray>成员：{players}"
+  info-no-members: "无"
+  log-empty: "<gray>暂无交易。"
+  log-header: "<gray>最近的交易："
+  log-row: "<gray>{time} · {player}：<white>{delta}</white> → {balance}"
+  dialog-title: "经验银行"
+  dialog-intro: "银行中的经验与成员共享，死亡时不会丢失，也不计入你的经验条或排行榜。"
+  dialog-bank: "{bank}（{amount}）"
+  dialog-name: "新银行的名称（3-16 个字母、数字、_ 或 -）"
+  dialog-create: "创建银行"
+  dialog-bank-title: "经验银行 {bank}"
+  dialog-yours: "你自己的余额：{amount}"
+  dialog-member: "玩家名称（用于添加或移除成员）"
+  dialog-deposit: "存入"
+  dialog-withdraw: "取出"
+  dialog-add: "添加成员"
+  dialog-remove: "移除成员"
+  dialog-close: "关闭银行"
+  dialog-add-title: "将 {player} 加入银行"
+  dialog-add-intro: "选择 {player} 要加入的银行。成员可以存入和取出。"
+  admin-info: "<gray>经验银行：{count} 个，共持有 {amount}。"
+  error:
+    amount: "请输入至少为 1 的整数经验数量（也可以是 2.5k 或 1m）。"
+    unknown: "该经验银行不存在，或你不是其成员。"
+    not-member: "只有所有者和成员可以使用此银行。"
+    not-owner: "只有银行所有者才能这样做。"
+    full: "银行无法容纳这么多经验。"
+    insufficient: "经验不足。"
+    player-full: "你的余额无法容纳这么多经验；经验仍留在银行中。"
+    owner-full: "所有者的余额无法容纳银行中的经验；银行保持开启。"
+    name: "银行名称需由 3-16 个字母、数字、_ 或 - 组成。"
+    taken: "该银行名称已被占用。"
+    owned: "你已经拥有 {max} 个银行。"
+    member: "该玩家已在此银行中（或不是可移除的成员）。"
+    members: "一个银行最多可有 {max} 名成员。"
+    account: "尚未知晓该玩家账户。"
+    invalid: "该数量无效。"
+    capacity: "服务器已达到银行数量上限。"
+    storage: "经验银行暂时不可用；没有转移任何经验。管理员应检查服务器日志。"
+    deposit-denied: "你不能向此公款账户存款。"
+    spend-denied: "你不能从此公款账户取款。"
+    single-limit: "取款超过你的单次限额。"
+    daily-limit: "取款超过你剩余的每日限额。"
+fund:
+  title: "🎯 众筹目标"
+  close: "关闭"
+  intro: "一起筹集经验：达成目标后归发起人所有；期限先到则全部退还。"
+  none: "<gray>目前没有进行中的众筹。"
+  row: "<gold>#{id}</gold> <white>{title}</white> <gray>发起人 {owner} · {raised}/{target}（{percent} %）· 剩余 {time}"
+  button-create: "＋ 发起众筹"
+  button-donate: "捐给 #{id} {title}"
+  button-cancel: "取消 #{id}"
+  button-open: "发起"
+  button-give: "捐赠"
+  create-title: "新的众筹目标"
+  create-intro: "标题、目标（至少 {min}）以及最长 {days} 天的期限。"
+  input-title: "标题"
+  input-target: "目标"
+  input-days: "天数"
+  donate-title: "捐赠：{title}"
+  opened: "<green>✔ 你的众筹已发起。"
+  donated: "<green>✔ 你向“{title}”捐了 {amount}。"
+  donation-received: "<green>{player} 向“{title}”捐了 {amount}。"
+  reached: "<gold>🎯 “{title}”已达成：{amount} 已存入你的账户。"
+  reached-inbox: "你的众筹“{title}”已达成：{amount} 经验已存入账户。"
+  expired: "<gray>“{title}”到期未达成；你的 {amount} 已退还。"
+  expired-inbox: "众筹“{title}”已到期；你的 {amount} 经验已退还。"
+  cancelled: "<gray>“{title}”已取消；你的 {amount} 已退还。"
+  cancelled-inbox: "众筹“{title}”已取消；你的 {amount} 经验已退还。"
+  cancel-done: "<green>已取消“{title}”，所有捐赠已退还。"
+  disabled: "<gray>本服务器已关闭众筹。"
+  usage: "<gray>/economy fund [list|create|cancel ID]"
+  admin-info: "<gray>众筹目标：{count}"
+  error:
+    title: "<red>请输入标题（最多 48 个字符）。"
+    target: "<red>目标至少为 {min}。"
+    days: "<red>请选择 1 到 {days} 天。"
+    capacity: "<red>你已有 {max} 个进行中的众筹。"
+    amount: "<red>请输入一个正整数。"
+    insufficient: "<red>你没有那么多经验。"
+    unknown: "<red>该众筹不存在或已满。"
+    closed: "<red>该众筹已结束。"
+    storage: "<red>众筹已锁定：文件无法读取或保存。请告知管理员。"
+term:
+  title: "🏦 定期存款"
+  close: "关闭"
+  intro: "把经验锁定一个固定期限，到期后连本带息返还——离线时也一样。提前取出只返还本金，没有利息。"
+  offer: "<gray>• {days} 天：<green>+{rate}"
+  none: "<gray>你没有定期存款。"
+  row: "<gold>#{id}</gold> <white>{amount}</white> <gray>· +{interest}（{rate}）· {time} 后到期"
+  button-new: "＋ 新建定期存款"
+  button-early: "提前取出 #{id}"
+  button-term: "{days} 天 · +{rate}"
+  create-title: "新建定期存款"
+  create-intro: "你想锁定多少经验？至少 {min}。你的余额：{balance}。然后选择期限。"
+  confirm-title: "开设定期存款？"
+  confirm: "将 {amount} 锁定 {days} 天？到期时你将获得 {interest} 利息（{rate}）。"
+  opened: "<green>✔ 已将 {amount} 锁定 {days} 天。"
+  early-title: "提前取出？"
+  early-question: "现在取出 #{id}（{amount}）？你将失去 {interest} 的利息。"
+  withdrawn: "<green>✔ #{id}：{amount} 已回到你的账户。"
+  matured: "<green>🏦 定期存款 #{id} 已到期：{amount} + {interest} 利息已存入你的账户。"
+  matured-inbox: "定期存款 #{id} 已到期：{amount} 经验 + {interest} 经验利息已存入你的账户。"
+  payout-blocked: "<red>定期存款 #{id} 无法支付，因为你的余额已达上限。有空间后会立即支付。"
+  disabled: "<gray>本服务器已关闭定期存款。"
+  usage: "<gray>/economy term [list|open|withdraw <id>]"
+  admin-info: "<gray>定期存款：{count}（{amount}）"
+  error:
+    amount: "<red>请输入一个正整数。"
+    minimum: "<red>定期存款至少需要 {min}。"
+    capacity: "<red>你已经有 {max} 笔定期存款。"
+    insufficient: "<red>你没有那么多经验。"
+    storage: "<red>定期存款已锁定，因为其文件无法读取或保存。请告知管理员。"
+    unknown: "<red>没有这笔定期存款。"
+    full: "<red>你的余额已达上限，支付需要等待。"
+    early: "<red>本服务器已关闭提前取出。"
+standing:
+  disabled: "<red>定期付款在本服务器上已关闭。"
+  usage: "<yellow>用法：/economy standing [list | add PLAYER XP INTERVAL [RUNS] | pause ID | resume ID | cancel ID]。间隔如 12h、1d 或 1w；次数 0 = 直到取消。"
+  created: "<green>定期付款 #{id} 已保存：每 {interval} 向 {player} 支付 {amount}。首次付款现在执行。"
+  paid: "<gray>定期付款 #{id}：已向 {player} 支付 {amount}。"
+  paid-last: "<gray>定期付款 #{id}：已向 {player} 支付 {amount}。这是最后一次执行；定期付款已完成。"
+  received: "<green>{player} 向你支付了 {amount}（定期付款）。"
+  failed: "向 {player} 的定期付款 #{id} 无法支付：{reason}"
+  failed-paused: "向 {player} 的定期付款 #{id} 再次失败，现已暂停：{reason}"
+  join-paused: "<yellow>你有 {count} 个定期付款因付款失败而被暂停。"
+  confirm-title: "确认定期付款"
+  confirm: "要每 {interval} 向 {player} 支付 {amount}（{runs}）吗？首次付款立即执行，之后即使你离线也会执行。随时可用 /economy standing 暂停或取消。"
+  runs-unlimited: "直到取消"
+  runs-count: "剩余 {runs} 次"
+  cancelled: "<gray>定期付款 #{id} 已取消。"
+  paused: "<gray>定期付款 #{id} 已暂停。"
+  resumed: "<green>定期付款 #{id} 已恢复。"
+  state-paused: "已暂停"
+  state-active: "进行中"
+  state-next: "{time} 后执行"
+  row: "<yellow>#{id}</yellow> → {player}：每 {interval} {amount} · {runs} · {state}"
+  last-error: "<red>（上次执行失败：{reason}）"
+  none: "<gray>你没有定期付款。"
+  list-header: "<gold>你的定期付款（{count}/{max}）："
+  button-pause: "[暂停]"
+  button-resume: "[恢复]"
+  button-cancel: "[取消]"
+  button-hover: "点击：更改此定期付款"
+  button-list: "[定期付款]"
+  button-list-hover: "点击：显示你的定期付款"
+  incoming-header: "<gold>向你付款（{count}）："
+  incoming-row: "<gray>{player}：每 {interval} {amount} · {state}"
+  dialog-title: "定期付款"
+  dialog-intro: "每个间隔向玩家支付相同金额，例如租金或工资。即使你离线也会执行；你的付款限额同样适用。"
+  dialog-incoming: "有 {count} 个进行中的定期付款向你付款。"
+  dialog-new: "新建定期付款"
+  dialog-pause: "暂停 #{id}"
+  dialog-resume: "恢复 #{id}"
+  dialog-cancel: "取消 #{id}"
+  dialog-create-title: "新建定期付款"
+  dialog-create-intro: "间隔如 12h、1d 或 2w（至少 {min}）。次数：0 = 直到你取消。"
+  dialog-interval: "间隔"
+  dialog-runs: "执行次数（0 = 无限制）"
+  admin-info: "<gray>定期付款：{count} 个。"
+  error:
+    amount: "请输入至少为 1 的整数经验数量（也可以是 2.5k 或 1m）。"
+    interval: "请输入如 12h、1d 或 2w 的间隔，至少 {min}，最多一年。"
+    runs: "执行次数必须为 0（无限制）到 1000 之间的整数。"
+    capacity: "你最多只能有 {max} 个定期付款。"
+    insufficient: "经验不足"
+    unknown: "你没有该编号的定期付款。"
+    account: "某个账户已不再可知"
+    permission: "你已不再拥有该权限"
+    payee-full: "收款人的余额已满；你的经验已退回"
+    limit: "超出了你的个人付款限额"
+    review: "发生意外错误；管理员应检查日志"
+    storage: "定期付款暂时不可用；没有支付任何款项。管理员应检查服务器日志。"
+
+# 通过 Vystorm Core 提供的命令：每位玩家看到自己语言的说明、帮助和 Tab 补全。命令下直接的 "aliases" 是额外的主命令
+# （全服生效，由管理员在 Core 配置 commands.localized-aliases 中选择语言）；子命令的 "name" 和 "aliases"
+# 在所有语言中都可使用，英文始终有效。
+away:
+  summary: "<green>你离线期间共收到 {players} 的 {count} 笔付款，合计 <yellow>{amount}</yellow>。"
+  summary-one: "<green>你离线期间，{players} 向你支付了 <yellow>{amount}</yellow>。"
+
+commands:
+  money:
+    description: "显示你的经验值余额（或其他玩家的）"
+    aliases: [经验余额]
+    usage: "[玩家]"
+  pay:
+    description: "用经验值向玩家付款"
+    aliases: [经验转账]
+    usage: "玩家 经验值"
+  baltop:
+    description: "所有账户的经验值排行榜"
+    aliases: [经验排行]
+    usage: "[页码]"
+  economy:
+    description: "经验值账户、付款、银行、定期转账和管理"
+    aliases: [经验经济]
+    sub:
+      account:
+        name: 账户
+        aliases: []
+        description: "打开你的账户对话框"
+        usage: "[玩家]"
+      balance:
+        name: 余额
+        aliases: []
+        description: "显示你或其他玩家的余额"
+        usage: "[玩家]"
+      web:
+        name: 网页
+        aliases: []
+        description: "在网页上打开你的账户"
+      goal:
+        name: 目标
+        aliases: []
+        description: "显示你的储蓄目标"
+        sub:
+          show:
+            name: 显示
+            aliases: []
+            description: "显示你的储蓄目标"
+          set:
+            name: 设置
+            aliases: []
+            description: "设置储蓄目标"
+            usage: "经验值 [名称]"
+          clear:
+            name: 清除
+            aliases: []
+            description: "删除你的储蓄目标"
+          notify:
+            name: 提醒
+            aliases: []
+            description: "开启或关闭达成目标时的提醒"
+      privacy:
+        name: 隐私
+        aliases: []
+        description: "对其他玩家隐藏（开）或显示（关）你的余额"
+      statement:
+        name: 账单
+        aliases: []
+        description: "按时间范围和类型汇总保留的记录"
+        usage: "[1|7|30]"
+        sub:
+          summary:
+            name: 摘要
+            aliases: []
+            description: "在私聊中显示保留的个人交易摘要"
+            usage: "[1|7|30]"
+          export:
+            name: 导出
+            aliases: []
+            description: "导出包含合计和记录的个人账单"
+            usage: "[1|7|30]"
+      history:
+        name: 记录
+        aliases: []
+        description: "你最近的账目"
+        sub:
+          export:
+            name: 导出
+            aliases: []
+            description: "把你的账目导出到文件"
+      pay:
+        name: 支付
+        aliases: []
+        description: "用经验值向玩家付款"
+        usage: "玩家 经验值"
+      favorite:
+        name: 收藏
+        aliases: []
+        description: "你常用的收款人"
+        sub:
+          list:
+            name: 列表
+            aliases: []
+            description: "列出你常用的收款人"
+          add:
+            name: 添加
+            aliases: []
+            description: "添加常用收款人"
+            usage: "玩家"
+          remove:
+            name: 移除
+            aliases: []
+            description: "移除常用收款人"
+            usage: "玩家"
+          pay:
+            name: 支付
+            aliases: []
+            description: "向常用收款人付款"
+            usage: "ID 经验值"
+      request:
+        name: 请求
+        aliases: []
+        description: "向玩家请求付款"
+        usage: "玩家 经验值 用途"
+      requests:
+        name: 请求列表
+        aliases: []
+        description: "你未处理的付款请求"
+        sub:
+          list:
+            name: 列表
+            aliases: []
+            description: "列出你未处理的付款请求"
+          accept:
+            name: 接受
+            aliases: []
+            description: "支付一个请求"
+            usage: "ID"
+          decline:
+            name: 拒绝
+            aliases: []
+            description: "拒绝一个请求"
+            usage: "ID"
+          cancel:
+            name: 撤回
+            aliases: []
+            description: "撤回自己发出的待处理付款请求"
+            usage: "ID"
+      split:
+        name: 分摊
+        aliases: []
+        description: "把金额作为付款请求分摊给多名玩家"
+        usage: "经验值 玩家,玩家... 用途"
+      requestblock:
+        name: 屏蔽请求
+        aliases: []
+        description: "屏蔽或允许某位玩家的付款请求"
+        usage: "玩家 开|关"
+      limits:
+        name: 限额
+        aliases: []
+        description: "显示或设置你的个人付款限额"
+        usage: "[单笔 每日]"
+      cheque:
+        name: 支票
+        aliases: []
+        description: "从你的余额开具经验值支票"
+        usage: "经验值 [数量]"
+      bank:
+        name: 银行
+        aliases: []
+        description: "共享经验值银行"
+        sub:
+          list:
+            name: 列表
+            aliases: []
+            description: "列出你的银行"
+          info:
+            name: 信息
+            aliases: []
+            description: "银行的余额、成员和账目"
+            usage: "银行"
+          create:
+            name: 创建
+            aliases: []
+            description: "创建银行"
+            usage: "名称"
+          deposit:
+            name: 存入
+            aliases: []
+            description: "把经验值存入银行"
+            usage: "银行 经验值"
+          withdraw:
+            name: 取出
+            aliases: []
+            description: "从银行取出经验值"
+            usage: "银行 经验值"
+          add:
+            name: 添加
+            aliases: []
+            description: "添加成员"
+            usage: "银行 玩家"
+          remove:
+            name: 移除
+            aliases: []
+            description: "移除成员"
+            usage: "银行 玩家"
+          delete:
+            name: 删除
+            aliases: []
+            description: "关闭银行（剩余经验值归所有者）"
+            usage: "银行"
+          policy:
+            name: "规则"
+            aliases: []
+            description: "公款权限"
+          history:
+            name: "记录"
+            aliases: []
+            description: "审计记录"
+      fund:
+        name: "众筹"
+        aliases: []
+        description: "众筹目标"
+        sub:
+          list:
+            name: "列表"
+            aliases: []
+            description: "所有进行中的众筹"
+          create:
+            name: "新建"
+            aliases: []
+            description: "发起众筹"
+          cancel:
+            name: "取消"
+            aliases: []
+            description: "取消你的众筹；捐赠者获得退款"
+            usage: "ID"
+      term:
+        name: "定期存款"
+        aliases: ["term"]
+        description: "定期存款"
+        sub:
+          list:
+            name: "列表"
+            aliases: []
+            description: "列出你的定期存款"
+          open:
+            name: "开设"
+            aliases: []
+            description: "锁定经验并获得利息"
+          withdraw:
+            name: "取出"
+            aliases: []
+            description: "提前取出定期存款"
+            usage: "ID"
+      standing:
+        name: 定期转账
+        aliases: []
+        description: "定期转账"
+        sub:
+          list:
+            name: 列表
+            aliases: []
+            description: "列出你的定期转账"
+          add:
+            name: 新建
+            aliases: []
+            description: "每隔一段时间向玩家支付固定金额"
+            usage: "玩家 经验值 间隔 [次数]"
+          pause:
+            name: 暂停
+            aliases: []
+            description: "暂停定期转账"
+            usage: "ID"
+          resume:
+            name: 恢复
+            aliases: []
+            description: "恢复定期转账"
+            usage: "ID"
+          cancel:
+            name: 取消
+            aliases: []
+            description: "取消定期转账"
+            usage: "ID"
+      top:
+        name: 排行
+        aliases: []
+        description: "经验值排行榜"
+        usage: "[页码]"
+      admin:
+        name: 管理
+        aliases: []
+        description: "经济管理"
+        sub:
+          give:
+            name: 给予
+            aliases: []
+            description: "给玩家经验值"
+            usage: "玩家 经验值"
+          take:
+            name: 扣除
+            aliases: []
+            description: "扣除玩家的经验值"
+            usage: "玩家 经验值"
+          set:
+            name: 设置
+            aliases: []
+            description: "设置玩家的余额"
+            usage: "玩家 经验值"
+          history:
+            name: 记录
+            aliases: []
+            description: "某位玩家最近的账目"
+            usage: "玩家 [数量]"
+          info:
+            name: 信息
+            aliases: []
+            description: "账户、存储、支票、银行和定期转账"
+          reload:
+            name: 重载
+            aliases: []
+            description: "重新加载配置和语言文件"
+
+statement:
+  title: "经验账单"
+  close: "关闭"
+  scope: "仅统计保留的经济记录：日志在本服务器共保留 2,000 条记录。更早的记录和原版经验变动不包含在内；崩溃可能导致未保存的记录丢失。这些合计并非当前余额，也不是完整账单。"
+  period: "最近时间范围（UTC）：{from} 至 {until}"
+  total: "{count} 笔记录：收入 {incoming} 经验，支出 {outgoing} 经验，净额 {net} 经验"
+  row: "{cause}：{count} 笔，+{incoming} / -{outgoing} 经验，净额 {net} 经验"
+  empty: "此时间范围内没有保留的记录。"
+  days: "最近 {days} 天"
+  export: "导出当前快照"
+  back: "返回账户"
+  exported: "账单已保存为插件 exports 文件夹中的 {file}。请向管理员索取文件。将替换你此前导出的同一时间范围账单。"
+  usage: "用法：/economy statement [1|7|30]、/economy statement summary [1|7|30] 或 /economy statement export [1|7|30]。默认 7 天。"
+  summary-scope: "最近 {days} 天：仅包含保留的经济交易（全服日志上限 2,000 条）。可能缺少较早的交易和原版经验变化；这不是账户余额。"
+
+treasury:
+  title: "公款权限"
+  intro: "设置银行成员的存入和取出权限。每日限额在 UTC 午夜重置；所有者和管理员保留完整权限。"
+  single: "单次取出上限（XP）"
+  daily: "UTC 每日上限（XP）"
+  save: "保存成员规则"
+  saved: "已保存 {player} 在 {bank} 的规则。"
+  usage: "/economy bank policy 银行 玩家 on/off on/off 单次 每日; /economy bank history 银行 [页码]"
+  history-button: "审计记录"
+  history: "{bank}：记录第 {page}/{pages} 页"
+  entry: "{time} {player}：{kind}，{delta} XP；余额 {balance}"
+  policy-change: "权限变更"
+  policy-detail: "{player}：存入 {deposit}，取出 {withdraw}；单次 {single}，每日 {daily}"
+  "yes": "是"
+  "no": "否"
+  deposit-denied: "你不能向此公款账户存款。"
+  spend-denied: "你不能从此公款账户取款。"
+  single-limit: "取款超过你的单次限额。"
+  daily-limit: "取款超过你剩余的每日限额。"

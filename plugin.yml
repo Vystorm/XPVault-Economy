@@ -1,0 +1,63 @@
+name: XPVaultEconomy
+version: '${version}'
+main: local.xpeconomy.XPVaultEconomy
+api-version: '1.20.6'
+description: Vault economy that uses real Minecraft XP points as money, with an online-time bonus; local or Vystorm Core shared-database storage.
+author: esoren
+depend: [Vault, vystorm_core]
+loadbefore: [MythicMobs, MMOItems, VystormSkills]
+permissions:
+  xpeconomy.*:
+    description: Alle Rechte der XP-Wirtschaft
+    default: op
+    children:
+      xpeconomy.admin: true
+      xpeconomy.balance: true
+      xpeconomy.balance.others: true
+      xpeconomy.pay: true
+      xpeconomy.top: true
+      xpeconomy.cheque: true
+      xpeconomy.bank: true
+      xpeconomy.standing: true
+      xpeconomy.term: true
+      xpeconomy.fund: true
+  xpeconomy.balance:
+    description: Eigenes XP-Guthaben ansehen, Kontodialog, Web, Sparziel, Privatsphäre, Verlauf (/money, /bal, /economy)
+    default: true
+  xpeconomy.balance.others:
+    description: XP-Guthaben anderer Spieler ansehen
+    default: op
+  xpeconomy.pay:
+    description: XP an andere Spieler zahlen, Favoriten, Zahlungsanfragen, Aufteilen, Sperren und Limits (/pay, /economy pay|request|split|…)
+    default: true
+  xpeconomy.top:
+    description: XP-Rangliste ansehen (/baltop, /economy top)
+    default: true
+  xpeconomy.cheque:
+    description: XP-Schecks ausstellen und einlösen (/economy cheque <XP> [Anzahl], Rechtsklick)
+    default: true
+  xpeconomy.bank:
+    description: Gemeinschaftliche XP-Banken erstellen, verwalten, ein- und auszahlen (/economy bank)
+    default: true
+  xpeconomy.standing:
+    description: Daueraufträge an andere Spieler einrichten und verwalten (/economy standing)
+    default: true
+  xpeconomy.fund:
+    description: Spendenziele eröffnen und XP spenden (/economy fund)
+    default: true
+  xpeconomy.term:
+    description: XP als Festgeld anlegen und mit Zinsen zurückbekommen (/economy term)
+    default: true
+  xpeconomy.admin:
+    description: Guthaben geben/nehmen/setzen, Info, Reload und Server-Einstellungen (/economy admin); enthält alle anderen Rechte
+    default: op
+    children:
+      xpeconomy.balance: true
+      xpeconomy.balance.others: true
+      xpeconomy.pay: true
+      xpeconomy.top: true
+      xpeconomy.cheque: true
+      xpeconomy.bank: true
+      xpeconomy.standing: true
+      xpeconomy.term: true
+      xpeconomy.fund: true

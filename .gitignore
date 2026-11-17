@@ -1,0 +1,13 @@
+.gradle/
+build/
+.idea/
+*.iml
+libs/
+test-harness/build/
+*.log
+*-private.properties
+.env
+.env.*
+!.env.example
+test-harness/*-test-backup.yml
+graphify-out/

@@ -1,0 +1,5 @@
+name: XPVaultEconomyTest
+version: 1.0.0
+main: local.xpeconomytest.XPVaultEconomyTest
+api-version: '26.2'
+depend: [Vault, vystorm_core, XPVaultEconomy]

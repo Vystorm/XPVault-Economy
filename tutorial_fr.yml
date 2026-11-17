@@ -1,0 +1,53 @@
+# Français — UTF-8. Keep keys, placeholders and formatting tokens unchanged.
+title: XPVaultEconomy
+permission: xpeconomy.balance
+pages:
+- title: XP comme argent
+  text: |
+    XPVaultEconomy tourne réel Minecraft XP points dans Vault argent: 1 unité de monnaie est 1 XP point. Pendant que vous êtes en ligne, votre équilibre est synchronisé avec votre barre d'expérience à chaque seconde et sauvegardé en permanence.
+
+    1. Recueillir ou perdre XP comme d'habitude.
+    2. Ouvrez votre compte dans le menu Vystorm: /vmenu → Économie → XP Compte (or /economy). Dans le chat: /money, /bal ou /economy balance.
+    3. Quand vous vous joignez pour la première fois, XP vous avez déjà été pris en charge dans votre compte.
+    4. La limite par défaut est 2,000,000,000 XP points; la configuration du serveur peut changer le nom de la monnaie et la limite.
+- title: Votre équilibre et les autres
+  text: |
+    1. Type /money ou /bal pour voir votre équilibre.
+    2. Sinon: /economy balance.
+    3. Pour un autre compte de joueur connu: /money <player> ou /economy balance <player>.
+    4. La vérification d'autres comptes nécessite xpeconomy.balance.others. Sans elle, vous ne voyez que votre propre équilibre.
+- title: Joueurs payants avec XP
+  permission: xpeconomy.pay
+  text: |
+    Paiements réels XP points entre les comptes de joueurs connus immédiatement.
+
+    1. Ouvrir /vmenu → Économie → XP Compte et choisissez "Envoyer XP".
+    2. Entrez le joueur et le montant, cliquez sur « Continuer » et confirmez le paiement.
+    3. Par commande: /pay <player> <XP points> (e.g. /pay Alex 250) ou /economy pay.
+    4. Le montant doit être un nombre entier positif. Tu ne peux pas te payer. Le bénéficiaire doit déjà avoir un compte connu; si quelque chose échoue, aucun paiement partiel n'est conservé.
+- title: Prime en ligne
+  text: |
+    Par défaut le bonus en ligne paie XP après chaque minute complète en ligne. Le premier paiement est 2 XP; chaque minute terminée soulève le paiement suivant par 2 %.
+
+    1. Restez en ligne pour 60 secondes.
+    2. Par défaut, le paiement est affiché dans la barre d'action.
+    3. Les XP compte dans le menu Vystorm et /money show votre stries, le prochain paiement et le temps restant.
+    4. Si vous revenez 30 minutes, votre stries, la minute commencée et fractionnelle XP sont conservés. Ces valeurs par défaut peuvent être modifiées sur le serveur ; le bonus peut également être désactivé.
+- title: XP tableau de bord
+  permission: xpeconomy.top
+  text: |
+    Le classement montre les comptes avec le plus XP points: rang, nom, équilibre et niveau.
+
+    1. Type /baltop (aussi /moneytop, /xptop ou /economy top).
+    2. Parcourir avec /baltop <page> ou les [Next »] et [« Back] boutons.
+    3. Si vous n'êtes pas sur la page, "Votre rang" montre votre position. Dans XP compte, "Leaderboard" ouvre la même liste qu'un dialogue.
+    4. Les joueurs en ligne comptent avec leur actuel XP. La liste est mise en cache brièvement (30 seconds by default) et peut donc être légèrement en retard.
+- title: Administration économique
+  permission: xpeconomy.admin
+  text: |
+    Les administrateurs gèrent des comptes connus avec /economy admin.
+
+    1. /economy admin info indique le nombre de comptes et le stockage utilisé. Réglez le solde de départ, la monnaie, le bonus en ligne et le classement sous /vsettings → Serveur → XP Économie; /economy admin reload recharge config.yml et les fichiers linguistiques.
+    2. /economy admin give <player> <XP points> ajoute XP.
+    3. /economy admin take <player> <XP points> supprime XP.
+    4. /economy admin set <player> <XP points> établit l'équilibre. Les montants sont des chiffres entiers non négatifs et ne doivent pas dépasser la limite du compte.

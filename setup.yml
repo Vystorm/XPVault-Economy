@@ -1,0 +1,260 @@
+{
+  "version": 1,
+  "intro": {
+    "en": "A few quick choices for XPVaultEconomy. Everything else stays on its defaults.",
+    "de": "Ein paar schnelle Entscheidungen für XPVaultEconomy. Alles andere bleibt auf Standard.",
+    "fr": "Quelques choix rapides pour XPVaultEconomy. Le reste garde ses valeurs par défaut.",
+    "it": "Alcune scelte rapide per XPVaultEconomy. Il resto resta predefinito.",
+    "pt_br": "Algumas escolhas rápidas para XPVaultEconomy. O resto fica no padrão.",
+    "ru": "Несколько быстрых решений для XPVaultEconomy. Остальное останется по умолчанию.",
+    "zh_cn": "XPVaultEconomy 的几个快速选项，其余保持默认。"
+  },
+  "questions": [
+    {
+      "id": "start",
+      "text": {
+        "en": "How much should new players start with?",
+        "de": "Wie viel sollen neue Spieler zu Beginn haben?",
+        "fr": "Solde de départ des nouveaux joueurs ?",
+        "it": "Saldo iniziale dei nuovi giocatori?",
+        "pt_br": "Saldo inicial dos novos jogadores?",
+        "ru": "Стартовый баланс новых игроков?",
+        "zh_cn": "新玩家的初始余额？"
+      },
+      "type": "number",
+      "target": "config.yml:economy.starting-balance",
+      "min": 0,
+      "max": 2000000000
+    },
+    {
+      "id": "online",
+      "text": {
+        "en": "Reward players for time online?",
+        "de": "Spieler für Online-Zeit belohnen?",
+        "fr": "Récompenser le temps en ligne ?",
+        "it": "Premiare il tempo online?",
+        "pt_br": "Recompensar tempo online?",
+        "ru": "Награждать за время в игре?",
+        "zh_cn": "奖励在线时长？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:online-rewards.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:online-rewards.enabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "banks",
+      "text": {
+        "en": "Enable shared banks?",
+        "de": "Gemeinsame Banken aktivieren?",
+        "fr": "Activer les banques partagées ?",
+        "it": "Attivare le banche condivise?",
+        "pt_br": "Ativar bancos compartilhados?",
+        "ru": "Включить общие банки?",
+        "zh_cn": "启用共享银行？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:banks.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:banks.enabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "orders",
+      "text": {
+        "en": "Enable standing orders?",
+        "de": "Daueraufträge aktivieren?",
+        "fr": "Activer les virements permanents ?",
+        "it": "Attivare gli ordini permanenti?",
+        "pt_br": "Ativar ordens permanentes?",
+        "ru": "Включить регулярные платежи?",
+        "zh_cn": "启用定期转账？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:standing-orders.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:standing-orders.enabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "term-deposits",
+      "text": {
+        "en": "Offer term deposits (lock XP for a while, get it back with interest)?",
+        "de": "Festgeld anbieten (XP eine Zeit anlegen, mit Zinsen zurück)?",
+        "fr": "Proposer des dépôts à terme (bloquer de l’XP, la récupérer avec intérêts) ?",
+        "it": "Offrire depositi vincolati (vincolare XP, riaverli con interessi)?",
+        "pt_br": "Oferecer depósitos a prazo (guardar XP e receber com juros)?",
+        "ru": "Предлагать срочные вклады (отложить XP и получить с процентами)?",
+        "zh_cn": "提供定期存款（锁定经验，到期连本带息取回）？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:term-deposits.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:term-deposits.enabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "funds",
+      "text": {
+        "en": "Allow donation goals (players collect XP together)?",
+        "de": "Spendenziele erlauben (Spieler sammeln gemeinsam XP)?",
+        "fr": "Autoriser les objectifs de dons (collecte d’XP commune) ?",
+        "it": "Consentire gli obiettivi di donazione (raccolta comune di XP)?",
+        "pt_br": "Permitir metas de doação (jogadores juntam XP)?",
+        "ru": "Разрешить сборы (игроки вместе собирают XP)?",
+        "zh_cn": "允许众筹目标（玩家一起筹集经验）？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:funds.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:funds.enabled": false
+          }
+        }
+      ]
+    }
+  ]
+}

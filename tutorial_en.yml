@@ -1,0 +1,52 @@
+title: 'XPVaultEconomy'
+permission: xpeconomy.balance
+pages:
+  - title: 'XP as money'
+    text: |
+      XPVaultEconomy turns real Minecraft XP points into Vault money: 1 unit of money is 1 XP point. While you are online, your balance is synchronised with your experience bar every second and saved permanently.
+
+      1. Collect or lose XP as usual.
+      2. Open your account in the Vystorm menu: /vmenu → Economy → XP Account (or /economy). In chat: /money, /bal or /economy balance.
+      3. When you join for the first time, the real XP you already have is taken over into your account.
+      4. The default limit is 2,000,000,000 XP points; the server configuration can change the currency name and the limit.
+  - title: 'Your balance and others'
+    text: |
+      1. Type /money or /bal to see your balance.
+      2. Alternatively: /economy balance.
+      3. For another known player account: /money <player> or /economy balance <player>.
+      4. Checking other accounts requires xpeconomy.balance.others. Without it you only see your own balance.
+  - title: 'Paying players with XP'
+    permission: xpeconomy.pay
+    text: |
+      Payments move real XP points between known player accounts immediately.
+
+      1. Open /vmenu → Economy → XP Account and choose "Send XP".
+      2. Enter the player and the amount, click "Continue" and confirm the payment.
+      3. By command: /pay <player> <XP points> (e.g. /pay Alex 250) or /economy pay.
+      4. The amount must be a positive whole number. You cannot pay yourself. The recipient must already have a known account; if anything fails, no partial payment is kept.
+  - title: 'Online bonus'
+    text: |
+      By default the online bonus pays XP after every full minute online. The first payout is 2 XP; every completed minute raises the next payout by 2 %.
+
+      1. Stay online for 60 seconds.
+      2. By default the payout is shown in the action bar.
+      3. The XP account in the Vystorm menu and /money show your streak, the next payout and the remaining time.
+      4. If you come back within 30 minutes, your streak, the started minute and fractional XP are kept. These defaults can be changed on the server; the bonus may also be disabled.
+  - title: 'XP leaderboard'
+    permission: xpeconomy.top
+    text: |
+      The leaderboard shows the accounts with the most XP points: rank, name, balance and level.
+
+      1. Type /baltop (also /moneytop, /xptop or /economy top).
+      2. Browse with /baltop <page> or the [Next »] and [« Back] buttons.
+      3. If you are not on the page, "Your rank" shows your position. In the XP account, "Leaderboard" opens the same list as a dialog.
+      4. Online players count with their current XP. The list is cached briefly (30 seconds by default) and can therefore lag slightly behind.
+  - title: 'Economy administration'
+    permission: xpeconomy.admin
+    text: |
+      Administrators manage known accounts with /economy admin.
+
+      1. /economy admin info shows the number of accounts and the storage in use. Set the starting balance, currency, online bonus and leaderboard under /vsettings → Server → XP Economy; /economy admin reload reloads config.yml and the language files.
+      2. /economy admin give <player> <XP points> adds XP.
+      3. /economy admin take <player> <XP points> removes XP.
+      4. /economy admin set <player> <XP points> sets the balance. Amounts are non-negative whole numbers and must not exceed the account limit.

@@ -1,0 +1,1009 @@
+# Italiano — UTF-8. Keep keys, placeholders and formatting tokens unchanged.
+currency:
+  singular: XP punti
+  plural: XP punti
+common:
+  no-permission: <red>Non hai il permesso di farlo.
+  unknown-account: Questo account non è ancora noto.
+  players-only: <red>Questo comando può essere utilizzato solo dai giocatori.
+  usage: '<gray>Utilizzo: <yellow>{usage}'
+goal:
+  usage: <yellow>Uso /economy goal [show|set <XP> [label]|clear|notify <on|off>].
+  default-label: Obiettivo di risparmio
+  none: <gray>Nessun obiettivo di risparmio. Uso /economy goal set <XP> [label].
+  progress: '<gold>{label}: {current} / {target} ({percent}%) · notifica {notify}'
+  set: <green>Risparmio obiettivo {label} impostato a {target}. Questo non riserva XP.
+  cleared: <gray>Risparmio obiettivo sgomberato.
+  bad-target: <red>Scegli un obiettivo completo XP da 1 a {max}.
+  notify-usage: <yellow>Uso /economy goal notify <on|off>.
+  notify-on: <green>Attivazione della notifica. Se l'obiettivo è già raggiunto, sarà notificato ora.
+  notify-off: <gray>Notifica di destinazione disabilitata.
+  notify-on-short: attivato
+  notify-off-short: disattivato
+  reached: '<green>Obiettivo di risparmio raggiunto: {label} ({target}).'
+favorite:
+  usage: <yellow>Uso /economy favorite [list|add <player>|remove <player>]. Fino a 20 Retribuzioni.
+  empty: <gray>Non hai soldi salvati. Aggiungere uno con /economy favorite add <player>.
+  header: '<gold>Pagamenti risparmiati:'
+  entry: <yellow>{index}. {name}
+  added: <green>{name} salvato come payee. Sceglili nel pannello dell'account o nella finestra di dialogo di trasferimento;
+    il pagamento richiede ancora la conferma.
+  removed: <gray>{name} rimosso dai payees salvati.
+  limit: <red>Puoi risparmiare al massimo {limit} payees.
+  not-saved: <gray>{name} non è un payee salvato.
+  choose: Pagamento {name}
+  choose-hover: Fare clic per riempire questo payee nel modulo; non è ancora inviato XP.
+button:
+  account: Account
+  account-hover: 'Clicca: apri il tuo account XP'
+  pay: Paga
+  pay-hover: 'Cliccare: preparare /pay <player> <XP points>'
+  pay-usage-hover: 'Fare clic su: preparare il comando'
+  fix: Fisso
+  fix-hover: 'Fare clic su: preparare nuovamente il comando'
+  reply: Rispondi
+  reply-hover: 'Clicca: paga XP a {player}'
+  admin-edit: Modifica del saldo
+  admin-edit-hover: 'Cliccare: preparare /economy admin <give|take|set>'
+  web: Web
+  web-hover: 'Clicca: apri il tuo account XP nel browser (o l''overlay con il client Vystorm)'
+balance:
+  console-usage: '<red>Console: /economy balance <player>'
+  line: <gold>{player} ha {amount}.
+reward:
+  status-afk: Bonus online sospeso a causa di inattività. Streak {streak} è tenuto; l'attività riprende l'abuso.
+  notification: '<green>Bonus online: +{xp} XP | Streak: {streak} | Successivo versamento: {next_xp} XP'
+  status-disabled: '<gray>Bonus online: disabilitato su questo server.'
+  status-none: '<gray>Bonus online: nessuna striscia attiva.'
+  status-active: '<green>Bonus online: striscia {streak}, vincita successiva {next_xp} XP in {seconds} s.'
+  status-paused: '<yellow>Bonus online in pausa: striscia {streak}, torna entro {minutes} min per tenerlo.'
+top:
+  bad-page: '<red>La pagina deve essere un numero intero positivo: /baltop [page]'
+  unavailable: <red>La classifica non è disponibile in questo momento.
+  empty: <gray>La classifica XP è ancora vuota.
+  header: <gold>XP leaderboard – pagina {page}/{pages} ({total} account{age})
+  header-age: A partire da {seconds} s fa
+  line: '<yellow>#{rank} </yellow>{name}<gold>: {amount}</gold><gray> (livello {level})'
+  own: '<aqua>Il tuo rango: </aqua>{line}'
+  previous: « Indietro
+  next: Avanti »
+  page-hover: Clicca sulla pagina {page}
+  dialog-title: XP leaderboard – pagina {page}/{pages}
+pay:
+  usage: '<red>Utilizzo: /pay <player> <XP points> '
+  self: Non puoi pagare XP a te stesso.
+  bad-amount: L'importo deve essere un numero intero positivo (e.g. 500, 2.5k o 1m).
+  sent: <green>Pagato {amount} a {player}.
+  received: <green>{player} ti ha pagato {amount}.
+  reverted: '{error}. Il pagamento è stato invertito.'
+error:
+  negative-amount: Importo negativo
+  insufficient: Non abbastanza {currency}
+  maximum-exceeded: Bilancio massimo XP superato
+  out-of-range: Importo al di fuori della gamma consentita
+admin:
+  reloaded: <green>XPVaultEconomy impostazioni ricaricate (tempra, intervalli di sincronizzazione e il limite di bilanciamento
+    hanno bisogno di un riavvio).
+  info: '<gold>XPVaultEconomy: {accounts} account, storage {storage}.'
+  unknown-player: <red>Questo giocatore non è ancora noto al server.
+  bad-amount: <red>L'importo deve essere un numero intero non negativo (e.g. 500, 2.5k o 1m).
+  new-balance: '<green>Nuovo bilancio di {player}: {amount}.'
+  history-usage: '<yellow>Uso: /economy admin history player [count 1-50]'
+  history-empty: <gray>Nessuna prenotazione registrata per {player}.
+  history-header: '<gold>Ultime {count} prenotazioni di {player} (primo più basso):'
+  history-row: '<gray>{time} · {cause} con {other}: {delta} XP → {balance} XP · ID {id}'
+  dashboard:
+    title: XP Vault Economia
+    info: Stato dell'economia
+    balance: Bilancia dei giocatori
+    top: Leaderboard
+    give: Dare XP
+    take: Prendere XP
+    set: Impostare la bilancia
+    reload: Ripristina impostazioni
+storage:
+  yaml: YAML ({file})
+  mysql: MySQL (tabella {table})
+  loading: <yellow>XP account stanno ancora caricando dal database, si prega di riprovare in un momento.
+vault:
+  bank-storage: XP deposito bancario non è disponibile
+  bank-unknown: Sconosciuto XP banca
+  bank-name: I nomi bancari hanno bisogno di 3-16 lettere, cifre, _ o - e devono essere inutilizzati
+  bank-not-empty: La banca detiene ancora XP; svuotala prima
+  bank-amount: XP importi devono essere numeri interi non negativi
+  bank-insufficient: Non abbastanza XP in banca
+  bank-full: La banca supererebbe il limite di saldo
+  bank-not-owner: Non il proprietario di questa banca
+  bank-not-member: Non un membro di questa banca
+  invalid-amount: XP importi devono essere numeri interi non negativi
+  invalid-amount-value: 'XP importi devono essere numeri interi non negativi (got: {amount})'
+  unknown-account: L'account del giocatore non è noto
+  no-banks: I conti bancari non sono supportati
+  unsupported-currency: 'Moneta supportata: xp'
+menu:
+  title: XP Account
+  description: Equilibrio, pagamenti e bonus online
+account:
+  fund: "Obiettivi di donazione"
+  fund-hover: "Raccogliere XP insieme per un obiettivo"
+  term: "Depositi vincolati"
+  term-hover: "Vincola XP per un po’ e riavili con gli interessi"
+  banks: XP banche
+  banks-hover: Vasetti condivisi, sicuri per la morte XP con altri giocatori
+  standing: Ordini in piedi
+  standing-hover: Paga automaticamente ogni giorno, settimana o ora
+  balance: '<gold>Equilibrio: {amount}'
+  info: '<gray>1 unità di denaro è 1 reale XP punto. Limite: {limit}.'
+  transfer: Inviare XP
+  transfer-hover: Pagare XP a un giocatore
+  leaderboard: Leaderboard
+  leaderboard-hover: La classifica XP di tutti i conti
+  refresh: Rifiuti
+  web: Aprire nel web
+  web-hover: Il tuo account XP, i pagamenti e la classifica nel browser o il overlay in-game
+transfer:
+  title: Inviare XP
+  intro: 'Il tuo saldo: {amount}. Il destinatario ha bisogno di un account noto; si conferma prima di pagare.'
+  target: Giocatore
+  amount: Importo ({currency})
+  continue: Continua
+  confirm-title: Conferma del pagamento
+  confirm-question: <gold>Invia {amount} a {player}?
+  confirm-note: <gray>Il XP viene prelevato dal vostro bar di esperienza immediatamente.
+  level-preview: 'Corrente: livello {current_level}, {current_progress}/{current_need} XP, {current_balance}. Pagamento: livello
+    {projected_level}, {projected_progress}/{projected_need} XP, {projected_balance}.'
+  preview: 'Revisione {amount} a {player}: livello {current_level} ({current_progress}/{current_need} XP) → Livello {projected_level}
+    ({projected_progress}/{projected_need} XP). Confermare sulla schermata successiva da inviare.'
+  preview-expired: <red>L'anteprima del pagamento è scaduta. Ricominciate.
+  preview-changed: <yellow>I dettagli di pagamento sono cambiati. Rivedere l'anteprima aggiornata prima di confermare.
+  confirm: Conferma
+  done: <green>Pagato {amount} a {player}.
+settings:
+  banks-enabled: XP banche
+  banks-enabled-description: Condividi XP banche (/economy bank); XP dentro è sicuro dalla morte e non dentro /baltop
+  banks-max: Banche per giocatore
+  banks-max-description: Quante banche un giocatore può possedere
+  banks-members: Membri per banca
+  banks-members-description: I membri oltre al proprietario; possono depositare e ritirare
+  banks-vault-api: Vault banca API
+  banks-vault-api-description: Lasciare altri plugin utilizzare le XP banche attraverso Vault (creare, depositare, ritirare)
+  standing-enabled: Ordini in piedi
+  standing-enabled-description: Pagamenti ricorrenti ai giocatori (/economy standing)
+  standing-max: In piedi ordini per giocatore
+  standing-max-description: Quanti ordini un giocatore può avere
+  standing-interval: Intervallo più breve (minuti)
+  standing-interval-description: Gli ordini non possono funzionare più spesso di questo
+  standing-pause: Pausa dopo fallimenti
+  standing-pause-description: Pausa un ordine dopo questo molti falliti corre di fila (0 = mai)
+  away-summary: Riepilogo del percorso
+  away-summary-description: In unione, mostrare i pagamenti ricevuti mentre offline (/pay and standing orders) in una riga
+  afk: AFK pausa dopo secondi (0 = disabilitato)
+  afk-description: Indipendente da riconnettere la grazia; permettere un gioco tranquillo con un timeout generoso o 0.
+  section: XP Economia
+  section-description: Bilancio di partenza, valuta, bonus online e classifica. Archiviazione, intervalli di sincronizzazione
+    e il limite di equilibrio solo in config.yml (restart).
+  starting-balance: Bilancio iniziale
+  starting-balance-description: XP per i conti creati prima della prima adesione del giocatore (il vero XP del giocatore viene
+    aggiunto quando si uniscono)
+  currency-singular: Valuta (singolare)
+  currency-singular-description: Nome esattamente 1 punto, e.g. XP punto (vuoto = testo dal file di lingua)
+  currency-plural: Valuta (plurale)
+  currency-plural-description: Nome per diversi punti, e.g. XP punti (vuoto = testo dal file di lingua)
+  rewards-enabled: Bonus online abilitato
+  rewards-enabled-description: Paga XP per il tempo trascorso online; si applica immediatamente
+  base-xp: 'Bonus online: primo pagamento'
+  base-xp-description: XP della prima vincita di una striscia
+  growth: 'Bonus online: crescita'
+  growth-description: Fattore per intervallo completato (1.02 = +2 %)
+  interval: 'Bonus online: intervallo (s)'
+  interval-description: Tempo online per pagamento
+  grace: Periodo di grazia (min)
+  grace-description: Quanto tempo si mantiene la striscia dopo la partenza
+  check-interval: Controllare l'intervallo (ticks)
+  check-interval-description: Quante volte il bonus online è controllato (20 zecche = 1 s)
+  show-status: Stato in /money
+  show-status-description: Mostra la striscia e la prossima vincita in /money
+  notifications: Messaggio bonus
+  notifications-description: Messaggio su ogni vincita
+  action-bar: Messaggio nella barra d'azione
+  action-bar-description: Off = messaggio di chat
+  message: Testo del messaggio
+  message-description: 'Detentori: {xp}, {streak}, {next_xp}, {multiplier}, {balance} (vuoto = testo dal file di lingua)'
+  top-page-size: 'Leaderboard: voci per pagina'
+  top-page-size-description: Classi per pagina in /baltop
+  top-cache: 'Leaderboard: cache (s)'
+  top-cache-description: Quanto tempo viene riutilizzata la classifica ordinata (0 = sempre ricalcola)
+command:
+  account: conto
+web:
+  unavailable: <red>La pagina web ha bisogno di Vystorm Core 0.24.0 o più recente con la piattaforma web abilitata.
+  module:
+    title: XP Account
+    description: Equilibrio, pagamenti, classifica e bonus online
+  error:
+    offline: 'Devi essere nel gioco per questo: il XP è preso dalla tua barra di esperienza.'
+    bad-action: 'Azione sconosciuta (permessa: dare, prendere, impostare).'
+    bad-request: Richiesta non valida.
+    busy: Questa richiesta è ancora in fase di elaborazione. Aspetta un momento.
+  ui:
+    goal:
+      title: XP gol
+      progress: '{progress} / {target} XP'
+      remaining: '{remaining} XP rimanenti'
+    tab:
+      account: Account
+      pay: Paga
+      top: Leaderboard
+      admin: Amministrazioni
+    loading: Caricamento...
+    balance: Saldo
+    online: In gioco
+    offline: Offline
+    limit: 'Limite: {limit}'
+    info: 1 unità di denaro è 1 reale XP punto. L'equilibrio segue la vostra esperienza bar dal vivo.
+    no-account: Non hai ancora un account XP. È creato quando si entra nel gioco.
+    reward:
+      afk: Pausato mentre sei inattivo. La striscia è mantenuta; l'attività riprende il bonus.
+      title: Bonus online
+      disabled: Il bonus online è disabilitato su questo server.
+      none: Nessuna striscia attiva. Resta in gioco per iniziare uno.
+      active: Streak {streak} · prossimo pagamento {xp} XP
+      next-in: Successivo versamento in {time}
+      due: Il pagamento è dovuto...
+      paused: 'Pausa: rientrare entro {minutes} min per mantenere la striscia {streak} (next payout {xp} XP).'
+      rules: Prima vincita {base} XP dopo {interval}; ogni intervallo completato solleva la prossima vincita di {growth} %.
+        Lasciare mantiene la striscia per {grace} min.
+    pay:
+      intro: 'Il tuo saldo: {amount}. Il XP viene prelevato dal vostro bar di esperienza immediatamente.'
+      target: Giocatore
+      amount: Importo ({currency})
+      submit: Continua
+      confirm-title: Conferma del pagamento
+      confirm: Invia {amount} a {player}? Il XP viene prelevato dal vostro bar di esperienza immediatamente.
+      confirm-button: Paga
+      offline: 'Unisciti al gioco da pagare: il XP viene preso dalla tua barra di esperienza.'
+      sending: Invio...
+      unsure: Il server non ha risposto in tempo. Controlla il tuo saldo – inviare nuovamente lo stesso modulo non può pagare
+        due volte.
+    top:
+      empty: La classifica XP è ancora vuota.
+      rank: Rank
+      player: Giocatore
+      amount: Saldo
+      level: Livello
+      you: Tu sei
+      own: 'Il tuo rango: #{rank} – {amount}'
+      page: Pagina {page} di {pages} · {total} conti
+      age: a partire da {seconds} s fa
+      previous: « Indietro
+      next: Avanti »
+      refresh: Rifiuti
+      pay: Paga
+      pay-hint: Pagare XP a {player}
+    admin:
+      lookup-title: Cerca un equilibrio
+      lookup: Guarda
+      lookup-result: '{player}: {amount} (livello {level})'
+      change-title: Cambiare l'equilibrio
+      action: Azione
+      give: '#'
+      take: Prendi
+      set: Set
+      player: Giocatore
+      amount: XP punti
+      apply: Applica
+      confirm-title: Confermare il cambiamento
+      confirm-give: Da {amount} a {player}?
+      confirm-take: Prendere {amount} da {player}?
+      confirm-set: Impostare il saldo di {player} a {amount}?
+      settings: Impostazioni del server
+      settings-hint: Bilancio di partenza, valuta, bonus online e classifica.
+      settings-open: Impostazioni aperte
+      settings-game: 'In gioco: /vsettings → Server → XP Economia'
+client:
+  settings-title: XP visualizzazione account
+  settings-description: Espositori nativi della mod client Vystorm (solo con mod).
+  hud: Equilibrio nel HUD
+  hud-description: Mostra il tuo saldo XP e il conto alla rovescia online-bonus in alto a destra.
+  hud-title: XP account
+  hud-balance: '{amount}'
+  hud-level: Livello {level}
+  hud-reward-active: Bonus +{next_xp} XP in {seconds} s
+  hud-reward-none: Nessuna striscia online-bonus
+  reward-title: Bonus online +{xp} XP
+  reward-text: Streak {streak} · prossimo pagamento {next_xp} XP
+  payment-title: '{amount} ricevuto'
+  payment-text: da {player}
+  panel-balance: Saldo
+  panel-level: Livello
+  panel-limit: Limite
+  panel-reward: Bonus online
+  panel-reward-next: Successivo versamento {next_xp} XP (strada {streak})
+  panel-goal: Obiettivo di risparmio
+  panel-goal-default: Obiettivo di risparmio
+  panel-goal-progress: '{label}: {current} / {target}'
+  panel-goal-notify: Verrà notificato al raggiungimento dell'obiettivo.
+  panel-pay: Inviare XP
+  panel-pay-target: Giocatore
+  panel-pay-amount: XP punti
+  panel-pay-submit: Pagamento anticipato
+  panel-pay-favorite: Pagamenti risparmiati
+  panel-pay-favorite-none: Scegli per nome
+  panel-pay-preview-title: Pagamento
+  panel-pay-preview: 'Invia {amount} a {player}: livello {current_level} → {projected_level}; equilibrio {current_balance}
+    → {projected_balance}.'
+  panel-pay-confirm: Conferma del pagamento
+  panel-pay-cancel: Annulla
+  panel-top: Leaderboard
+  panel-top-loading: Caricamento della classifica...
+  panel-top-rank: '#'
+  panel-top-name: Giocatore
+  panel-top-amount: XP punti
+  panel-top-own: 'Il tuo rango: #{rank} – {amount}'
+  panel-refresh: Rifiuti
+  panel-web: Aprire nel web
+  panel-settings: Impostazioni del server
+  hud-bonus: Bonus +{next_xp} XP in {time}
+  panel-hud-settings: HUD display
+  panel-more: Altro
+  panel-more-requests: Richieste di pagamento
+privacy:
+  title: visibilità dell'account
+  description: Si basa su questo server indipendentemente dal backend del saldo. La vostra visione e le domande di amministrazione
+    autorizzate rimangono disponibili.
+  hidden: Nascondi l'equilibrio e l'entrata della classifica da altri giocatori
+  unavailable: Questo equilibrio non è pubblicamente disponibile.
+  save-failed: Non poteva salvare la visibilità. L'impostazione precedente rimane attiva.
+  usage: /economy privacy <on|off> — su nascondi il tuo account.
+  enabled: Il tuo account è ora nascosto alle classifiche pubbliche e alle domande di saldo del giocatore.
+  disabled: Il tuo account può essere visualizzato di nuovo pubblicamente.
+requests:
+  cancel: '[Cancel]'
+  cancelled: Richiesta annullata. No XP si è mosso.
+  created: Creato {count} richieste per un totale di {amount}. No XP si è mosso.
+  received: '{player} requests {amount} per: {purpose}. Recensione con /economy requests.'
+  empty: Non hai richieste di pagamento recenti.
+  row: '{payer} → {payee}: {amount} · {purpose} · {state}'
+  accept: '[Review payment]'
+  decline: '[Decline]'
+  declined: La richiesta è diminuita.
+  saved: Richiedi la preferenza salvata.
+  limits: 'I vostri limiti di pagamento: {single} per trasferimento, {daily} per UTC giorno (0 = illimitato). Usato / conservato
+    oggi: {spent}. Questi limiti si applicano ai pagamenti dei giocatori, non alle modifiche del negozio/Vault o della vaniglia
+    XP.'
+  confirm: 'Pagare {amount} a {player}? Oggetto: {purpose}'
+  preview: 'Equilibrio: {before} → {after}; livello: {levelBefore} → {levelAfter}.'
+  paid: Pagamento completato.
+  review: Il risultato del pagamento ha bisogno di una recensione dell'amministratore. Non inviare un altro pagamento fino
+    a quando non è stato controllato.
+  dialog-title: Richiesta XP da {player}
+  dialog-intro: '{player} ottiene una richiesta e lo conferma prima di qualsiasi XP mosse. E'' scaduta dopo 24 ore.'
+  dialog-purpose: Oggetto
+  dialog-send: Invia richiesta
+  state:
+    cancelled: Cancellazione
+    open: in attesa della conferma (scadenze 24 ore)
+    processing: verifica interrotta o in attesa; non ripetere
+    paid: versata
+    declined: declino
+    failed: non completato
+    expired: scaduto
+  error:
+    usage: Uso /economy request <player> <XP> <purpose>, split <total XP> <player,player> <purpose>, requests [accept|decline|cancel
+      <ID>], requestblock <player> on|off, o limiti [single daily].
+    invalid: Utilizzare validi ID giocatore/richiesta e interi XP valori da 0 a 2147483647. Le richieste richiedono almeno
+      1 XP per payer.
+    account: Quel giocatore non ha un conto conosciuto.
+    purpose: Inserisci uno scopo di 1–80 caratteri senza caratteri di controllo.
+    capacity: È stato raggiunto il limite di richiesta o prenotazione. Risolvere le voci esistenti prima.
+    rate: È possibile creare al massimo 16 richieste di pagamento al minuto.
+    blocked: Il destinatario ha bloccato le richieste di pagamento da voi.
+    not-open: Tale richiesta non è disponibile, scaduta o già gestita.
+    single: Questo pagamento supera il limite di per-transfer. Modificarlo usando /economy limits.
+    daily: Questo pagamento supera il limite di UTC giorni rimanenti.
+    storage: La richiesta di pagamento/limite di archiviazione non è disponibile. Non è stato avviato alcun nuovo pagamento;
+      chiedere ad un amministratore di controllarlo.
+history:
+  scope: Prenotazioni economiche recenti (fino a 2,000 voci su questo server). Vanilla XP modifiche non sono incluse; le voci
+    recenti possono essere perse in un crash prima del prossimo salvataggio.
+  empty: Nessuna prenotazione registrata per il tuo account.
+  row: '{time} · {cause}: {delta} XP → {balance} XP · ID {id}'
+  exported: Le ultime 100 voci conservate vengono salvate nella cartella delle esportazioni del plugin come {file}. Chiedi
+    a un amministratore del file. Una nuova esportazione sostituisce la tua precedente esportazione.
+  unavailable: La cronologia delle prenotazioni non poteva essere letta o salvata. Il tuo saldo è gestito separatamente.
+  usage: Uso /economy history o /economy history export.
+  cause:
+    fund: "Obiettivo di donazione"
+    term: "Deposito vincolato"
+    bank: XP banca
+    standing: Ordine in piedi
+    pay: Pagamento del giocatore
+    debit: Economy/API addebito
+    credit: Credito Economy/API
+    set: Regolazione dell'equilibrio
+config-editor:
+  storage-yaml: File locale
+  storage-mysql: MySQL (condivisione Vystorm database)
+cheque:
+  usage: '<yellow>Uso /economy cheque <XP> [count]: problemi XP assegni (count 1 to 64). Fare clic con il pulsante destro
+    del mouse su un assegno per riscattarlo.'
+  insufficient: <red>Hai bisogno di {amount} per questo.
+  no-space: <red>Gratis {count} slot inventario prima.
+  issued: <green>Emesso {count} XP assegni di {amount} ciascuno ({total} in totale). Consegnarli, venderli o conservarli in
+    baule; fare clic con il pulsante destro del mouse redime uno.
+  redeemed: <green>Riscattato un assegno per {amount} (emesso da {player}).
+  invalid: <red>Questo assegno è invalido o è già stato riscattato.
+  full: <red>Il tuo saldo XP è troppo pieno per questo assegno. Resta valido.
+  unavailable: <red>Gli assegni non sono disponibili in questo momento. Un amministratore dovrebbe controllare il registro
+    del server.
+  item-name: XP assegno · {amount}
+  item-issuer: Fascicolo {player}
+  item-hint: Fare clic con il pulsante destro del mouse
+  admin-info: '<gray>Eccezionale XP assegni: {count} del valore di {amount} in totale.'
+playermenu:
+  standing: <aqua>In piedi per {player}
+  standing-lore: <gray>Pagarli automaticamente ogni intervallo
+  bank: <light_purple>Aggiungi {player} alla tua banca XP
+  bank-lore: <gray>Possono poi depositare e ritirare
+  pay: <green>Pagamento {player}
+  pay-lore: '<gray>Il tuo saldo: {amount}'
+  request: <yellow>Richiesta XP da {player}
+  request-lore: <gray>Essi confermano prima di qualsiasi XP mosse
+  history: <gold>Storia della prenotazione {player}
+  history-lore: '<gray>Equilibrio: {amount} · ultime 10 prenotazioni in chat'
+bank:
+  disabled: <red>XP banche sono spente su questo server.
+  usage: <yellow>Uso /economy bank [list | info BANK | create NAME | deposit BANK XP | withdraw BANK XP | add BANK PLAYER
+    | remove BANK PLAYER | delete BANK].
+  created: '<green>XP bank {bank} creato. Aggiungi membri e deposito XP: /economy bank'
+  deposited: '<green>Depositato {amount} in {bank}. Bilancio bancario: {balance}.'
+  withdrawn: '<green>Preso {amount} dal {bank}. Bilancio bancario: {balance}.'
+  member-added: <green>{player} è ora membro del {bank} e può depositare e ritirare.
+  member-removed: <gray>{player} non è più un membro del {bank}.
+  closed: <gray>XP banca {bank} chiusa; il suo XP è andato al proprietario.
+  close-title: Chiudi {bank}?
+  close-question: Chiudere la XP banca {bank}? I suoi {amount} vanno al proprietario {player}. Questo non può essere annullato.
+  none: <gray>Non sei parte di nessuno XP banca ancora. Crea uno con /economy bank create NAME
+  list-header: '<gold>XP banche ({count}):'
+  list-row: '<yellow>{bank}<gray>: {amount} · proprietario {owner} · {members} membri'
+  button-open: '[Open]'
+  button-open-hover: 'Clicca: mostra questa banca'
+  button-manage: '[Manage]'
+  button-manage-hover: 'Clic: depositare, ritirare e gestire i membri in una finestra di dialogo'
+  info-balance: '<gold>XP banca {bank}: {amount}'
+  info-owner: '<gray>Proprietario: {player}'
+  info-members: '<gray>Membri: {players}'
+  info-no-members: nessuno
+  log-empty: <gray>Ancora nessuna prenotazione.
+  log-header: '<gray>Ultime prenotazioni:'
+  log-row: '<gray>{time} · {player}: <white>{delta}</white> → {balance}'
+  dialog-title: XP banche
+  dialog-intro: XP in una banca è condiviso con i suoi membri, sicuro quando si muore e non parte del vostro XP bar o la classifica.
+  dialog-bank: '{bank} ({amount})'
+  dialog-name: Nome di una nuova banca (3-16 lettere, cifre, _ o -)
+  dialog-create: Creare banca
+  dialog-bank-title: XP banca {bank}
+  dialog-yours: 'Il tuo saldo: {amount}'
+  dialog-member: Nome del giocatore (per aggiungere o rimuovere i membri)
+  dialog-deposit: Deposito
+  dialog-withdraw: Ritiro
+  dialog-add: Aggiungi un membro
+  dialog-remove: Rimuovi membro
+  dialog-close: Vicino alla banca
+  dialog-add-title: Aggiungi {player} a una banca
+  dialog-add-intro: Scegli la banca {player} dovrebbe aderire. I membri possono depositare e ritirarsi.
+  admin-info: '<gray>XP banche: {count} in totale {amount}.'
+  error:
+    amount: Immettere un totale XP di almeno 1 (anche 2.5k o 1m).
+    unknown: Quella banca XP non esiste o non sei un membro.
+    not-member: Solo il proprietario e i membri possono usare questa banca.
+    not-owner: Solo il proprietario della banca può farlo.
+    full: La banca non può contenere così tanto XP.
+    insufficient: Non abbastanza XP per quello.
+    player-full: Il vostro saldo non può prendere tanto XP; la banca lo mantiene.
+    owner-full: Il saldo del proprietario non può prendere la banca XP; la banca rimane aperta.
+    name: I nomi bancari hanno bisogno di 3-16 lettere, cifre, _ o -.
+    taken: Quel nome in banca e' gia' preso.
+    owned: Hai gia' {max} banche.
+    member: Quel giocatore è già in questa banca (o non un membro da rimuovere).
+    members: Una banca può avere al massimo {max} membri.
+    account: Quel conto del giocatore non è ancora noto.
+    invalid: Questo importo non è valido.
+    capacity: Il server ha raggiunto il suo limite bancario.
+    storage: XP banche non sono disponibili in questo momento; no XP si è mosso. Un amministratore dovrebbe controllare il
+      registro del server.
+    deposit-denied: "Non puoi depositare in questa tesoreria."
+    spend-denied: "Non puoi prelevare da questa tesoreria."
+    single-limit: "Il prelievo supera il limite per operazione."
+    daily-limit: "Il prelievo supera il limite giornaliero rimanente."
+fund:
+  title: "🎯 Obiettivi di donazione"
+  close: "Chiudi"
+  intro: "Raccogliete XP insieme: se l’obiettivo viene raggiunto va al creatore; se la scadenza arriva prima, tutti riavranno i propri XP."
+  none: "<gray>Nessun obiettivo di donazione aperto."
+  row: "<gold>#{id}</gold> <white>{title}</white> <gray>di {owner} · {raised}/{target} ({percent} %) · ancora {time}"
+  button-create: "＋ Apri un obiettivo"
+  button-donate: "Dona a #{id} {title}"
+  button-cancel: "Annulla #{id}"
+  button-open: "Apri"
+  button-give: "Dona"
+  create-title: "Nuovo obiettivo"
+  create-intro: "Un titolo, un obiettivo (almeno {min}) e una durata fino a {days} giorni."
+  input-title: "Titolo"
+  input-target: "Obiettivo"
+  input-days: "Giorni"
+  donate-title: "Dona: {title}"
+  opened: "<green>✔ Il tuo obiettivo è aperto."
+  donated: "<green>✔ Hai donato {amount} a «{title}»."
+  donation-received: "<green>{player} ha donato {amount} a «{title}»."
+  reached: "<gold>🎯 «{title}» ha raggiunto l’obiettivo: {amount} sono sul tuo conto."
+  reached-inbox: "Il tuo obiettivo «{title}» è stato raggiunto: {amount} XP sono stati accreditati."
+  expired: "<gray>«{title}» è scaduto senza raggiungere l’obiettivo; i tuoi {amount} sono tornati."
+  expired-inbox: "L’obiettivo «{title}» è scaduto; i tuoi {amount} XP sono stati rimborsati."
+  cancelled: "<gray>«{title}» è stato annullato; i tuoi {amount} sono tornati."
+  cancelled-inbox: "L’obiettivo «{title}» è stato annullato; i tuoi {amount} XP sono stati rimborsati."
+  cancel-done: "<green>«{title}» annullato, tutte le donazioni rimborsate."
+  disabled: "<gray>Gli obiettivi di donazione sono disattivati su questo server."
+  usage: "<gray>/economy fund [list|create|cancel ID]"
+  admin-info: "<gray>Obiettivi di donazione: {count}"
+  error:
+    title: "<red>Inserisci un titolo (fino a 48 caratteri)."
+    target: "<red>L’obiettivo deve essere almeno {min}."
+    days: "<red>Scegli da 1 a {days} giorni."
+    capacity: "<red>Hai già {max} obiettivi aperti."
+    amount: "<red>Inserisci un numero intero positivo."
+    insufficient: "<red>Non hai così tanti XP."
+    unknown: "<red>Questo obiettivo non esiste o è già completo."
+    closed: "<red>Questo obiettivo è terminato."
+    storage: "<red>Gli obiettivi sono bloccati: il file non è leggibile o salvabile. Avvisa un admin."
+term:
+  title: "🏦 Depositi vincolati"
+  close: "Chiudi"
+  intro: "Vincola XP per una durata fissa e riavila con gli interessi alla fine – anche offline. Un ritiro anticipato restituisce gli XP senza interessi."
+  offer: "<gray>• {days} giorno/i: <green>+{rate}"
+  none: "<gray>Non hai depositi vincolati."
+  row: "<gold>#{id}</gold> <white>{amount}</white> <gray>· +{interest} ({rate}) · termina tra {time}"
+  button-new: "＋ Nuovo deposito"
+  button-early: "Ritira #{id} in anticipo"
+  button-term: "{days} giorno/i · +{rate}"
+  create-title: "Nuovo deposito vincolato"
+  create-intro: "Quanti XP vuoi vincolare? Almeno {min}. Il tuo saldo: {balance}. Poi scegli la durata."
+  confirm-title: "Aprire il deposito?"
+  confirm: "Vincolare {amount} per {days} giorno/i? Alla fine ricevi {interest} di interessi ({rate})."
+  opened: "<green>✔ {amount} vincolati per {days} giorno/i."
+  early-title: "Ritirare in anticipo?"
+  early-question: "Ritirare #{id} ({amount}) adesso? Perdi gli interessi di {interest}."
+  withdrawn: "<green>✔ #{id}: {amount} sono tornati sul tuo conto."
+  matured: "<green>🏦 Il deposito #{id} è scaduto: {amount} + {interest} di interessi sono sul tuo conto."
+  matured-inbox: "Il deposito vincolato #{id} è scaduto: {amount} XP + {interest} XP di interessi sono stati accreditati sul tuo conto."
+  payout-blocked: "<red>Il deposito #{id} non è stato pagato perché il tuo saldo è al massimo. Verrà pagato appena c’è spazio."
+  disabled: "<gray>I depositi vincolati sono disattivati su questo server."
+  usage: "<gray>/economy term [list|open|withdraw <id>]"
+  admin-info: "<gray>Depositi vincolati: {count} ({amount})"
+  error:
+    amount: "<red>Inserisci un numero intero positivo."
+    minimum: "<red>Un deposito vincolato richiede almeno {min}."
+    capacity: "<red>Hai già {max} depositi vincolati."
+    insufficient: "<red>Non hai così tanti XP."
+    storage: "<red>I depositi vincolati sono bloccati perché il loro file non è leggibile o salvabile. Avvisa un admin."
+    unknown: "<red>Questo deposito vincolato non esiste."
+    full: "<red>Il tuo saldo è al massimo; il pagamento deve attendere."
+    early: "<red>Il ritiro anticipato è disattivato su questo server."
+standing:
+  disabled: <red>Gli ordini in piedi sono spenti su questo server.
+  usage: <yellow>Uso /economy standing [list | add PLAYER XP INTERVAL [RUNS] | pause ID | resume ID | cancel ID]. Intervallo
+    come 12h, 1d o 1w; piste 0 = fino alla cancellazione.
+  created: '<green>Ordine #{id} salvato: {amount} a {player} ogni {interval}. Il primo pagamento viene eseguito ora.'
+  paid: '<gray>Ordine #{id}: pagato {amount} a {player}.'
+  paid-last: '<gray>Ordine #{id}: pagato {amount} a {player}. Questa era l''ultima corsa; l''ordine è finito.'
+  received: <green>{player} ha pagato {amount} (ordine in sospeso).
+  failed: 'Ordine in piedi #{id} a {player} non poteva essere pagato: {reason}'
+  failed-paused: 'Ordine in piedi #{id} a {player} fallito di nuovo ed è ora sospeso: {reason}'
+  join-paused: <yellow>{count} dei vostri ordini in piedi sono stati fermati dopo i pagamenti falliti.
+  confirm-title: Confermare l'ordine in piedi
+  confirm: Paga {amount} a {player} ogni {interval} ({runs})? Il primo pagamento viene eseguito subito, quelli successivi
+    anche mentre sei offline. Pausa o cancellazione in qualsiasi momento con /economy standing.
+  runs-unlimited: fino alla cancellazione
+  runs-count: '{runs} piste sinistra'
+  cancelled: '<gray>Ordine permanente #{id} cancellato.'
+  paused: '<gray>Ordine in piedi #{id} in pausa.'
+  resumed: '<green>Ordine permanente #{id} ripreso.'
+  state-paused: in pausa
+  state-active: attivo
+  state-next: successivo in {time}
+  row: '<yellow>#{id}</yellow> → {player}: {amount} ogni {interval} · {runs} · {state}'
+  last-error: '<red>(ultima corsa fallita: {reason})'
+  none: <gray>Non hai ordini.
+  list-header: '<gold>I vostri ordini in piedi ({count}/{max}):'
+  button-pause: '[Pause]'
+  button-resume: '[Resume]'
+  button-cancel: '[Cancel]'
+  button-hover: 'Clicca: modifica questo ordine'
+  button-list: '[Standing orders]'
+  button-list-hover: 'Clicca: mostra gli ordini in piedi'
+  incoming-header: '<gold>Pagato a voi ({count}):'
+  incoming-row: '<gray>{player}: {amount} ogni {interval} · {state}'
+  dialog-title: Ordini in piedi
+  dialog-intro: Paga un giocatore la stessa quantità ogni intervallo, e.g. affitto o salari. Esegue anche quando si è offline;
+    i limiti di pagamento si applicano.
+  dialog-incoming: '{count} ordini attivi in piedi pagare.'
+  dialog-new: Nuovo ordine in piedi
+  dialog-pause: 'Pausa #{id}'
+  dialog-resume: 'Riprendi #{id}'
+  dialog-cancel: 'Annullare #{id}'
+  dialog-create-title: Nuovo ordine in piedi
+  dialog-create-intro: 'Intervallo come 12h, 1d o 2w (almeno {min}). Esegue: 0 = fino a quando non si annulla.'
+  dialog-interval: Intervallo
+  dialog-runs: Numero di piste (0 = illimitato)
+  admin-info: '<gray>Ordini in piedi: {count}.'
+  error:
+    amount: Immettere un totale XP di almeno 1 (anche 2.5k o 1m).
+    interval: Inserisci un intervallo come 12h, 1d o 2w, almeno {min} e al massimo un anno.
+    runs: Le corse devono essere un numero intero da 0 (illimitato) a 1000.
+    capacity: Puoi avere al massimo {max} ordini in piedi.
+    insufficient: non abbastanza XP
+    unknown: Non hai nessun ordine con quel numero.
+    account: un account non è più noto
+    permission: voi non avete più il permesso
+    payee-full: il saldo del destinatario è pieno; il XP è stato restituito
+    limit: supera il limite di pagamento personale
+    review: un errore inaspettato; un amministratore dovrebbe controllare il registro
+    storage: Gli ordini in piedi non sono disponibili in questo momento; nulla è stato pagato. Un amministratore dovrebbe
+      controllare il registro del server.
+away:
+  summary: <green>Mentre eri via tu hai ricevuto <yellow>{amount}</yellow> in {count} pagamenti da {players}.
+  summary-one: <green>Mentre eri via {players} pagato <yellow>{amount}</yellow>.
+commands:
+  money:
+    description: Mostra il tuo saldo XP (o di un altro giocatore)
+    aliases: []
+    usage: '[PLAYER]'
+  pay:
+    description: Pagare un giocatore con XP punti
+    aliases: []
+    usage: PLAYER XP
+  baltop:
+    description: XP leaderboard di tutti i conti
+    aliases: []
+    usage: '[PAGE]'
+  economy:
+    description: XP conto, pagamenti, banche, ordini in piedi e amministrazione
+    aliases: []
+    sub:
+      account:
+        name: account
+        aliases: []
+        description: Apri la finestra di dialogo del tuo account
+        usage: '[PLAYER]'
+      balance:
+        name: balance
+        aliases: []
+        description: Mostra il tuo saldo o di un altro giocatore
+        usage: '[PLAYER]'
+      web:
+        name: web
+        aliases: []
+        description: Apri il tuo account sulla pagina web
+      goal:
+        name: goal
+        aliases: []
+        description: Mostra il tuo obiettivo di risparmio
+        sub:
+          show:
+            name: show
+            aliases: []
+            description: Mostra il tuo obiettivo di risparmio
+          set:
+            name: set
+            aliases: []
+            description: Impostare un obiettivo di risparmio
+            usage: XP [LABEL]
+          clear:
+            name: clear
+            aliases: []
+            description: Rimuovi il tuo obiettivo di risparmio
+          notify:
+            name: notify
+            aliases: []
+            description: Notifica quando l'obiettivo è raggiunto su o fuori
+      privacy:
+        name: privacy
+        aliases: []
+        description: Nascondi il tuo saldo da altri giocatori (on) o mostralo (off)
+      statement:
+        name: statement
+        aliases: []
+        description: Soddisfare le prenotazioni conservate per periodo e causa
+        usage: '[1|7|30]'
+        sub:
+          summary:
+            name: summary
+            aliases: []
+            description: Mostra un riepilogo delle chat private delle tue prenotazioni conservate
+            usage: '[1|7|30]'
+          export:
+            name: export
+            aliases: []
+            description: Esportare una dichiarazione personale con totali e prenotazioni
+            usage: '[1|7|30]'
+      history:
+        name: history
+        aliases: []
+        description: Le ultime prenotazioni
+        sub:
+          export:
+            name: export
+            aliases: []
+            description: Esporta le tue prenotazioni in un file
+      pay:
+        name: pay
+        aliases: []
+        description: Pagare un giocatore con XP punti
+        usage: PLAYER XP
+      favorite:
+        name: favorite
+        aliases: []
+        description: I tuoi pagamenti preferiti
+        sub:
+          list:
+            name: list
+            aliases: []
+            description: Elenca i tuoi pagamenti preferiti
+          add:
+            name: add
+            aliases: []
+            description: Aggiungi un payee preferito
+            usage: PLAYER
+          remove:
+            name: remove
+            aliases: []
+            description: Rimuovi un payee preferito
+            usage: PLAYER
+          pay:
+            name: pay
+            aliases: []
+            description: Pagare un paye preferito
+            usage: ID XP
+      request:
+        name: request
+        aliases: []
+        description: Chiedere un giocatore per un pagamento
+        usage: PLAYER XP PURPOSE
+      requests:
+        name: requests
+        aliases: []
+        description: Le richieste di pagamento aperte
+        sub:
+          list:
+            name: list
+            aliases: []
+            description: Elenca le richieste di pagamento aperte
+          accept:
+            name: accept
+            aliases: []
+            description: Paga una richiesta
+            usage: ID
+          decline:
+            name: decline
+            aliases: []
+            description: Delinea una richiesta
+            usage: ID
+          cancel:
+            name: cancel
+            aliases: []
+            description: Cancella la tua richiesta di pagamento aperto
+            usage: ID
+      split:
+        name: split
+        aliases: []
+        description: Dividi un importo tra diversi giocatori come richieste di pagamento
+        usage: XP PLAYER,PLAYER... PURPOSE
+      requestblock:
+        name: requestblock
+        aliases: []
+        description: Bloccare o consentire richieste di pagamento da un giocatore
+        usage: PLAYER su|off
+      limits:
+        name: limits
+        aliases: []
+        description: Mostra o imposta i tuoi limiti di pagamento personali
+        usage: '[SINGLE DAILY]'
+      cheque:
+        name: cheque
+        aliases: []
+        description: Scrivere XP assegni dal vostro equilibrio
+        usage: XP [COUNT]
+      bank:
+        name: bank
+        aliases: []
+        description: XP banche condivise
+        sub:
+          list:
+            name: list
+            aliases: []
+            description: Elenca le tue banche
+          info:
+            name: info
+            aliases: []
+            description: Equilibrio, membri e prenotazioni di una banca
+            usage: BANK
+          create:
+            name: create
+            aliases: []
+            description: Creare una banca
+            usage: NAME
+          deposit:
+            name: deposit
+            aliases: []
+            description: Pagare XP in una banca
+            usage: BANK XP
+          withdraw:
+            name: withdraw
+            aliases: []
+            description: Prendere XP fuori da una banca
+            usage: BANK XP
+          add:
+            name: add
+            aliases: []
+            description: Aggiungi un membro
+            usage: BANK PLAYER
+          remove:
+            name: remove
+            aliases: []
+            description: Rimuovi un membro
+            usage: BANK PLAYER
+          delete:
+            name: delete
+            aliases: []
+            description: Chiudere una banca (il resto va al proprietario)
+            usage: BANK
+          policy:
+            name: policy
+            aliases: []
+            description: "Permessi della tesoreria"
+          history:
+            name: history
+            aliases: []
+            description: "Registro contabile"
+      fund:
+        name: "fund"
+        aliases: []
+        description: "Obiettivi di donazione"
+        sub:
+          list:
+            name: "list"
+            aliases: []
+            description: "Tutti gli obiettivi aperti"
+          create:
+            name: "create"
+            aliases: []
+            description: "Apri un obiettivo"
+          cancel:
+            name: "cancel"
+            aliases: []
+            description: "Annulla il tuo obiettivo; i donatori riavranno gli XP"
+            usage: "ID"
+      term:
+        name: "term"
+        aliases: []
+        description: "Depositi vincolati"
+        sub:
+          list:
+            name: "list"
+            aliases: []
+            description: "Elenca i tuoi depositi"
+          open:
+            name: "open"
+            aliases: []
+            description: "Vincola XP con interessi"
+          withdraw:
+            name: "withdraw"
+            aliases: []
+            description: "Ritira un deposito in anticipo"
+            usage: "ID"
+      standing:
+        name: standing
+        aliases: []
+        description: Ordini in piedi
+        sub:
+          list:
+            name: list
+            aliases: []
+            description: Elenca i tuoi ordini in piedi
+          add:
+            name: add
+            aliases: []
+            description: Paga un giocatore un importo fisso ogni intervallo
+            usage: PLAYER XP INTERVAL [RUNS]
+          pause:
+            name: pause
+            aliases: []
+            description: Pausa un ordine in piedi
+            usage: ID
+          resume:
+            name: resume
+            aliases: []
+            description: Riprendi un ordine in piedi
+            usage: ID
+          cancel:
+            name: cancel
+            aliases: []
+            description: Annullare un ordine permanente
+            usage: ID
+      top:
+        name: top
+        aliases: []
+        description: XP leaderboard
+        usage: '[PAGE]'
+      admin:
+        name: admin
+        aliases: []
+        description: Amministrazione economica
+        sub:
+          give:
+            name: give
+            aliases: []
+            description: Dare un giocatore XP
+            usage: PLAYER XP
+          take:
+            name: take
+            aliases: []
+            description: Prendere XP da un giocatore
+            usage: PLAYER XP
+          set:
+            name: set
+            aliases: []
+            description: Impostare l'equilibrio di un giocatore
+            usage: PLAYER XP
+          history:
+            name: history
+            aliases: []
+            description: Le ultime prenotazioni di un giocatore
+            usage: PLAYER [COUNT]
+          info:
+            name: info
+            aliases: []
+            description: Conti, stoccaggio, assegni, banche e ordini in piedi
+          reload:
+            name: reload
+            aliases: []
+            description: Ricarica file di configurazione e lingua
+statement:
+  title: XP dichiarazione
+  close: Chiudi
+  scope: 'Solo le prenotazioni economiche conservate: la rivista mantiene 2,000 voci su questo server. Le voci più vecchie
+    e le modifiche alla vaniglia XP sono assenti; le voci non salvate possono essere perse in un incidente. Questi totali
+    non sono il vostro saldo o una dichiarazione completa del conto.'
+  period: 'Periodo di rotolamento (UTC): {from} a {until}'
+  total: '{count} prenotazioni: incoming {incoming} XP, outgoing {outgoing} XP, net {net} XP'
+  row: '{cause}: {count} prenotazioni, +{incoming} / -{outgoing} XP, net {net} XP'
+  empty: Nessuna prenotazione conservata in questo periodo.
+  days: Ultimi {days} giorni
+  export: Esportare questa snapshot
+  back: Ritorno al conto
+  exported: Dichiarazione salvata come {file} nella cartella delle esportazioni del plugin. Chiedi a un amministratore del
+    file. Sostituisci la tua dichiarazione precedente per questo periodo.
+  usage: 'Uso /economy statement [1|7|30], /economy statement summary [1|7|30] o /economy statement export [1|7|30]. Predefinito:
+    7 giorni.'
+  summary-scope: 'Ultimi {days} giorni: prenotazioni economiche conservate solo (rivista del server: 2,000 voci). Le prenotazioni
+    più vecchie e la vaniglia XP cambiamenti possono essere assenti; questo non è il vostro equilibrio.'
+
+treasury:
+  title: "Permessi della tesoreria"
+  intro: "Imposta depositi e prelievi dei membri. Limiti giornalieri azzerati a mezzanotte UTC; proprietari e amministratori mantengono accesso completo."
+  single: "Massimo per prelievo (XP)"
+  daily: "Massimo per giorno UTC (XP)"
+  save: "Salva i permessi"
+  saved: "Permessi di {player} salvati in {bank}."
+  usage: "/economy bank policy BANCA GIOCATORE on/off on/off SINGOLO GIORNALIERO; /economy bank history BANCA [PAGINA]"
+  history-button: "Registro contabile"
+  history: "{bank}: registro pagina {page}/{pages}"
+  entry: "{time} {player}: {kind}, {delta} XP; saldo {balance}"
+  policy-change: "Permessi modificati"
+  policy-detail: "{player}: deposito {deposit}, prelievo {withdraw}; singolo {single}, giornaliero {daily}"
+  "yes": "sì"
+  "no": "no"
+  deposit-denied: "Non puoi depositare in questa tesoreria."
+  spend-denied: "Non puoi prelevare da questa tesoreria."
+  single-limit: "Il prelievo supera il limite per operazione."
+  daily-limit: "Il prelievo supera il limite giornaliero rimanente."
