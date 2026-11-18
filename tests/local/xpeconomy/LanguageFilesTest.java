@@ -63,7 +63,7 @@ class LanguageFilesTest {
         Set<String> en = keys(read("lang/en.yml"));
         Set<String> configPaths = keys(read("config.yml"));
         Set<String> sections = new TreeSet<>();
-        for (String key : en) sections.add(key.substring(0, key.indexOf('.')));
+        for (String key : en) if (key.indexOf('.') > 0) sections.add(key.substring(0, key.indexOf('.'))); // feature-off and feature-needs are top-level
         Pattern literal = Pattern.compile("\"([a-z]+)\\.([a-z0-9.-]+)\"");
         Set<String> missing = new TreeSet<>();
         int checked = 0;

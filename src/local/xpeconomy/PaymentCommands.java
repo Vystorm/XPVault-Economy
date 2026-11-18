@@ -26,6 +26,10 @@ final class PaymentCommands {
     boolean command(CommandSender sender, String action, String[] args) {
         if (!(sender instanceof Player p)) { lang.send(sender, "common.players-only"); return true; }
         if (!desk.readable()) { lang.send(p, "requests.error.storage"); return true; }
+        if (needsPayments(action, args) && !XPVaultEconomy.enabled(plugin, Feature.PAYMENTS)) {
+            lang.send(p, "feature-needs", "switch", Feature.PAYMENTS.path);
+            return true;
+        }
         try {
             switch (action) {
                 case "request", "split" -> {
@@ -91,6 +95,15 @@ final class PaymentCommands {
         core.dialogs().open(plugin, player, new DialogRequest(lang.component(player, "requests.dialog-title", "player", target),
                 body, inputs, List.of(send), p -> p.isOnline() && plugin.isEnabled(), () -> {}));
     }
+    /**
+     * Asking for XP and accepting a request move XP, so they need payments.enabled; listing, declining, cancelling and
+     * blocking work without it, and open requests stay stored either way.
+     */
+    static boolean needsPayments(String action, String[] args) {
+        return action.equals("request") || action.equals("split")
+                || action.equals("requests") && args.length >= 1 && args[0].equalsIgnoreCase("accept");
+    }
+
     /** "/economy requests" and "/economy requests list" (any case) both show the request list. */
     static boolean listsRequests(String[] args) {
         return args.length == 0 || (args.length == 1 && args[0].equalsIgnoreCase("list"));
@@ -139,7 +152,8 @@ final class PaymentCommands {
         var button = new DialogButton(lang.component(player, "transfer.confirm"), (payer, response) -> {
             if (!payer.hasPermission("xpeconomy.pay")) { lang.send(payer, "common.no-permission"); return; }
             try {
-                if (plugin.balance(payer) != before) { confirm(payer, id); return; }
+                // Checked at the click; a balance change while the dialog is open does not reopen it.
+                if (plugin.balance(payer) < row.amount()) { lang.send(payer, "error.insufficient"); return; }
                 desk.claim(payer.getUniqueId(), id);
                 Component failure = plugin.transfer(payer, target, row.amount());
                 try { desk.finish(id, failure == null); }

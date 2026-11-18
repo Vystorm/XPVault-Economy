@@ -66,4 +66,12 @@ final class EconomyConfigEditor {
         for (String path : List.of("storage", "sync", "economy.maximum-balance"))
             config.activation(plugin, path, SettingPolicy.Activation.RESTART);
     }
+
+    /** Every switch in /vadmin features with its one-line description ({@code switches.<id>}) in the admin's language. */
+    static void declareSwitches(ConfigEditorInterface config, Plugin plugin, Lang lang) {
+        for (Feature feature : Feature.values()) {
+            config.feature(plugin, feature.path, null, lang.ref(feature.description()));
+            if (feature.needsRestart()) config.activation(plugin, feature.path, SettingPolicy.Activation.RESTART);
+        }
+    }
 }

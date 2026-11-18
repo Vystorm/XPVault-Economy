@@ -18,7 +18,7 @@ final class EconomyMenuEntries {
     static void register(PlayerMenuInterface menu, XPVaultEconomy plugin, Lang lang) {
         menu.register(plugin, PlayerMenuEntry.builder("pay")
                 .priority(20)
-                .visibleWhen((viewer, target) -> canPay(viewer, target, plugin))
+                .visibleWhen((viewer, target) -> on(plugin, Feature.PAYMENTS) && canPay(viewer, target, plugin))
                 .icon((viewer, target) -> lang.lore(lang.name(new ItemStack(Material.EXPERIENCE_BOTTLE), viewer,
                                 "playermenu.pay", "player", target.getName()),
                         viewer, "playermenu.pay-lore", "amount", plugin.formatPoints(viewer, plugin.balance(viewer))))
@@ -29,7 +29,7 @@ final class EconomyMenuEntries {
                 .build());
         menu.register(plugin, PlayerMenuEntry.builder("request")
                 .priority(25)
-                .visibleWhen((viewer, target) -> canPay(viewer, target, plugin))
+                .visibleWhen((viewer, target) -> on(plugin, Feature.REQUESTS) && on(plugin, Feature.PAYMENTS) && canPay(viewer, target, plugin))
                 .icon((viewer, target) -> lang.lore(lang.name(new ItemStack(Material.WRITABLE_BOOK), viewer,
                                 "playermenu.request", "player", target.getName()),
                         viewer, "playermenu.request-lore"))
@@ -40,7 +40,7 @@ final class EconomyMenuEntries {
                 .build());
         menu.register(plugin, PlayerMenuEntry.builder("standing")
                 .priority(30)
-                .visibleWhen((viewer, target) -> viewer.hasPermission("xpeconomy.standing") && plugin.standingOrdersEnabled()
+                .visibleWhen((viewer, target) -> on(plugin, Feature.STANDING_ORDERS) && viewer.hasPermission("xpeconomy.standing") && plugin.standingOrdersEnabled()
                         && !viewer.getUniqueId().equals(target.getUniqueId()) && plugin.hasAccount(target.getUniqueId()))
                 .icon((viewer, target) -> lang.lore(lang.name(new ItemStack(Material.CLOCK), viewer,
                                 "playermenu.standing", "player", target.getName()),
@@ -52,7 +52,7 @@ final class EconomyMenuEntries {
                 .build());
         menu.register(plugin, PlayerMenuEntry.builder("bank-member")
                 .priority(35)
-                .visibleWhen((viewer, target) -> plugin.canAddBankMember(viewer, target))
+                .visibleWhen((viewer, target) -> on(plugin, Feature.BANKS) && plugin.canAddBankMember(viewer, target))
                 .icon((viewer, target) -> lang.lore(lang.name(new ItemStack(Material.ENDER_CHEST), viewer,
                                 "playermenu.bank", "player", target.getName()),
                         viewer, "playermenu.bank-lore"))
@@ -63,7 +63,7 @@ final class EconomyMenuEntries {
                 .build());
         menu.register(plugin, PlayerMenuEntry.builder("admin-history")
                 .priority(900)
-                .visibleWhen((viewer, target) -> viewer.hasPermission("xpeconomy.admin")
+                .visibleWhen((viewer, target) -> on(plugin, Feature.PLAYER_MENU) && viewer.hasPermission("xpeconomy.admin")
                         && plugin.hasAccount(target.getUniqueId()))
                 .icon((viewer, target) -> lang.lore(lang.name(new ItemStack(Material.BOOK), viewer,
                                 "playermenu.history", "player", target.getName()),
@@ -73,6 +73,11 @@ final class EconomyMenuEntries {
                     return PlayerMenu.Result.CLOSE;
                 })
                 .build());
+    }
+
+    /** A player menu entry shows while player-menu.enabled and its own feature are on. */
+    static boolean on(XPVaultEconomy plugin, Feature feature) {
+        return XPVaultEconomy.enabled(plugin, Feature.PLAYER_MENU) && XPVaultEconomy.enabled(plugin, feature);
     }
 
     /** Pay and request need the /pay permission, two different players and an account for the target. */

@@ -86,6 +86,11 @@ final class BalanceRanking {
         return new Page(page, pages, entries.subList(from, to), entries.size());
     }
 
+    /** The entry at a 1-based position of the list, or null outside it (placeholders top_&lt;n&gt;). */
+    Entry at(int position) {
+        return position < 1 || position > entries.size() ? null : entries.get(position - 1);
+    }
+
     Optional<Entry> find(UUID uuid) {
         return Optional.ofNullable(uuid == null ? null : byUuid.get(uuid));
     }

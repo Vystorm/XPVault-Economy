@@ -33,7 +33,7 @@ final class AccountMenu {
 
     void register() {
         core.gui().registerMenu(plugin, MENU_KEY, lang.ref("menu.title"), Material.EXPERIENCE_BOTTLE,
-                player -> player.hasPermission("xpeconomy.balance"), this::open,
+                player -> player.hasPermission("xpeconomy.balance") && XPVaultEconomy.enabled(plugin, Feature.ACCOUNT_MENU), this::open,
                 MenuCategory.ECONOMY.group(), lang.ref("menu.description"));
         core.gui().menuRequiredPermission(plugin, MENU_KEY, "xpeconomy.balance");
     }
@@ -54,13 +54,13 @@ final class AccountMenu {
         body.add(DialogBody.plainMessage(plugin.onlineRewardStatus(player, player)));
         body.add(DialogBody.plainMessage(lang.component(player, "account.info",
                 "limit", plugin.formatPoints(player, plugin.maxBalance()))));
-        body.add(DialogBody.plainMessage(plugin.savingGoalStatus(player)));
+        if (XPVaultEconomy.enabled(plugin, Feature.SAVINGS_GOAL)) body.add(DialogBody.plainMessage(plugin.savingGoalStatus(player)));
 
         List<DialogButton> buttons = new ArrayList<>();
-        if (player.hasPermission("xpeconomy.pay"))
+        if (player.hasPermission("xpeconomy.pay") && XPVaultEconomy.enabled(plugin, Feature.PAYMENTS))
             buttons.add(new DialogButton(lang.component(player, "account.transfer"), lang.component(player, "account.transfer-hover"),
                     (p, response) -> openTransfer(p, "", "", null)));
-        if (player.hasPermission("xpeconomy.top"))
+        if (player.hasPermission("xpeconomy.top") && XPVaultEconomy.enabled(plugin, Feature.LEADERBOARD))
             buttons.add(new DialogButton(lang.component(player, "account.leaderboard"), lang.component(player, "account.leaderboard-hover"),
                     (p, response) -> openLeaderboard(p, 1)));
         if (player.hasPermission("xpeconomy.bank") && plugin.banksEnabled())
@@ -75,7 +75,8 @@ final class AccountMenu {
         if (player.hasPermission("xpeconomy.term") && plugin.termDepositsEnabled())
             buttons.add(new DialogButton(lang.component(player, "account.term"), lang.component(player, "account.term-hover"),
                     (p, response) -> plugin.openTermDeposits(p)));
-        buttons.add(new DialogButton(lang.component(player, "statement.title"), (p, response) -> plugin.openStatement(p)));
+        if (XPVaultEconomy.enabled(plugin, Feature.STATEMENTS))
+            buttons.add(new DialogButton(lang.component(player, "statement.title"), (p, response) -> plugin.openStatement(p)));
         buttons.add(new DialogButton(lang.component(player, "account.refresh"), (p, response) -> open(p)));
         if (plugin.webAvailable())
             buttons.add(new DialogButton(lang.component(player, "account.web"), lang.component(player, "account.web-hover"),
@@ -94,6 +95,7 @@ final class AccountMenu {
 
     /** Leaderboard page as a dialog; the ranking is sorted off the main thread and opened when ready. */
     private void openLeaderboard(Player player, int requested) {
+        if (plugin.off(player, Feature.LEADERBOARD)) return;
         if (!player.hasPermission("xpeconomy.top")) {
             open(player, lang.component(player, "common.no-permission"));
             return;
@@ -143,6 +145,7 @@ final class AccountMenu {
     }
 
     private void openTransfer(Player player, String target, String amount, Component error, java.util.UUID favoriteUuid) {
+        if (plugin.off(player, Feature.PAYMENTS)) return;
         if (!player.hasPermission("xpeconomy.pay")) {
             open(player, lang.component(player, "common.no-permission"));
             return;
@@ -205,14 +208,11 @@ final class AccountMenu {
                         open(p, lang.component(p, "common.no-permission"));
                         return;
                     }
+                    // The dialog stays as opened: the online bonus may change the balance while it is open, so the
+                    // amount is checked against the balance at the moment of the click instead of reopening the dialog.
                     Component problem = plugin.checkTransfer(p, target, amount);
-                    long currentBalance = plugin.balance(p);
-                    if (problem == null && currentBalance < amount)
+                    if (problem == null && plugin.balance(p) < amount)
                         problem = Component.text(plugin.errorText(lang.language(p), "error.insufficient"));
-                    if (problem == null && currentBalance != previewBalance) {
-                        confirmTransfer(p, target, amount, favoriteUuid);
-                        return;
-                    }
                     if (problem == null) problem = plugin.transfer(p, target, amount);
                     if (problem != null) openTransfer(p, name, Long.toString(amount), problem, favoriteUuid);
                     else open(p, lang.component(p, "transfer.done", "amount", plugin.formatPoints(p, amount), "player", name));

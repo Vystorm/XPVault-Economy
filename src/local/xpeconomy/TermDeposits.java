@@ -126,7 +126,7 @@ final class TermDeposits {
     // ---- commands ----
 
     boolean command(CommandSender sender, String[] args) {
-        if (!enabled()) { lang.send(sender, "term.disabled"); return true; }
+        if (!enabled()) { lang.send(sender, "feature-off"); return true; }
         if (!book.readable()) { lang.send(sender, "term.error.storage"); return true; }
         if (!(sender instanceof Player player)) { lang.send(sender, "common.players-only"); return true; }
         String action = args.length == 0 ? "" : args[0].toLowerCase(Locale.ROOT);
@@ -153,7 +153,7 @@ final class TermDeposits {
     }
 
     void openList(Player player, Component notice) {
-        if (!enabled()) { lang.send(player, "term.disabled"); return; }
+        if (!enabled()) { lang.send(player, "feature-off"); return; }
         List<DialogBody> body = new ArrayList<>();
         if (notice != null) body.add(DialogBody.plainMessage(notice));
         body.add(DialogBody.plainMessage(lang.component(player, "term.intro")));

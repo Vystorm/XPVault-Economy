@@ -150,11 +150,17 @@ final class PaymentDesk {
         Limit old = limit(payer); State next = copy();
         next.limits.put(payer, new Limit(single, daily, old.day, old.spent)); save(next);
     }
-    synchronized UUID reserve(UUID payer, long amount) throws IOException {
+    synchronized UUID reserve(UUID payer, long amount) throws IOException { return reserve(payer, amount, true); }
+    /**
+     * Reserves a payment against the payer's limits. {@code enforceLimits} false (limits.enabled off): the stored
+     * limits are not applied, but the amount still counts as spent today, so the limits are right again when the
+     * switch is turned back on.
+     */
+    synchronized UUID reserve(UUID payer, long amount, boolean enforceLimits) throws IOException {
         requireReady(); Limit limit = limit(payer);
         if (amount < 1 || amount > Integer.MAX_VALUE) throw new IOException("invalid");
-        if (limit.single > 0 && amount > limit.single) throw new IOException("single");
-        if (limit.daily > 0 && amount > limit.daily - limit.spent) throw new IOException("daily");
+        if (enforceLimits && limit.single > 0 && amount > limit.single) throw new IOException("single");
+        if (enforceLimits && limit.daily > 0 && amount > limit.daily - limit.spent) throw new IOException("daily");
         if (Long.MAX_VALUE - limit.spent < amount) throw new IOException("daily");
         if (state.reservations.size() >= 512) throw new IOException("capacity");
         UUID id = UUID.randomUUID(); State next = copy();

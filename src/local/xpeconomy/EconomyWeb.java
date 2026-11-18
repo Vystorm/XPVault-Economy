@@ -140,7 +140,7 @@ final class EconomyWeb {
         long balance = known || online != null ? plugin.balance(player) : 0L;
         String name = online != null ? online.getName() : plugin.accountName(uuid).orElse("");
         return EconomyWebJson.account(name, known, online != null, balance, plugin.maxBalance(),
-                plugin.rewardView(uuid, online != null), online == null ? null : PersonalEconomyPrefs.goal(core.settings().prefs(), plugin, online));
+                plugin.rewardView(uuid, online != null), online == null ? null : plugin.goal(online));
     }
 
     private WebResponse meta(WebRequest request) {
@@ -167,8 +167,8 @@ final class EconomyWeb {
             rewards.addProperty("graceMinutes", plugin.onlineRewardGraceMillis() / 60_000L);
             meta.add("rewards", rewards);
             JsonObject can = new JsonObject();
-            can.addProperty("pay", perms.pay());
-            can.addProperty("top", perms.top());
+            can.addProperty("pay", perms.pay() && XPVaultEconomy.enabled(plugin, Feature.PAYMENTS));
+            can.addProperty("top", perms.top() && XPVaultEconomy.enabled(plugin, Feature.LEADERBOARD));
             can.addProperty("admin", perms.admin());
             can.addProperty("others", perms.others());
             meta.add("can", can);
@@ -181,6 +181,7 @@ final class EconomyWeb {
     /** /baltop as JSON: same cached ranking, same hidden name prefixes, same page size. */
     private WebResponse top(WebRequest request) {
         String language = request.language();
+        if (!XPVaultEconomy.enabled(plugin, Feature.LEADERBOARD)) throw WebException.forbidden(plainOff(language));
         int page = 1;
         String raw = request.query("page").orElse(null);
         if (raw != null) {
@@ -327,5 +328,10 @@ final class EconomyWeb {
 
     private static String plain(Component component) {
         return PlainTextComponentSerializer.plainText().serialize(component);
+    }
+
+    /** "This feature is switched off on this server." in the request's language. */
+    private String plainOff(String language) {
+        return lang.plain(language, "feature-off");
     }
 }

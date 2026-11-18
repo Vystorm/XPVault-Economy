@@ -113,11 +113,42 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
     private EconomyWeb web;
     /** Accounts whose web view changed (balance, online state, bonus streak); pushed once per second. */
     private final java.util.Set<UUID> webDirty = ConcurrentHashMap.newKeySet();
+    /** Every feature switch as read from config.yml; null (= all on) until then and in tests that mock the plugin. */
+    private volatile Feature.Switches switches;
+    /** The switches the command trees were last registered with (null before the first registration). */
+    private Feature.Switches commandSwitches;
+
+    /** Minimum Vystorm Core: placeholders through api.placeholders(). */
+    static final String MIN_CORE = "0.65.0";
+
+    /** Whether a feature is on; static so classes holding a mocked plugin in tests read the real field. */
+    static boolean enabled(XPVaultEconomy plugin, Feature feature) {
+        Feature.Switches current = plugin == null ? null : plugin.switches;
+        return current == null || current.on(feature);
+    }
+
+    boolean on(Feature feature) { return enabled(this, feature); }
+
+    /** True (and the shared message sent) when the feature, or the switch it needs, is off. */
+    boolean off(CommandSender sender, Feature feature) {
+        if (on(feature)) return false;
+        Feature needed = feature.needs();
+        if (needed != null && !on(needed) && switches != null && !switches.off().contains(feature))
+            lang.send(sender, "feature-needs", "switch", needed.path);
+        else lang.send(sender, "feature-off");
+        return true;
+    }
+
+    /** The switch-off text as a component (dialogs, panels, web answers). */
+    Component featureOffText(String language) { return lang.component(language, "feature-off"); }
+
+    /** "This needs the switch X" as a component. */
+    Component featureNeedsText(String language, Feature needed) { return lang.component(language, "feature-needs", "switch", needed.path); }
 
     @Override
     public void onEnable() {
-        if (!CoreApi.atLeast("0.64.0")) {
-            getLogger().severe("Vystorm Core 0.64.0 or newer is required; please update Core first.");
+        if (!CoreApi.atLeast(MIN_CORE)) {
+            getLogger().severe("Vystorm Core " + MIN_CORE + " or newer is required; please update Core first.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -126,7 +157,8 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         core.admin().updates().spigot(this, 139852);
         DebugMessages.mid("[XPVaultEconomy 90] Vystorm Core API connected");
         saveDefaultConfig();
-        transactionHistory = new TransactionHistory(getDataFolder().toPath().resolve("data/transaction-history.json"), core.data().files());
+        switches = Feature.Switches.read(getConfig());
+        transactionHistory =new TransactionHistory(getDataFolder().toPath().resolve("data/transaction-history.json"), core.data().files());
         awayIncome = new AwayIncome(getDataFolder().toPath().resolve("data/away-income.json"), core.data().files());
         paymentDesk = new PaymentDesk(getDataFolder().toPath().resolve("data/payment-requests.json"), java.time.Clock.systemUTC(), core.data().files());
         privacy = new BalancePrivacy(getDataFolder().toPath().resolve("data/player-privacy.json"), core.data().files());
@@ -135,7 +167,8 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         paymentCommands = new PaymentCommands(this, core, paymentDesk);
         applyLanguageSetting();
         registerCommands();
-        core.registerTutorial(this);
+        // tutorial.enabled is read once: Core lists tutorials when a plugin starts
+        if (on(Feature.TUTORIAL)) core.registerTutorial(this);
         maximumBalance = Math.max(1L, Math.min(Integer.MAX_VALUE,
                 getConfig().getLong("economy.maximum-balance", 2_000_000_000L)));
         applySettings(EconomySettings.read(getConfig(), maximumBalance));
@@ -188,18 +221,26 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
 
     /** Opens the XP account: native panel with the mod, else the dialog (also the fallback inside the panel). */
     void openAccount(Player player) {
+        if (off(player, Feature.ACCOUNT_MENU)) return;
         if (accountPanel != null) accountPanel.open(player);
         else accountMenu.open(player);
     }
 
     /** Player menu "Pay": the /pay transfer dialog with the recipient filled in. */
     void openTransferTo(Player player, String target) {
+        if (off(player, Feature.PAYMENTS)) return;
         accountMenu.openTransferTo(player, target);
     }
 
     /** Player menu "Request XP": amount and purpose dialog that runs /economy request. */
     void openRequestTo(Player player, String target) {
+        if (off(player, Feature.REQUESTS)) return;
         paymentCommands.openRequest(player, target);
+    }
+
+    /** The player's savings goal, or null when none is set or savings-goal.enabled is off. */
+    PersonalEconomyPrefs.Goal goal(Player player) {
+        return on(Feature.SAVINGS_GOAL) ? PersonalEconomyPrefs.goal(core.settings().prefs(), this, player) : null;
     }
 
     /** Player menu admin entry: the same output as /economy admin history &lt;player&gt;. */
@@ -226,8 +267,11 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
             public Component transfer(Player payer, OfflinePlayer target, long amount) { return economy.transfer(payer, target, amount); }
             public String errorText(String language, String key) { return economy.errorText(language, key); }
             public String displayName(OfflinePlayer player) { return economy.displayName(player); }
-            public PersonalEconomyPrefs.Goal goal(Player player) { return PersonalEconomyPrefs.goal(core.settings().prefs(), economy, player); }
+            public PersonalEconomyPrefs.Goal goal(Player player) { return economy.goal(player); }
             public List<PersonalEconomyPrefs.Payee> favorites(Player player) { return economy.favorites(player); }
+            public boolean paymentsEnabled() { return on(Feature.PAYMENTS); }
+            public boolean leaderboardEnabled() { return on(Feature.LEADERBOARD); }
+            public boolean accountMenuEnabled() { return on(Feature.ACCOUNT_MENU); }
             public OfflinePlayer player(UUID uuid) { return economy.player(uuid); }
             public String hudSettingsKey() { return client == null ? null : client.settingsKey(); }
             public boolean featureEnabled(AccountPanel.More feature) {
@@ -236,7 +280,10 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
                     case FUNDS -> fundsEnabled();
                     case STANDING -> standingOrdersEnabled();
                     case TERM -> termDepositsEnabled();
-                    case TRANSFER, REQUESTS, STATEMENT, LEADERBOARD -> true;
+                    case TRANSFER -> on(Feature.PAYMENTS);
+                    case REQUESTS -> on(Feature.REQUESTS);
+                    case STATEMENT -> on(Feature.STATEMENTS);
+                    case LEADERBOARD -> on(Feature.LEADERBOARD);
                 };
             }
             public void openFeature(Player player, AccountPanel.More feature) {
@@ -330,15 +377,17 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         registerServerSettings();
         try {
             EconomyConfigEditor.register(core.settings().config(), this, lang, this::reloadSettings);
+            EconomyConfigEditor.declareSwitches(core.settings().config(), this, lang);
         } catch (RuntimeException failure) {
             DebugMessages.high("[XPVaultEconomy] Config editor registration failed", failure);
         }
         core.settings().register(this, Vystorm.vystorm_core._uiMethods.settings.SettingsSection.player("privacy", lang.ref("privacy.title"), lang.ref("privacy.description"),
                 List.of(Vystorm.vystorm_core._uiMethods.settings.Setting.toggle("hidden", lang.ref("privacy.hidden"), "",
-                    p -> privacy.hidden(p.getUniqueId()), (p, hidden) -> setPrivacy(p, hidden)))));
+                    p -> privacy.hidden(p.getUniqueId()),
+                    (p, hidden) -> on(Feature.PRIVACY) ? setPrivacy(p, hidden) : lang.plain(p, "feature-off")))));
         core.admin().register(this, adminModule(getName(), lang));
         EconomyMenuEntries.register(core.gui().playerMenu(), this, lang);
-        startWeb();
+        if (on(Feature.WEB)) startWeb();
 
         long syncInterval = Math.max(1L, getConfig().getLong("sync.online-interval-ticks", 20L));
         long saveInterval = Math.max(20L, getConfig().getLong("sync.save-interval-ticks", 100L));
@@ -346,12 +395,14 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         rewardTimer = core.tasks().of(this, "online-rewards");
         timers.timer(syncInterval, syncInterval, this::syncOnlinePlayers);
         timers.timer(saveInterval, saveInterval, this::queueFlush);
-        if (web != null) timers.timer(20L, 20L, this::pushWebChanges);
+        timers.timer(20L, 20L, this::pushWebChanges); // does nothing while the web page is off
         timers.timer(200L, 600L, () -> { standingOrders.runDue(); termDeposits.runDue(); funds.runDue(); queueFlush(); });
         if (onlineRewardsEnabled) scheduleOnlineRewards();
         startClient();
 
         ready = true;
+        try { registerPlaceholders(core.placeholders()); }
+        catch (RuntimeException failure) { getLogger().log(java.util.logging.Level.WARNING, "Placeholders not registered", failure); }
         for (Player player : Bukkit.getOnlinePlayers()) handleJoin(player);
         DebugMessages.mid("[XPVaultEconomy 135] Vault economy registered: 1 unit = 1 real XP point; storage: "
                 + store.description() + "; accounts loaded: " + accounts.size());
@@ -425,7 +476,8 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
 
     private void applySettings(EconomySettings next) {
         settings = next;
-        afkTimeoutMillis = Math.max(0L, Math.min(86_400L, getConfig().getLong("online-rewards.afk.pause-after-seconds", 0L))) * 1000L;
+        switches = Feature.Switches.read(getConfig());
+        afkTimeoutMillis = afkTimeoutMillis(getConfig().getLong("online-rewards.afk.pause-after-seconds", 0L), switches);
         startingBalance = clamp(next.startingBalance());
         currencySingular = next.currencySingular();
         currencyPlural = next.currencyPlural();
@@ -442,6 +494,67 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         topPageSize = next.topPageSize();
         topCacheMillis = next.topCacheMillis();
         if (leaderboard != null) leaderboard.invalidate();
+    }
+
+    /** The AFK pause in milliseconds; 0 (no pause) for pause-after-seconds 0 or online-rewards.afk.enabled off. */
+    static long afkTimeoutMillis(long configuredSeconds, Feature.Switches switches) {
+        if (!switches.on(Feature.AFK_PAUSE)) return 0L;
+        return Math.max(0L, Math.min(86_400L, configuredSeconds)) * 1000L;
+    }
+
+    /** The namespace {@code xpvault} (values of switched-off features are empty). */
+    void registerPlaceholders(Vystorm.vystorm_core._advancedMethods.placeholderHandler.PlaceholderInterface registry) {
+        XpVaultPlaceholders.register(registry, this, new XpVaultPlaceholders.Source() {
+            @Override public boolean on(Feature feature) { return XPVaultEconomy.this.on(feature); }
+            @Override public long balance(OfflinePlayer player) { return XPVaultEconomy.this.balance(player); }
+            @Override public String formatted(OfflinePlayer player, long points) {
+                Player online = player.getPlayer();
+                return formatPoints(online != null ? lang.language(online) : apiLanguage(), points);
+            }
+            @Override public BalanceRanking ranking() { return placeholderRanking(); }
+            @Override public List<Long> banks(UUID player) {
+                return banks == null ? List.of() : banks.ledger().of(player).stream().map(BankLedger.Bank::balance).toList();
+            }
+            @Override public int goalPercent(Player player) {
+                PersonalEconomyPrefs.Goal goal = goal(player);
+                if (goal == null || goal.target() <= 0) return -1;
+                return (int) Math.min(100L, Math.min(XPVaultEconomy.this.balance(player), goal.target()) * 100L / goal.target());
+            }
+            @Override public RewardView reward(UUID player, boolean online) { return rewardView(player, online); }
+            @Override public int accounts() { return accountCount(); }
+        }, key -> lang == null ? key : lang.ref(key));
+    }
+
+    /**
+     * The cached leaderboard for placeholders. A missing or stale one (older than the cache time, at least 30 seconds)
+     * is rebuilt in the background, the same way /baltop does; until then the old one or nothing is shown.
+     */
+    private BalanceRanking placeholderRanking() {
+        if (leaderboard == null) return null;
+        BalanceRanking cached = leaderboard.cached();
+        long maxAge = Math.max(30_000L, topCacheMillis);
+        if (Bukkit.isPrimaryThread() && (cached == null || System.currentTimeMillis() - cached.createdAtMillis() > maxAge))
+            requestLeaderboard(ignored -> { });
+        return cached;
+    }
+
+    /**
+     * After a reload: when a switch changed, online players get their command list again (the trees ask the switches
+     * at every completion, so they are not registered again); the web page is registered or removed.
+     */
+    private void applySwitches() {
+        if (commandSwitches != null && !commandSwitches.equals(switches)) {
+            commandSwitches = switches;
+            try { core.command().refresh(); }
+            catch (RuntimeException failure) { getLogger().log(java.util.logging.Level.WARNING, "Command lists could not be sent again", failure); }
+        }
+        if (!ready) return;
+        if (on(Feature.WEB) && web == null) startWeb();
+        else if (!on(Feature.WEB) && web != null) {
+            web.unregister();
+            web = null;
+            webDirty.clear();
+        }
     }
 
     private void scheduleOnlineRewards() {
@@ -476,6 +589,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         } else if (rewardTimer != null) {
             rewardTimer.cancel();
         }
+        applySwitches();
         if (web != null) {
             web.configChanged();
             for (Player player : Bukkit.getOnlinePlayers()) markWeb(player.getUniqueId());
@@ -556,6 +670,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
 
     /** Opens the web page (overlay with the Vystorm client mod, else a chat link). {@code subPath}: "", "pay", "top". */
     void openWeb(Player player, String subPath) {
+        if (off(player, Feature.WEB)) return;
         if (web == null) {
             lang.send(player, "web.unavailable");
             return;
@@ -609,7 +724,8 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
      * onEnable so the commands answer "storage loading" until the accounts are loaded, as before.
      */
     private void registerCommands() {
-        for (var spec : EconomyCommands.specs(EconomyCommands.target(this)))
+        commandSwitches = switches == null ? Feature.Switches.without() : switches;
+        for (var spec : EconomyCommands.specs(EconomyCommands.target(this), this::on))
             core.command().register(this, lang, spec);
     }
 
@@ -652,7 +768,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
 
     /** Notes a payment for a recipient who is offline, for the summary on their next join (economy.away-summary). */
     private void noteAwayIncome(OfflinePlayer recipient, String payer, long amount) {
-        if (awayIncome == null || recipient.getPlayer() != null || !getConfig().getBoolean("economy.away-summary", true)) return;
+        if (awayIncome == null || recipient.getPlayer() != null || !on(Feature.AWAY_SUMMARY)) return;
         awayIncome.record(recipient.getUniqueId(), payer, amount);
     }
 
@@ -662,7 +778,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         Bukkit.getScheduler().runTaskLater(this, () -> {
             if (!player.isOnline()) return;
             AwayIncome.Summary summary = awayIncome.take(player.getUniqueId());
-            if (summary == null || !getConfig().getBoolean("economy.away-summary", true)) return;
+            if (summary == null || !on(Feature.AWAY_SUMMARY)) return;
             core.compat().platform().sendMessage(player, lang.component(player, summary.count() == 1 ? "away.summary-one" : "away.summary",
                     "amount", formatPoints(player, summary.total()), "count", summary.count(), "players", summary.names())
                     .append(Component.space()).append(accountButton(player)));
@@ -1072,7 +1188,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         for (Player player : Bukkit.getOnlinePlayers())
             copy.put(player.getUniqueId(), new StoredAccount(player.getUniqueId(), safeName(player.getName()),
                     clamp(core.player().experience(player)), true));
-        copy.keySet().removeIf(id -> privacy == null || privacy.hidden(id));
+        copy.keySet().removeIf(id -> privacy == null || on(Feature.PRIVACY) && privacy.hidden(id));
         return copy.values();
     }
 
@@ -1228,9 +1344,13 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
             lang.send(sender, "common.no-permission");
             return true;
         }
+        Feature feature = EconomyCommandRoute.feature(route.action());
+        if (feature != null && off(sender, feature)) return true;
         if (sender instanceof Player player && (EconomyCommandRoute.isAccountAction(route.action())
                 || (command.equalsIgnoreCase("economy") && args.length == 0))) {
-            openAccount(player);
+            // account-menu.enabled off: a bare /economy shows the balance line instead of the menu
+            if (on(Feature.ACCOUNT_MENU)) openAccount(player);
+            else balanceCommand(sender, new String[0]);
             return true;
         }
         if (route.action().equals("web")) {
@@ -1286,7 +1406,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
                 "amount", formatPoints(sender, balance(target)));
         if (sender instanceof Player viewer && viewer.getUniqueId().equals(target.getUniqueId())) {
             line = line.append(Component.space()).append(accountButton(viewer));
-            if (viewer.hasPermission("xpeconomy.pay"))
+            if (viewer.hasPermission("xpeconomy.pay") && on(Feature.PAYMENTS))
                 line = line.append(Component.space()).append(core.message().chat().suggest(lang.plain(viewer, "button.pay"),
                         lang.plain(viewer, "button.pay-hover"), "/pay "));
             line = line.append(webButton(viewer, ""));
@@ -1301,7 +1421,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
     }
 
     boolean balanceVisible(UUID viewer, boolean administrator, UUID target) {
-        return administrator || target.equals(viewer) || (privacy != null && !privacy.hidden(target));
+        return administrator || target.equals(viewer) || (privacy != null && (!on(Feature.PRIVACY) || !privacy.hidden(target)));
     }
 
     private String setPrivacy(Player player, boolean hidden) {
@@ -1317,6 +1437,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
     }
 
     void openStatement(Player player) {
+        if (off(player, Feature.STATEMENTS)) return;
         new StatementCommands(this, core, transactionHistory, core.data().files()).command(player, new String[0]);
     }
 
@@ -1428,7 +1549,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
     }
 
     private void checkSavingGoal(Player player) {
-        PersonalEconomyPrefs.Goal goal = PersonalEconomyPrefs.goal(core.settings().prefs(), this, player);
+        PersonalEconomyPrefs.Goal goal = goal(player);
         if (goal == null || !goal.notifyOnReach()) return;
         double notified = core.settings().prefs().number(this, player, PersonalEconomyPrefs.GOAL_NOTIFIED_TARGET, 0.0D);
         if (notified == goal.target() || balance(player) < goal.target()) return;
@@ -1638,6 +1759,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
 
     /** {@link #checkTransfer(Player, OfflinePlayer, Long)} with texts in {@code language} (web requests). */
     Component checkTransfer(Player payer, OfflinePlayer target, Long amount, String language) {
+        if (!on(Feature.PAYMENTS)) return featureOffText(language); // payments.enabled off: no player payment
         if (target == null || !hasAccount(target.getUniqueId())) return lang.component(language, "common.unknown-account");
         if (target.getUniqueId().equals(payer.getUniqueId())) return lang.component(language, "pay.self");
         if (amount == null || amount <= 0L) return lang.component(language, "pay.bad-amount");
@@ -1656,7 +1778,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         if (invalid != null) return invalid;
         synchronized (transactionLock) {
             UUID reservation;
-            try { reservation = paymentDesk.reserve(payer.getUniqueId(), amount); }
+            try { reservation = paymentDesk.reserve(payer.getUniqueId(), amount, on(Feature.LIMITS)); }
             catch (java.io.IOException failure) {
                 String reason = failure.getMessage();
                 if (!"single".equals(reason) && !"daily".equals(reason)) reason = "storage";
@@ -1870,7 +1992,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
             if (payerBefore < amount) return "standing.error.insufficient";
             if (amount > maximumBalance - payeeBefore) return "standing.error.payee-full";
             UUID reservation;
-            try { reservation = paymentDesk.reserve(order.payer(), amount); }
+            try { reservation = paymentDesk.reserve(order.payer(), amount, on(Feature.LIMITS)); }
             catch (java.io.IOException failure) {
                 String reason = failure.getMessage();
                 return "single".equals(reason) || "daily".equals(reason) ? "standing.error.limit" : "standing.error.storage";
@@ -2007,6 +2129,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
 
     /** "[Account]" chat button opening the native account dialog, labelled in the viewer's language. */
     Component accountButton(CommandSender viewer) {
+        if (!on(Feature.ACCOUNT_MENU)) return Component.empty();
         return core.message().chat().button(lang.plain(viewer, "button.account"), lang.plain(viewer, "button.account-hover"),
                 this::openAccount);
     }

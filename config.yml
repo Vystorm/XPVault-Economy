@@ -1,5 +1,11 @@
 # XPVaultEconomy – 1 unit of money = 1 real Minecraft XP point.
-# Texts are in plugins/XPVaultEconomy/lang/<code>.yml (en, de; add your own).
+# Texts are in plugins/XPVaultEconomy/lang/<code>.yml (seven languages; add your own).
+#
+# Every feature has an on/off switch (all on by default). They are listed in Vystorm Core's /vadmin features and
+# apply at once without a restart, except tutorial.enabled. A switched-off feature does nothing, its commands answer
+# "This feature is switched off on this server." and its placeholders are empty. No switch ever takes or deletes XP:
+# balances, banks, requests, standing orders, deposits, donation goals and cheques stay stored, and each comment says
+# what happens to running items. XP as the Vault currency itself is always on: it is what the plugin is.
 
 # Language of this plugin's texts: auto = follow Vystorm Core (each player's Minecraft language,
 # or Core's language.default). Or a fixed code such as en or de. A player's own choice in /vsettings still wins.
@@ -14,8 +20,69 @@ economy:
   currency-singular: ''
   currency-plural: ''
   # Players who were offline get one chat line on their next join: "While you were away you received 1,500 XP in
-  # 3 payments from Steve, Alex" (/pay and standing orders).
+  # 3 payments from Steve, Alex" (/pay and standing orders). This key is the switch of the away summary; off: offline
+  # payments still arrive, they are only not summed up for the next join.
   away-summary: true
+
+# Player payments: /pay, /economy pay, favourites (/economy favorite), the pay form in the account menu and on the web
+# page, "Pay" in the player menu. Off: no player can pay another one (Vault payments of other plugins still work);
+# accepting a payment request needs this switch too.
+payments:
+  enabled: true
+
+# Payment requests and bill splitting (/economy request, requests, split, requestblock). Off: these commands are
+# switched off; open requests stay stored and can be answered again when it is back on (they still expire as usual).
+requests:
+  enabled: true
+
+# Personal payment limits (/economy limits). Off: the command is switched off and the players' limits are not applied
+# to payments; they stay stored and payments still count towards today's total, so they are right again when it is on.
+limits:
+  enabled: true
+
+# Own booking history (/economy history, export). Off: the command is switched off. Bookings are still recorded for
+# statements and /economy admin history.
+history:
+  enabled: true
+
+# Players may hide their balance from others and from /baltop (/economy privacy, /vsettings). Off: the command and the
+# setting are switched off and every balance is visible again; the players' choices stay stored and apply again when
+# it is back on.
+privacy:
+  enabled: true
+
+# Account statements (/economy statement, account menu). Off: the command and the button are switched off.
+statements:
+  enabled: true
+
+# Personal savings goal (/economy goal, account menu). Off: the command, the progress line and the "goal reached"
+# message are switched off; the goals stay stored.
+savings-goal:
+  enabled: true
+
+# XP cheques (/economy cheque). Off: no new cheques. Cheques already issued can still be redeemed with a right-click,
+# so no XP is lost.
+cheques:
+  enabled: true
+
+# The account menu (/economy, /economy account, Core main menu) and its [Account] chat buttons. Off: a bare /economy
+# shows the balance line instead; every command keeps working.
+account-menu:
+  enabled: true
+
+# Entries in Core's player menu (sneak + right-click a player): pay, request, standing order, add to bank, admin history.
+# Off: no entries. Each entry also needs its own feature switch.
+player-menu:
+  enabled: true
+
+# The XP Account web page (/economy web, [Web] buttons; needs Core's web platform). Off: the page is removed from Core's
+# web server and the buttons disappear.
+web:
+  enabled: true
+
+# Tutorial in the Vystorm Core main menu (/vmenu -> Tutorials). Needs a server restart to apply.
+tutorial:
+  enabled: true
 
 # In game: /vsettings -> Server -> XP Economy (xpeconomy.admin) changes starting balance, currency,
 # online bonus, messages and leaderboard immediately. storage.*, sync.* and economy.maximum-balance need a restart.
@@ -31,6 +98,9 @@ storage:
   table-prefix: 'xpeco'
 
 top:
+  # The leaderboard (/baltop, /moneytop, /xptop, /economy top, account menu, web page). Off: these are switched off
+  # and the rank placeholders are empty.
+  enabled: true
   # /baltop and /economy top: entries per page (1-50).
   page-size: 10
   # How long (seconds) the sorted leaderboard is reused before it is recalculated with the
@@ -47,10 +117,13 @@ sync:
 
 online-rewards:
   afk:
+    # The AFK pause. Off: idle players earn the bonus like active ones, whatever pause-after-seconds says.
+    enabled: true
     # 0 preserves quiet play (no AFK pause). Otherwise pause accrual after this inactivity period.
     # Movement/look, interaction, building, inventory actions, commands and chat count as activity.
     pause-after-seconds: 0
   # Turns the whole system on/off. Applies immediately after /economy admin reload or in the settings menu.
+  # Off: no bonus is paid; running streaks are kept for the reconnect grace time.
   enabled: true
   # First payout: 2 real XP points after 60 seconds online.
   base-xp: 2.0
@@ -62,9 +135,10 @@ online-rewards:
   reconnect-grace-minutes: 30
   # How often the bonus is checked; online time itself is measured in real time.
   check-interval-ticks: 20
-  # Also shows streak and next payout in /money.
+  # Also shows streak and next payout in /money (a switch, listed in /vadmin features).
   show-status-in-expbal: true
   notifications:
+    # A chat or action bar line for every payout. Off: the bonus is paid silently.
     enabled: true
     action-bar: true
     # Leave empty to use reward.notification from the language files.
@@ -74,6 +148,7 @@ online-rewards:
 banks:
   # Shared XP banks (/economy bank): named pots with an owner and members. XP in a bank is not on anyone's
   # XP bar, so it survives deaths and does not count for /baltop. Saved in data/banks.json.
+  # Off: /economy bank and the menus are switched off; the XP stays in the banks and can be withdrawn when it is on.
   enabled: true
   # How many banks one player may own (0-100).
   max-per-player: 3
@@ -87,6 +162,8 @@ funds:
   # Donation goals (/economy fund, account menu): a player opens a public goal with a title, a target and a
   # deadline; anyone donates XP. Reached = the XP goes to the owner at once. Deadline passed or cancelled = every
   # donor gets their XP back. Crash-safe like XP banks.
+  # Off: no new goals and no donations; running goals are still paid out when reached and refunded when the deadline
+  # passes, so no donated XP waits for the switch.
   enabled: true
   # Open goals per player (0-20).
   max-per-player: 2
@@ -98,6 +175,7 @@ funds:
 term-deposits:
   # Term deposits (/economy term, account menu): players lock XP for a fixed term and get it back with interest when
   # the term ends, also while offline. The interest is new XP (a reward for saving), so keep the rates modest.
+  # Off: no new deposits; running deposits are still paid back with interest when their term ends.
   enabled: true
   # Offered terms as "days:interest in percent for the whole term" (1-365 days, up to two decimals).
   terms:
@@ -116,6 +194,8 @@ term-deposits:
 standing-orders:
   # Standing orders (/economy standing): pay a player a fixed amount every interval, also while the payer
   # is offline. Personal payment limits apply. Missed dates during downtime are not paid afterwards.
+  # Off: no order runs and no new orders; the orders stay stored and run again when it is back on (dates missed in
+  # between are not paid afterwards, as after downtime).
   enabled: true
   # Orders per player (0-100).
   max-per-player: 10

@@ -1,3 +1,19 @@
+## 1.26.0-26.2 — 2026-11-18
+
+- Requires Vystorm Core 0.65.0 or newer. Update Core before you update this plugin.
+- Every feature can now be switched on and off in `config.yml`. All switches are on by default, so a server that updates keeps working as before; the new keys are added to your existing `config.yml` with their comments. Each switch is listed in Core's `/vadmin features` with a one-line description in seven languages and applies at once, without a restart (only `tutorial.enabled` needs one).
+  - Paying: `payments.enabled` (`/pay`, favourites, the pay form, web payments, "Pay" in the player menu), `requests.enabled` (requests and splitting; asking and accepting also need `payments.enabled`), `limits.enabled` (off: the players' limits are not applied but stay stored), `cheques.enabled` (off: no new cheques; issued cheques can still be redeemed).
+  - Your account: `history.enabled`, `statements.enabled`, `privacy.enabled` (off: every balance is visible again; the players' choices stay stored), `savings-goal.enabled`, `account-menu.enabled` (off: a bare `/economy` shows the balance line), `top.enabled` (the leaderboard).
+  - Online bonus: `online-rewards.afk.enabled` is the new switch of the AFK pause; `pause-after-seconds: 0` still means no pause.
+  - Menus and pages: `player-menu.enabled` (the entries in Core's player menu), `web.enabled` (the XP Account web page), `tutorial.enabled` (needs a restart).
+  - Keys that already existed keep their names and are now listed as switches too: `online-rewards.enabled`, `online-rewards.notifications.enabled`, `online-rewards.show-status-in-expbal`, `banks.enabled`, `standing-orders.enabled`, `term-deposits.enabled`, `funds.enabled`, `economy.away-summary`.
+- No switch takes or deletes XP. Banks, requests, standing orders, deposits, donation goals and cheques stay stored. Term deposits are still paid back when their term ends while `term-deposits.enabled` is off, and donation goals are now also paid out or refunded while `funds.enabled` is off (before, they waited for the switch).
+- A switched-off feature answers one shared message, "This feature is switched off on this server.", its subcommands are hidden from help and tab completion and its buttons leave the account menu, the panel, the web page and the player menu. A feature that needs another switch names it.
+- Tab completion and help follow a switch at once, without registering the command again.
+- Fix: the confirm dialog of `/pay` and of accepting a payment request no longer reopens when your balance changes while it is open (for example through the online bonus), so a click on Confirm pays. The amount is checked against your balance at the moment you confirm; if it no longer suffices, the dialog says so and nothing is paid.
+- Placeholders: the plugin registers its values with Vystorm Core under the namespace `xpvault`: balance (plain and formatted), level, rank, leaderboard places, XP in banks, savings goal progress, online bonus streak, next payout and time to it, and the number of accounts. Examples: `%vystorm_xpvault_balance%` (the balance as a number) and `{xpvault:top:1:name}` (the name on place 1). `/vadmin placeholders xpvault` lists them. A value of a switched-off feature is empty.
+- README: seven languages instead of three, donation goals in the feature list, the Spigot test of 1.19.0 named in the requirements, and the old "no bank accounts" line corrected.
+
 ## 1.25.0-26.2 — 2026-11-17
 
 - Requires Vystorm Core 0.64.0 or newer. Update Core before you update this plugin.

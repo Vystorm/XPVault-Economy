@@ -1,6 +1,6 @@
 plugins { java }
 group = "local.xpeconomy"
-version = "1.25.0-26.2"
+version = "1.26.0-26.2"
 val coreJar = file(providers.gradleProperty("vystormCoreJar").getOrElse("libs/Vystorm_Core.jar"))
 val vaultJar = file(providers.gradleProperty("vaultJar").getOrElse("libs/VaultUnlocked.jar"))
 repositories {
@@ -58,7 +58,7 @@ tasks.compileJava {
     // Also ship baseline API descriptors (including Adventure), not just baseline bytecode.
     classpath = compat1206.get().classpath
     doFirst {
-        require(coreJar.isFile) { "Vystorm Core JAR missing: -PvystormCoreJar=/path/to/Vystorm_Core-0.64.0.jar (or libs/Vystorm_Core.jar)" }
+        require(coreJar.isFile) { "Vystorm Core JAR missing: -PvystormCoreJar=/path/to/Vystorm_Core-0.65.0.jar (or libs/Vystorm_Core.jar)" }
         require(vaultJar.isFile) { "VaultUnlocked JAR missing: -PvaultJar=/path/to/VaultUnlocked.jar (or libs/VaultUnlocked.jar)" }
     }
 }

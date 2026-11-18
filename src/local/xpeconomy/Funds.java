@@ -132,9 +132,12 @@ final class Funds {
         core.message().inbox().send(plugin, player, inboxKey, placeholders);
     }
 
-    /** Timer: refunds goals whose deadline passed and retries waiting payouts. */
+    /**
+     * Timer: refunds goals whose deadline passed and retries waiting payouts. Runs also while funds.enabled is off, so
+     * no donated XP waits for the switch: an expired goal is refunded and a reached goal is paid as before.
+     */
     void runDue() {
-        if (!enabled() || !book.readable() || !plugin.isEnabled()) return;
+        if (!book.readable() || !plugin.isEnabled()) return;
         for (FundBook.Fund fund : book.all()) {
             try {
                 if (fund.missing() == 0) payout(fund);
@@ -146,7 +149,7 @@ final class Funds {
     // ---- commands and dialogs ----
 
     boolean command(CommandSender sender, String[] args) {
-        if (!enabled()) { lang.send(sender, "fund.disabled"); return true; }
+        if (!enabled()) { lang.send(sender, "feature-off"); return true; }
         if (!book.readable()) { lang.send(sender, "fund.error.storage"); return true; }
         if (!(sender instanceof Player player)) { lang.send(sender, "common.players-only"); return true; }
         String action = args.length == 0 ? "" : args[0].toLowerCase(Locale.ROOT);

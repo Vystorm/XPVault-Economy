@@ -57,6 +57,12 @@ final class AccountPanel {
         default boolean featureEnabled(More feature) { return false; }
         /** Opens the existing dialog or list of the feature behind a "More" button. */
         default void openFeature(Player player, More feature) { }
+        /** payments.enabled: the pay form. */
+        default boolean paymentsEnabled() { return true; }
+        /** top.enabled: the leaderboard section. */
+        default boolean leaderboardEnabled() { return true; }
+        /** account-menu.enabled: the panel in /vmenu and /economy. */
+        default boolean accountMenuEnabled() { return true; }
     }
 
     /**
@@ -116,7 +122,7 @@ final class AccountPanel {
 
     void register(AccountMenu fallback) {
         panels().register(NAME, PanelSpec.builder(lang.ref("menu.title"))
-                .access(p -> p.hasPermission("xpeconomy.balance"))
+                .access(p -> p.hasPermission("xpeconomy.balance") && plugin.accountMenuEnabled())
                 .menu(MenuCategory.ECONOMY, Material.EXPERIENCE_BOTTLE, lang.ref("menu.description"))
                 .fallback(fallback::open)
                 .render(this::render)
@@ -154,7 +160,7 @@ final class AccountPanel {
             page.child(goalSection);
         }
         page.child(rewardSection(ctx, plugin.rewardView(player.getUniqueId(), true), language));
-        if (player.hasPermission("xpeconomy.pay")) {
+        if (player.hasPermission("xpeconomy.pay") && plugin.paymentsEnabled()) {
             PendingPay pending = ctx.session().get(PENDING_PAY);
             if (pending != null && System.currentTimeMillis() - pending.createdAt() > PENDING_PAY_MILLIS) {
                 ctx.session().remove(PENDING_PAY);
@@ -206,7 +212,7 @@ final class AccountPanel {
             }
             page.child(Ui.section(ctx.text("client.panel-more")).children(Ui.buttons(buttons).wrap()));
         }
-        if (player.hasPermission("xpeconomy.top")) page.child(leaderboard(ctx, language));
+        if (player.hasPermission("xpeconomy.top") && plugin.leaderboardEnabled()) page.child(leaderboard(ctx, language));
         List<Ui.Button> footer = new ArrayList<>();
         footer.add(Ui.button("refresh").label(ctx.text("client.panel-refresh")).onClick(a -> {
             a.session().remove(RANKING);

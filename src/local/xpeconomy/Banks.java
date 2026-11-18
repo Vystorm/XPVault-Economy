@@ -43,7 +43,7 @@ final class Banks {
     int maxMembers() { return Math.max(0, Math.min(BankLedger.MAX_MEMBERS, plugin.getConfig().getInt("banks.max-members", 10))); }
 
     boolean command(CommandSender sender, String[] args) {
-        if (!enabled()) { lang.send(sender, "bank.disabled"); return true; }
+        if (!enabled()) { lang.send(sender, "feature-off"); return true; }
         if (!ledger.readable()) { lang.send(sender, "bank.error.storage"); return true; }
         boolean admin = sender.hasPermission("xpeconomy.admin");
         String action = args.length == 0 ? "" : args[0].toLowerCase(Locale.ROOT);
@@ -282,7 +282,7 @@ final class Banks {
 
     /** Your banks as buttons, plus "create bank". */
     void openList(Player player, Component notice) {
-        if (!enabled()) { lang.send(player, "bank.disabled"); return; }
+        if (!enabled()) { lang.send(player, "feature-off"); return; }
         List<DialogBody> body = new ArrayList<>();
         if (notice != null) body.add(DialogBody.plainMessage(notice));
         body.add(DialogBody.plainMessage(lang.component(player, "bank.dialog-intro")));
