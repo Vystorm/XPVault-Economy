@@ -65,6 +65,35 @@ class SwitchesTest {
                 YamlConfiguration.loadConfiguration(new File("lang/en.yml")).getString("feature-off"));
     }
 
+    /**
+     * 1.26.1: every boolean that Core's {@code /vadmin features} lists for config.yml (keys named {@code enabled},
+     * top-level booleans, declared switches) has a readable name and a description in all seven languages, so the
+     * screen never shows a raw key path such as "Online rewards › Afk".
+     */
+    @Test void givenEveryFeatureCoreListsFromConfigYml_whenDescribed_thenAllSevenLanguagesHaveNameAndDescription() {
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File("config.yml"));
+        Set<String> housekeeping = Set.of("metrics", "debug", "verbose", "sound", "console-log", "placeholderapi", "update-check");
+        List<String> declared = java.util.Arrays.stream(Feature.values()).map(f -> f.path).toList();
+        List<Feature> listed = new java.util.ArrayList<>();
+        for (String path : config.getKeys(true)) {
+            if (!config.isBoolean(path)) continue;
+            boolean feature = path.equals("enabled") || path.endsWith(".enabled") || (path.indexOf('.') < 0 && !housekeeping.contains(path));
+            if (!feature && !declared.contains(path)) continue;
+            assertTrue(declared.contains(path), "every listed switch is a Feature with name and description: " + path);
+            listed.add(java.util.Arrays.stream(Feature.values()).filter(f -> f.path.equals(path)).findFirst().orElseThrow());
+        }
+        assertEquals(Feature.values().length, listed.size());
+        for (String code : LANGUAGES) {
+            YamlConfiguration lang = YamlConfiguration.loadConfiguration(new File("lang/" + code + ".yml"));
+            for (Feature feature : listed) {
+                assertFalse(lang.getString(feature.label(), "").isBlank(), code + " " + feature.label());
+                assertFalse(lang.getString(feature.description(), "").isBlank(), code + " " + feature.description());
+            }
+            String needs = lang.getString("feature-needs", "");
+            assertTrue(needs.contains("{name}") && needs.contains("{switch}"), code + " " + needs);
+        }
+    }
+
     @Test void givenAConfigFrom1_25_whenRead_thenEveryFeatureStaysOnAndTheAfkPauseKeepsItsValue() {
         YamlConfiguration old = YamlConfiguration.loadConfiguration(new File("tests/resources/config-1.25.yml"));
         Feature.Switches switches = Feature.Switches.read(old);
@@ -155,8 +184,9 @@ class SwitchesTest {
     @Test void givenOnlineBonusOff_whenADependentSwitchIsAsked_thenItNamesTheSwitchItNeeds() throws Exception {
         XPVaultEconomy plugin = plugin(Feature.ONLINE_REWARDS);
         Player player = player();
+        when(langOf(plugin).plain(player, Feature.ONLINE_REWARDS.label())).thenReturn("Online bonus");
         assertTrue(plugin.off(player, Feature.REWARD_STATUS));
-        verify(langOf(plugin)).send(player, "feature-needs", "switch", "online-rewards.enabled");
+        verify(langOf(plugin)).send(player, "feature-needs", "switch", "online-rewards.enabled", "name", "Online bonus");
     }
 
     @Test void givenPaymentsOff_whenARequestIsAskedOrAccepted_thenItNeedsPayments() {

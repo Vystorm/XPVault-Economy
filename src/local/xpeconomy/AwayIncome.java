@@ -51,7 +51,11 @@ final class AwayIncome {
                 if (stored == null || stored.payers() == null || stored.count() <= 0 || stored.total() <= 0) continue;
                 entries.put(UUID.fromString(entry.getKey()), stored);
             }
-        } catch (IOException | RuntimeException unreadable) { entries.clear(); }
+        } catch (IOException | RuntimeException unreadable) {
+            // the next payment rewrites the file: keep the unreadable one first (1.26.1)
+            entries.clear();
+            YamlCheck.copyAside(file, java.util.logging.Logger.getLogger("XPVaultEconomy"), "could not be read (" + unreadable.getMessage() + ")");
+        }
     }
 
     /** Adds one payment to the recipient's summary; false when the amount is not positive or the file is full. */

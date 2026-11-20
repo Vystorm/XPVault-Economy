@@ -1,6 +1,6 @@
 plugins { java }
 group = "local.xpeconomy"
-version = "1.26.0-26.2"
+version = "1.26.1-26.2"
 val coreJar = file(providers.gradleProperty("vystormCoreJar").getOrElse("libs/Vystorm_Core.jar"))
 val vaultJar = file(providers.gradleProperty("vaultJar").getOrElse("libs/VaultUnlocked.jar"))
 repositories {

@@ -27,7 +27,7 @@ final class PaymentCommands {
         if (!(sender instanceof Player p)) { lang.send(sender, "common.players-only"); return true; }
         if (!desk.readable()) { lang.send(p, "requests.error.storage"); return true; }
         if (needsPayments(action, args) && !XPVaultEconomy.enabled(plugin, Feature.PAYMENTS)) {
-            lang.send(p, "feature-needs", "switch", Feature.PAYMENTS.path);
+            lang.send(p, "feature-needs", "switch", Feature.PAYMENTS.path, "name", lang.plain(p, Feature.PAYMENTS.label()));
             return true;
         }
         try {

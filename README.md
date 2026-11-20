@@ -34,7 +34,7 @@ Player guide: in game under `/vmenu tutorials` (English and German), or [TUTORIA
 The optional client mod has separate version requirements. On servers without native Paper dialogs, Core presents the same forms and confirmation actions in chat.
 
 
-- **Paper 1.20.6 – 26.x**, Java **21 or newer** (use the Java version required by your server). Spigot and CraftBukkit 26.3 passed a start and registration test (1.19.0); not every gameplay scenario was run there. See [compatibility checks](COMPATIBILITY.md).
+- **Tested on Paper and Purpur 26.2, Paper 1.20.6 and Spigot 26.2.** Java **21 or newer** (use the Java version required by your server). See [compatibility checks](COMPATIBILITY.md).
 - [Vystorm Core](https://github.com/Vystorm/VystormCore) **0.65.0 or newer** (placeholders), also required for portable dialogs and automatic chat fallback.
 - VaultUnlocked (registers as `Vault`). XPVaultEconomy serves both the legacy Vault economy API and Vault 2.
 

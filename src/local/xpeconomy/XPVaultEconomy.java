@@ -134,7 +134,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         if (on(feature)) return false;
         Feature needed = feature.needs();
         if (needed != null && !on(needed) && switches != null && !switches.off().contains(feature))
-            lang.send(sender, "feature-needs", "switch", needed.path);
+            lang.send(sender, "feature-needs", "switch", needed.path, "name", lang.plain(sender, needed.label()));
         else lang.send(sender, "feature-off");
         return true;
     }
@@ -143,7 +143,9 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
     Component featureOffText(String language) { return lang.component(language, "feature-off"); }
 
     /** "This needs the switch X" as a component. */
-    Component featureNeedsText(String language, Feature needed) { return lang.component(language, "feature-needs", "switch", needed.path); }
+    Component featureNeedsText(String language, Feature needed) {
+        return lang.component(language, "feature-needs", "switch", needed.path, "name", lang.plain(language, needed.label()));
+    }
 
     @Override
     public void onEnable() {
@@ -157,6 +159,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         core.admin().updates().spigot(this, 139852);
         DebugMessages.mid("[XPVaultEconomy 90] Vystorm Core API connected");
         saveDefaultConfig();
+        YamlCheck.readConfig(this, false);   // a broken config.yml: reported with line and column, jar defaults, never saved over
         switches = Feature.Switches.read(getConfig());
         transactionHistory =new TransactionHistory(getDataFolder().toPath().resolve("data/transaction-history.json"), core.data().files());
         awayIncome = new AwayIncome(getDataFolder().toPath().resolve("data/away-income.json"), core.data().files());
@@ -567,8 +570,10 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
      * rules before new reward rules apply; enabling the bonus starts series for online players.
      * Storage, sync intervals and economy.maximum-balance still require a restart.
      */
-    void reloadSettings() {
-        reloadConfig();
+    String reloadSettings() {
+        // A config.yml with a YAML error is left as it is; the last good settings stay active (reported with line and column).
+        String problem = YamlCheck.readConfig(this, true);
+        if (problem != null) return problem;
         if (lang != null) {
             lang.reload();
             applyLanguageSetting();
@@ -596,6 +601,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         }
         DebugMessages.mid("[XPVaultEconomy] Settings reloaded; online bonus "
                 + (onlineRewardsEnabled ? "on" : "off"));
+        return null;
     }
 
     /**
@@ -623,7 +629,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
     }
 
     private void registerServerSettings() {
-        core.settings().register(this, Vystorm.vystorm_core._uiMethods.settings.ConfigSettings.of(this)
+        core.settings().register(this, Vystorm.vystorm_core._uiMethods.settings.ConfigSettings.of(this::getConfig, () -> YamlCheck.saveConfig(this))
                 .integer("economy.starting-balance", lang.ref("settings.starting-balance"),
                         lang.ref("settings.starting-balance-description"), 0, 10_000, 10)
                 .add(currencyName("economy.currency-singular", "settings.currency-singular"))
@@ -1833,8 +1839,9 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
 
     private boolean adminCommand(CommandSender sender, String[] args) {
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            reloadSettings();
-            lang.send(sender, "admin.reloaded");
+            String problem = reloadSettings();
+            if (problem != null) lang.send(sender, "config-error", "problem", problem);
+            else lang.send(sender, "admin.reloaded");
             return true;
         }
         if (args.length == 1 && args[0].equalsIgnoreCase("info")) {
