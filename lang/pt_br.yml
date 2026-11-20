@@ -214,6 +214,8 @@ settings:
   top-page-size-description: Ranks por página /baltop
   top-cache: 'Líder: cache (s)'
   top-cache-description: Quanto tempo a tabela de classificação é reutilizada (0 = sempre recalcular)
+  history-max: "Diário de lançamentos: entradas mantidas"
+  history-max-description: "Lançamentos mantidos para todo o servidor para histórico e extratos (os mais antigos saem primeiro; 500 a 20.000)"
 command:
   account: Conta
 web:
@@ -401,7 +403,7 @@ requests:
     storage: Pedido de pagamento ou armazenamento limitado não está disponível. Nenhum novo pagamento foi iniciado, peça a
       um administrador para verificar.
 history:
-  scope: Reservas recentes de economia registradas (até 2,000 entradas neste servidor). Vanilla XP mudanças não estão incluídas,
+  scope: Reservas recentes de economia registradas (até {max} entradas neste servidor). Vanilla XP mudanças não estão incluídas,
     entradas recentes podem ser perdidas em um acidente antes do próximo salvamento.
   empty: Nenhuma reserva registrada para sua conta.
   row: '{time} · {cause}: {delta} XP → {balance} XP · ID {id}'
@@ -966,7 +968,7 @@ commands:
 statement:
   title: XP declaração
   close: Fechar
-  scope: 'Apenas reservas econômicas mantidas: o diário mantém 2,000 entradas através deste servidor. Entradas antigas e baunilha
+  scope: 'Apenas reservas econômicas mantidas: o diário mantém {max} entradas através deste servidor. Entradas antigas e baunilha
     XP mudanças estão ausentes, entradas não salvas podem ser perdidas em um acidente. Esses totais não são seu saldo ou uma
     conta completa.'
   period: 'Período de rolamento (UTC): {from} a {until}'
@@ -980,7 +982,7 @@ statement:
     declaração anterior por este período.
   usage: 'Use /economy statement [1|7|30], /economy statement summary [1|7|30] ou /economy statement export [1|7|30]. Predefinição:
     7 dias.'
-  summary-scope: 'Últimos {days} dias: reservas econômicas retidas apenas (jornal servidor: 2,000 entradas). Reservas antigas
+  summary-scope: 'Últimos {days} dias: reservas econômicas retidas apenas (jornal servidor: {max} entradas). Reservas antigas
     e baunilha XP mudanças podem estar ausentes, este não é o seu equilíbrio.'
 
 treasury:

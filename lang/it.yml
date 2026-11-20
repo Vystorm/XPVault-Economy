@@ -213,6 +213,8 @@ settings:
   top-page-size-description: Classi per pagina in /baltop
   top-cache: 'Leaderboard: cache (s)'
   top-cache-description: Quanto tempo viene riutilizzata la classifica ordinata (0 = sempre ricalcola)
+  history-max: "Registro operazioni: voci conservate"
+  history-max-description: "Operazioni conservate per tutto il server per cronologia ed estratti conto (le più vecchie escono per prime; da 500 a 20.000)"
 command:
   account: conto
 web:
@@ -404,7 +406,7 @@ requests:
     storage: La richiesta di pagamento/limite di archiviazione non è disponibile. Non è stato avviato alcun nuovo pagamento;
       chiedere ad un amministratore di controllarlo.
 history:
-  scope: Prenotazioni economiche recenti (fino a 2,000 voci su questo server). Vanilla XP modifiche non sono incluse; le voci
+  scope: Prenotazioni economiche recenti (fino a {max} voci su questo server). Vanilla XP modifiche non sono incluse; le voci
     recenti possono essere perse in un crash prima del prossimo salvataggio.
   empty: Nessuna prenotazione registrata per il tuo account.
   row: '{time} · {cause}: {delta} XP → {balance} XP · ID {id}'
@@ -971,7 +973,7 @@ commands:
 statement:
   title: XP dichiarazione
   close: Chiudi
-  scope: 'Solo le prenotazioni economiche conservate: la rivista mantiene 2,000 voci su questo server. Le voci più vecchie
+  scope: 'Solo le prenotazioni economiche conservate: la rivista mantiene {max} voci su questo server. Le voci più vecchie
     e le modifiche alla vaniglia XP sono assenti; le voci non salvate possono essere perse in un incidente. Questi totali
     non sono il vostro saldo o una dichiarazione completa del conto.'
   period: 'Periodo di rotolamento (UTC): {from} a {until}'
@@ -985,7 +987,7 @@ statement:
     file. Sostituisci la tua dichiarazione precedente per questo periodo.
   usage: 'Uso /economy statement [1|7|30], /economy statement summary [1|7|30] o /economy statement export [1|7|30]. Predefinito:
     7 giorni.'
-  summary-scope: 'Ultimi {days} giorni: prenotazioni economiche conservate solo (rivista del server: 2,000 voci). Le prenotazioni
+  summary-scope: 'Ultimi {days} giorni: prenotazioni economiche conservate solo (rivista del server: {max} voci). Le prenotazioni
     più vecchie e la vaniglia XP cambiamenti possono essere assenti; questo non è il vostro equilibrio.'
 
 treasury:

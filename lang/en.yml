@@ -209,6 +209,8 @@ settings:
   top-page-size-description: "Ranks per page in /baltop"
   top-cache: "Leaderboard: cache (s)"
   top-cache-description: "How long the sorted leaderboard is reused (0 = always recalculate)"
+  history-max: "Booking journal: entries kept"
+  history-max-description: "Bookings kept for the whole server for history and statements (oldest go first; 500 to 20,000)"
 command:
   account: "account"
 web:
@@ -393,7 +395,7 @@ requests:
     daily: "This payment exceeds your remaining UTC-day limit."
     storage: "Payment request/limit storage is unavailable. No new payment has been started; ask an administrator to check it."
 history:
-  scope: "Recent recorded economy bookings (up to 2,000 entries across this server). Vanilla XP changes are not included; recent entries may be lost in a crash before the next save."
+  scope: "Recent recorded economy bookings (up to {max} entries across this server). Vanilla XP changes are not included; recent entries may be lost in a crash before the next save."
   empty: "No recorded bookings for your account."
   row: "{time} · {cause}: {delta} XP → {balance} XP · ID {id}"
   exported: "Your latest 100 retained entries are saved in the plugin's exports folder as {file}. Ask an administrator for the file. A new export replaces your previous export."
@@ -957,7 +959,7 @@ commands:
 statement:
   title: "XP statement"
   close: "Close"
-  scope: "Only retained economy bookings: the journal keeps 2,000 entries across this server. Older entries and vanilla XP changes are absent; unsaved entries may be lost in a crash. These totals are not your balance or a complete account statement."
+  scope: "Only retained economy bookings: the journal keeps {max} entries across this server. Older entries and vanilla XP changes are absent; unsaved entries may be lost in a crash. These totals are not your balance or a complete account statement."
   period: "Rolling period (UTC): {from} to {until}"
   total: "{count} bookings: incoming {incoming} XP, outgoing {outgoing} XP, net {net} XP"
   row: "{cause}: {count} bookings, +{incoming} / -{outgoing} XP, net {net} XP"
@@ -967,7 +969,7 @@ statement:
   back: "Back to account"
   exported: "Statement saved as {file} in the plugin's exports folder. Ask an administrator for the file. Replaces your previous statement for this period."
   usage: "Use /economy statement [1|7|30], /economy statement summary [1|7|30] or /economy statement export [1|7|30]. Default: 7 days."
-  summary-scope: "Last {days} days: retained economy bookings only (server journal: 2,000 entries). Older bookings and vanilla XP changes may be absent; this is not your balance."
+  summary-scope: "Last {days} days: retained economy bookings only (server journal: {max} entries). Older bookings and vanilla XP changes may be absent; this is not your balance."
 
 treasury:
   title: "Treasury permissions"

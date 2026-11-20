@@ -38,6 +38,7 @@ final class EconomyConfigEditor {
             label("online-rewards.notifications.message", "message"),
             range("top.page-size", "top-page-size", 1, 50, 1),
             range("top.cache-seconds", "top-cache", 0, 3_600, 1),
+            range("history.max-entries", "history-max", TransactionHistory.MIN_CAPACITY, TransactionHistory.MAX_CAPACITY, 100),
             label("banks.enabled", "banks-enabled"),
             range("banks.max-per-player", "banks-max", 0, 100, 1),
             range("banks.max-members", "banks-members", 0, 50, 1),

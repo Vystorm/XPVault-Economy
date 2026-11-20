@@ -1,3 +1,9 @@
+## 1.26.2-26.2 — 2026-11-20
+
+- Fixed: after a term deposit or a donation goal booking, `/economy history`, statements and `/economy admin history` said the history was unavailable after the next server start. The journal file was kept as it was, so all bookings show again with this version.
+- New setting `history.max-entries` (default 2,000, as before; 500 to 20,000): how many bookings the server keeps for history and statements. With shop or job plugins 2,000 can cover less than a day; raise it if 7 and 30 day statements look short. Applies on `/economy admin reload`; the statement and history texts name the current number. A language file already on your server keeps its own text.
+- Going back to an older version: older versions show the history as unavailable, and leave the file untouched, when the journal holds more than 2,000 entries or any term deposit or donation booking. Before a downgrade, set `history.max-entries` back to 2000 and start and stop the server once to remove the first cause. Balances are never affected; the journal is informational only.
+
 ## 1.26.1-26.2 — 2026-11-20
 
 - Fixed: a `config.yml` with a YAML mistake no longer resets the settings on `/economy admin reload`, and the settings menu no longer saves over it. The file is left as it is, the console and the reload answer name the line and column of the mistake, and the last working settings stay active (at start: the default settings).

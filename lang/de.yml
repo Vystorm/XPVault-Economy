@@ -208,6 +208,8 @@ settings:
   top-page-size-description: "Plätze pro Seite bei /baltop"
   top-cache: "Rangliste: Cache (Sek.)"
   top-cache-description: "So lange wird die sortierte Rangliste wiederverwendet (0 = immer neu)"
+  history-max: "Buchungsjournal: behaltene Einträge"
+  history-max-description: "So viele Buchungen behält der Server für Verlauf und Kontoauszüge (die ältesten gehen zuerst; 500 bis 20.000)"
 command:
   account: "konto"
 web:
@@ -392,7 +394,7 @@ requests:
     daily: "Die Zahlung überschreitet dein verbleibendes Tageslimit (UTC)."
     storage: "Der Speicher für Zahlungsanfragen/Limits ist nicht verfügbar. Es wurde keine neue Zahlung gestartet; bitte einen Administrator um Prüfung."
 history:
-  scope: "Letzte erfasste Economy-Buchungen (höchstens 2.000 Einträge für diesen Server). Normale Vanilla-XP-Änderungen fehlen; bei einem Absturz vor dem Speichern können neue Einträge fehlen."
+  scope: "Letzte erfasste Economy-Buchungen (höchstens {max} Einträge für diesen Server). Normale Vanilla-XP-Änderungen fehlen; bei einem Absturz vor dem Speichern können neue Einträge fehlen."
   empty: "Keine erfassten Buchungen für dein Konto."
   row: "{time} · {cause}: {delta} XP → {balance} XP · ID {id}"
   exported: "Deine letzten 100 erhaltenen Einträge liegen im exports-Ordner des Plugins unter {file}. Bitte einen Administrator um die Datei. Ein neuer Export ersetzt deinen vorherigen Export."
@@ -956,7 +958,7 @@ commands:
 statement:
   title: "XP-Kontoauszug"
   close: "Schließen"
-  scope: "Nur gespeicherte Wirtschaftsbuchungen: Das Journal behält serverweit 2.000 Einträge. Ältere Einträge und Vanilla-XP-Änderungen fehlen; ungespeicherte Einträge können bei einem Absturz verloren gehen. Diese Summen sind weder dein Guthaben noch ein vollständiger Kontoauszug."
+  scope: "Nur gespeicherte Wirtschaftsbuchungen: Das Journal behält serverweit {max} Einträge. Ältere Einträge und Vanilla-XP-Änderungen fehlen; ungespeicherte Einträge können bei einem Absturz verloren gehen. Diese Summen sind weder dein Guthaben noch ein vollständiger Kontoauszug."
   period: "Zurückliegender Zeitraum (UTC): {from} bis {until}"
   total: "{count} Buchungen: Eingang {incoming} XP, Ausgang {outgoing} XP, Saldo {net} XP"
   row: "{cause}: {count} Buchungen, +{incoming} / -{outgoing} XP, Saldo {net} XP"
@@ -966,7 +968,7 @@ statement:
   back: "Zurück zum Konto"
   exported: "Kontoauszug als {file} im exports-Ordner des Plugins gespeichert. Bitte einen Administrator um die Datei. Ersetzt deinen vorherigen Auszug für diesen Zeitraum."
   usage: "Verwende /economy auszug [1|7|30], /economy auszug kurz [1|7|30] oder /economy auszug exportieren [1|7|30]. Standard: 7 Tage."
-  summary-scope: "Letzte {days} Tage: nur gespeicherte Economy-Buchungen (Serverjournal: 2.000 Einträge). Ältere Buchungen und Vanilla-XP können fehlen; dies ist nicht dein Kontostand."
+  summary-scope: "Letzte {days} Tage: nur gespeicherte Economy-Buchungen (Serverjournal: {max} Einträge). Ältere Buchungen und Vanilla-XP können fehlen; dies ist nicht dein Kontostand."
 
 treasury:
   title: "Kassenrechte"

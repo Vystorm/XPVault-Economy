@@ -217,6 +217,8 @@ settings:
   top-page-size-description: Classements par page dans /baltop
   top-cache: 'Tableau de classement : cache (s)'
   top-cache-description: Combien de temps le classement trié est réutilisé (0 = toujours recalculer)
+  history-max: "Journal des opérations : entrées conservées"
+  history-max-description: "Nombre d'opérations gardées pour tout le serveur pour l'historique et les relevés (les plus anciennes partent en premier ; 500 à 20 000)"
 command:
   account: compte
 web:
@@ -406,7 +408,7 @@ requests:
     storage: Demande de paiement / stockage limité est indisponible. Aucun nouveau paiement n'a été effectué; demandez à un
       administrateur de le vérifier.
 history:
-  scope: Réservations économiques enregistrées récemment (jusqu'à 2,000 entrées sur ce serveur). Vanilla XP modifications
+  scope: Réservations économiques enregistrées récemment (jusqu'à {max} entrées sur ce serveur). Vanilla XP modifications
     ne sont pas inclus; les entrées récentes peuvent être perdues dans un crash avant la prochaine sauvegarde.
   empty: Aucune réservation enregistrée pour votre compte.
   row: '{time} · {cause}: {delta} XP → {balance} XP · ID {id}'
@@ -973,7 +975,7 @@ commands:
 statement:
   title: État XP
   close: Fermer
-  scope: 'Seulement les réservations d''économie conservées : la revue conserve 2,000 entrées sur ce serveur. Les entrées
+  scope: 'Seulement les réservations d''économie conservées : la revue conserve {max} entrées sur ce serveur. Les entrées
     plus anciennes et la vanille XP changements sont absents; les entrées non sauvées peuvent être perdues dans un accident.
     Ces totaux ne sont pas votre solde ou un relevé de compte complet.'
   period: 'Période de roulement (UTC): {from} à {until}'
@@ -987,7 +989,7 @@ statement:
     fichier. Remplace votre déclaration précédente pour cette période.
   usage: 'Utilisation /economy statement [1|7|30], /economy statement summary [1|7|30] ou /economy statement export [1|7|30].
     Par défaut: 7 jours.'
-  summary-scope: 'Les {days} derniers jours: réservation économique réservée (journal du serveur: 2,000 entrées). Les réservations
+  summary-scope: 'Les {days} derniers jours: réservation économique réservée (journal du serveur: {max} entrées). Les réservations
     plus anciennes et la vanille XP changements peuvent être absents; ce n''est pas votre équilibre.'
 
 treasury:

@@ -161,7 +161,10 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         saveDefaultConfig();
         YamlCheck.readConfig(this, false);   // a broken config.yml: reported with line and column, jar defaults, never saved over
         switches = Feature.Switches.read(getConfig());
-        transactionHistory =new TransactionHistory(getDataFolder().toPath().resolve("data/transaction-history.json"), core.data().files());
+        transactionHistory = new TransactionHistory(getDataFolder().toPath().resolve("data/transaction-history.json"), core.data().files(),
+                TransactionHistory.capacityFrom(getConfig()));
+        if (!transactionHistory.readable())
+            getLogger().warning("data/transaction-history.json is unreadable; booking history and statements are unavailable and the file is left as it is.");
         awayIncome = new AwayIncome(getDataFolder().toPath().resolve("data/away-income.json"), core.data().files());
         paymentDesk = new PaymentDesk(getDataFolder().toPath().resolve("data/payment-requests.json"), java.time.Clock.systemUTC(), core.data().files());
         privacy = new BalancePrivacy(getDataFolder().toPath().resolve("data/player-privacy.json"), core.data().files());
@@ -496,6 +499,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         showOnlineRewardStatusInBalance = next.showStatusInBalance();
         topPageSize = next.topPageSize();
         topCacheMillis = next.topCacheMillis();
+        if (transactionHistory != null) transactionHistory.capacity(TransactionHistory.capacityFrom(getConfig()));
         if (leaderboard != null) leaderboard.invalidate();
     }
 
@@ -1458,7 +1462,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
             return true;
         }
         if (args.length != 0) { lang.send(player, "history.usage"); return true; }
-        lang.send(player, "history.scope");
+        lang.send(player, "history.scope", "max", transactionHistory.capacity());
         var rows = transactionHistory.recent(player.getUniqueId(), 10);
         if (rows.isEmpty()) lang.send(player, "history.empty");
         for (var b : rows) lang.send(player, "history.row", "id", b.paymentId(), "time", java.time.Instant.ofEpochMilli(b.time()),

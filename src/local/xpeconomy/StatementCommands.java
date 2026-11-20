@@ -41,7 +41,7 @@ final class StatementCommands {
     }
 
     private void summary(Player player, AccountStatement statement) {
-        lang.send(player, "statement.summary-scope", "days", statement.days());
+        lang.send(player, "statement.summary-scope", "days", statement.days(), "max", history.capacity());
         var total = statement.total();
         lang.send(player, "statement.total", "count", total.count(), "incoming", total.incoming(), "outgoing", total.outgoing(), "net", total.net());
         statement.byCause().forEach((cause, t) -> lang.send(player, "statement.row",
@@ -51,7 +51,7 @@ final class StatementCommands {
 
     private void open(Player player, AccountStatement statement) {
         List<DialogBody> body = new ArrayList<>();
-        body.add(DialogBody.plainMessage(lang.component(player, "statement.scope")));
+        body.add(DialogBody.plainMessage(lang.component(player, "statement.scope", "max", history.capacity())));
         body.add(DialogBody.plainMessage(lang.component(player, "statement.period",
                 "from", Instant.ofEpochMilli(statement.from()), "until", Instant.ofEpochMilli(statement.until()))));
         var total = statement.total();

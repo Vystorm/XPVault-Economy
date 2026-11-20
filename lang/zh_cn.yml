@@ -209,6 +209,8 @@ settings:
   top-page-size-description: "/baltop 中每页的排名数"
   top-cache: "排行榜：缓存（秒）"
   top-cache-description: "排序后的排行榜复用多久（0 = 每次重新计算）"
+  history-max: "交易日志：保留条数"
+  history-max-description: "全服为历史记录和账单保留的交易条数（最旧的先删除；500 到 20,000）"
 command:
   account: "account"
 web:
@@ -393,7 +395,7 @@ requests:
     daily: "此笔付款超出你今日（UTC）的剩余限额。"
     storage: "付款请求/限额存储不可用。尚未开始新的付款；请联系管理员检查。"
 history:
-  scope: "最近记录的经济交易（本服务器最多 2,000 条）。不包括原版经验变化；在下次保存前崩溃可能会丢失最近的条目。"
+  scope: "最近记录的经济交易（本服务器最多 {max} 条）。不包括原版经验变化；在下次保存前崩溃可能会丢失最近的条目。"
   empty: "你的账户没有记录的交易。"
   row: "{time} · {cause}：{delta} XP → {balance} XP · ID {id}"
   exported: "你最近保留的 100 条记录已保存到插件的 exports 文件夹，文件名为 {file}。请向管理员索取该文件。新的导出会替换之前的导出。"
@@ -957,7 +959,7 @@ commands:
 statement:
   title: "经验账单"
   close: "关闭"
-  scope: "仅统计保留的经济记录：日志在本服务器共保留 2,000 条记录。更早的记录和原版经验变动不包含在内；崩溃可能导致未保存的记录丢失。这些合计并非当前余额，也不是完整账单。"
+  scope: "仅统计保留的经济记录：日志在本服务器共保留 {max} 条记录。更早的记录和原版经验变动不包含在内；崩溃可能导致未保存的记录丢失。这些合计并非当前余额，也不是完整账单。"
   period: "最近时间范围（UTC）：{from} 至 {until}"
   total: "{count} 笔记录：收入 {incoming} 经验，支出 {outgoing} 经验，净额 {net} 经验"
   row: "{cause}：{count} 笔，+{incoming} / -{outgoing} 经验，净额 {net} 经验"
@@ -967,7 +969,7 @@ statement:
   back: "返回账户"
   exported: "账单已保存为插件 exports 文件夹中的 {file}。请向管理员索取文件。将替换你此前导出的同一时间范围账单。"
   usage: "用法：/economy statement [1|7|30]、/economy statement summary [1|7|30] 或 /economy statement export [1|7|30]。默认 7 天。"
-  summary-scope: "最近 {days} 天：仅包含保留的经济交易（全服日志上限 2,000 条）。可能缺少较早的交易和原版经验变化；这不是账户余额。"
+  summary-scope: "最近 {days} 天：仅包含保留的经济交易（全服日志上限 {max} 条）。可能缺少较早的交易和原版经验变化；这不是账户余额。"
 
 treasury:
   title: "公款权限"

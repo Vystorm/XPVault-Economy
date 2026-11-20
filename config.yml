@@ -44,6 +44,11 @@ limits:
 # statements and /economy admin history.
 history:
   enabled: true
+  # Bookings kept for the whole server (history, statements, admin history); the oldest go first. Every payment
+  # through Vault is a booking, so with shop or job plugins 2,000 can cover less than a day. 500 to 20,000; a full
+  # journal of 20,000 is a file of about 4.5 MB. Applies on /economy admin reload. Before going back to a version older
+  # than 1.26.2, set it to 2000 and start once: older versions do not read a larger journal.
+  max-entries: 2000
 
 # Players may hide their balance from others and from /baltop (/economy privacy, /vsettings). Off: the command and the
 # setting are switched off and every balance is visible again; the players' choices stay stored and apply again when
