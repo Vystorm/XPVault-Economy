@@ -1,3 +1,11 @@
+## 1.27.0-26.2 — 2026-11-22
+
+- New ranking `xpvault:balance`: the richest players by XP balance, the same list as `/baltop`. Vystorm Boards shows it on a board with `{type: top, source: "xpvault:balance", rows: 10}`, and the same values are placeholders, for example `%vystorm_xpvault_top_balance_1_name%` and `%vystorm_xpvault_rank_balance%`. Offline players are listed from the first start, because the balances are already stored.
+- Players who hid their balance with `/economy privacy` are not listed and have no rank or value in it, as on `/baltop`; accounts hidden by `top.hide-name-prefixes` are left out too. While `privacy.enabled` is off every balance is visible again, as before.
+- Showing the ranking on a board needs Vystorm Core 0.67.0 or newer and Vystorm Boards 1.21.0 or newer. The plugin itself still runs with Vystorm Core 0.65.0 or newer; with an older Core it offers no ranking and everything else works as before.
+- New switch `rankings.enabled`, on by default and listed in `/vadmin features` as "Rankings" in seven languages. Off, or with `top.enabled` off, the ranking is not offered; the change applies on `/economy admin reload` without a restart.
+- The old placeholders `%vystorm_xpvault_top_<n>_name%`, `%vystorm_xpvault_top_<n>_balance%` and `%vystorm_xpvault_rank%` stay as they are. No data file changes.
+
 ## 1.26.2-26.2 — 2026-11-20
 
 - Fixed: after a term deposit or a donation goal booking, `/economy history`, statements and `/economy admin history` said the history was unavailable after the next server start. The journal file was kept as it was, so all bookings show again with this version.

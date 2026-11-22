@@ -154,6 +154,7 @@ refunded, and issued cheques can still be redeemed while their switch is off.
 | `cheques.enabled` | Issuing XP cheques |
 | `banks.enabled`, `standing-orders.enabled`, `term-deposits.enabled`, `funds.enabled` | XP banks, standing orders, term deposits, donation goals |
 | `top.enabled` | Leaderboard |
+| `rankings.enabled` | The ranking `xpvault:balance` for boards and placeholders (needs `top.enabled`; see [Rankings](#rankings)) |
 | `account-menu.enabled` | Account menu and [Account] buttons (a bare `/economy` then shows the balance) |
 | `economy.away-summary` | Away summary |
 | `player-menu.enabled` | Entries in Core's player menu |
@@ -178,6 +179,29 @@ them. With PlaceholderAPI installed, Core offers them to every other plugin as w
 | `%vystorm_xpvault_goal_percent%` | Savings goal progress 0 to 100, empty without a goal |
 | `%vystorm_xpvault_reward_streak%`, `_reward_next_xp`, `_reward_remaining` | Online bonus streak, next payout, seconds to it |
 | `%vystorm_xpvault_accounts%` | Number of accounts |
+
+## Rankings
+
+With Vystorm Core 0.67.0 or newer the plugin offers one ranking. It is the `/baltop` list: offline players included,
+players who hid their balance and accounts hidden by `top.hide-name-prefixes` left out.
+
+| Source id | Counts |
+|---|---|
+| `xpvault:balance` | XP balance, richest first |
+
+Vystorm Boards 1.21.0 or newer shows it on a board; put a text element above as heading:
+
+```yaml
+elements:
+  - {type: text, text: "<gold>Richest players", x: 16, y: 12, size: 22}
+  - {type: top, source: "xpvault:balance", x: 16, y: 48, width: 480, rows: 10, highlight: true}
+```
+
+Placeholders, with `<n>` = 1 to 100: `%vystorm_xpvault_top_balance_<n>_name%`, `%vystorm_xpvault_top_balance_<n>_value%`
+(formatted in the viewer's language; `_raw` for the plain number, `_uuid` for the UUID), `%vystorm_xpvault_rank_balance%`
+and `%vystorm_xpvault_value_balance%` for the viewer (`-` if not listed). Short form in Vystorm texts:
+`{xpvault:top_balance:1:name}`, `{xpvault:rank_balance}`. `/vadmin placeholders rankings` lists it. Switch:
+`rankings.enabled`. With an older Core the plugin offers no ranking and works as before.
 
 ## For developers
 

@@ -409,6 +409,8 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         ready = true;
         try { registerPlaceholders(core.placeholders()); }
         catch (RuntimeException failure) { getLogger().log(java.util.logging.Level.WARNING, "Placeholders not registered", failure); }
+        rankingsReady = true;
+        applyRankings();
         for (Player player : Bukkit.getOnlinePlayers()) handleJoin(player);
         DebugMessages.mid("[XPVaultEconomy 135] Vault economy registered: 1 unit = 1 real XP point; storage: "
                 + store.description() + "; accounts loaded: " + accounts.size());
@@ -532,6 +534,38 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         }, key -> lang == null ? key : lang.ref(key));
     }
 
+    // ---- ranking xpvault:balance (1.27.0, Core 0.67.0) ----
+
+    /** Set once the placeholders are registered at start; reloads before that do not offer the ranking yet. */
+    private boolean rankingsReady, rankingsRefused;
+
+    /** Offers or removes the ranking after the switches were read; nothing at all on a Core older than 0.67.0. */
+    private void applyRankings() {
+        if (core == null) return;
+        Throwable refused = rankings(CoreApi.has("placeholder-rankings"), this, core::placeholders, on(Feature.RANKINGS),
+                this::placeholderRanking, key -> lang == null ? key : lang.ref(key));
+        if (refused != null && !rankingsRefused) {
+            rankingsRefused = true;
+            getLogger().warning("Rankings not offered: " + refused);
+        }
+    }
+
+    /**
+     * Declares (or removes) the ranking when Core has rankings. The class naming Core's ranking types is only loaded
+     * inside this check. Returns the refusal (logged once by the caller), null when it worked or there was nothing to do.
+     */
+    static Throwable rankings(boolean coreHasRankings, org.bukkit.plugin.Plugin plugin,
+                              java.util.function.Supplier<Vystorm.vystorm_core._advancedMethods.placeholderHandler.PlaceholderInterface> registry,
+                              boolean on, java.util.function.Supplier<BalanceRanking> ranking, java.util.function.UnaryOperator<String> ref) {
+        if (!coreHasRankings) return null;
+        try {
+            XpVaultRankings.apply(plugin, registry.get(), on, ranking, ref);
+            return null;
+        } catch (RuntimeException | LinkageError refused) {
+            return refused;
+        }
+    }
+
     /**
      * The cached leaderboard for placeholders. A missing or stale one (older than the cache time, at least 30 seconds)
      * is rebuilt in the background, the same way /baltop does; until then the old one or nothing is shown.
@@ -599,6 +633,7 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
             rewardTimer.cancel();
         }
         applySwitches();
+        if (rankingsReady) applyRankings();   // rankings.enabled and top.enabled apply without a restart
         if (web != null) {
             web.configChanged();
             for (Player player : Bukkit.getOnlinePlayers()) markWeb(player.getUniqueId());
@@ -1198,8 +1233,16 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         for (Player player : Bukkit.getOnlinePlayers())
             copy.put(player.getUniqueId(), new StoredAccount(player.getUniqueId(), safeName(player.getName()),
                     clamp(core.player().experience(player)), true));
-        copy.keySet().removeIf(id -> privacy == null || on(Feature.PRIVACY) && privacy.hidden(id));
+        dropHidden(copy, privacy, on(Feature.PRIVACY));
         return copy.values();
+    }
+
+    /**
+     * Leaves out the accounts whose owners hid their balance while privacy is on (everyone while the privacy file is
+     * unreadable or not loaded). Used for /baltop, the rank placeholders and the ranking xpvault:balance.
+     */
+    static void dropHidden(Map<UUID, ?> accounts, BalancePrivacy privacy, boolean privacyOn) {
+        accounts.keySet().removeIf(id -> privacy == null || privacyOn && privacy.hidden(id));
     }
 
     /**

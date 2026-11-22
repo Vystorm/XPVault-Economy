@@ -1029,6 +1029,7 @@ switch-names:
   term-deposits: "Depositi vincolati"
   funds: "Obiettivi di donazione"
   leaderboard: "Classifica"
+  rankings: "Classifiche"
   account-menu: "Menu del conto"
   away-summary: "Riepilogo assenza"
   player-menu: "Voci del menu giocatore"
@@ -1052,6 +1053,7 @@ switches:
   term-deposits: "Depositi vincolati con interessi"
   funds: "Raccolte fondi con rimborso"
   leaderboard: "Classifica (/baltop)"
+  rankings: "Classifica xpvault:balance per bacheche e placeholder (richiede Vystorm Core 0.67.0)"
   account-menu: "Menu del conto (/economy, menu principale)"
   away-summary: "Riepilogo dei pagamenti ricevuti offline"
   player-menu: "Voci nel menu giocatore"
@@ -1071,3 +1073,7 @@ placeholder:
   reward_remaining: "Secondi al prossimo bonus"
   accounts: "Numero di conti"
 config-error: "<red>config.yml non è stato caricato: errore YAML in {problem}. Il file non è stato modificato e restano attive le ultime impostazioni valide."
+rankings:
+  balance:
+    label: "Giocatori più ricchi"
+    description: "Saldo XP; i giocatori che nascondono il saldo non compaiono"

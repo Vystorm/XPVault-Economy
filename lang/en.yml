@@ -1010,6 +1010,7 @@ switch-names:
   term-deposits: "Term deposits"
   funds: "Donation goals"
   leaderboard: "Leaderboard"
+  rankings: "Rankings"
   account-menu: "Account menu"
   away-summary: "Away summary"
   player-menu: "Player menu entries"
@@ -1033,6 +1034,7 @@ switches:
   term-deposits: "Term deposits with interest"
   funds: "Donation goals with refund"
   leaderboard: "Leaderboard (/baltop)"
+  rankings: "Ranking xpvault:balance for boards and placeholders (needs Vystorm Core 0.67.0)"
   account-menu: "Account menu (/economy, main menu)"
   away-summary: "Summary of payments received while offline"
   player-menu: "Entries in the player menu"
@@ -1052,3 +1054,7 @@ placeholder:
   reward_remaining: "Seconds until the next online bonus"
   accounts: "Number of accounts"
 config-error: "<red>config.yml was not loaded: YAML error at {problem}. The file was left unchanged and the last good settings stay active."
+rankings:
+  balance:
+    label: "Richest players"
+    description: "XP balance; players who hid their balance are not listed"

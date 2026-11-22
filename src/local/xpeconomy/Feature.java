@@ -39,6 +39,8 @@ enum Feature {
     /** Older key that keeps its name. */
     FUNDS("funds.enabled"),
     LEADERBOARD("top.enabled"),
+    /** The ranking xpvault:balance in Core's placeholders (1.27.0; needs Core 0.67.0, otherwise nothing is offered). */
+    RANKINGS("rankings.enabled"),
     ACCOUNT_MENU("account-menu.enabled"),
     /** Older key that keeps its name; declared as a feature. */
     AWAY_SUMMARY("economy.away-summary"),
@@ -64,6 +66,7 @@ enum Feature {
     Feature needs() {
         return switch (this) {
             case REWARD_NOTIFICATIONS, REWARD_STATUS, AFK_PAUSE -> ONLINE_REWARDS;
+            case RANKINGS -> LEADERBOARD;
             default -> null;
         };
     }

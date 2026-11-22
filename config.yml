@@ -114,6 +114,13 @@ top:
   # Accounts whose name starts with one of these prefixes are hidden from /baltop (e.g. "npc_").
   hide-name-prefixes: []
 
+# Ranking for Vystorm Boards and placeholders: xpvault:balance, the richest players by XP balance, read from the same
+# leaderboard as /baltop (offline players included; players who hid their balance and top.hide-name-prefixes are left
+# out). Needs Vystorm Core 0.67.0 or newer; with an older Core nothing is offered and the rest of the plugin works as
+# before. Off (or top.enabled off): the ranking is not offered.
+rankings:
+  enabled: true
+
 sync:
   # Online XP is synchronised with the economy account every second.
   online-interval-ticks: 20

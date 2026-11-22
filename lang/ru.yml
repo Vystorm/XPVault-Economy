@@ -1025,6 +1025,7 @@ switch-names:
   term-deposits: "Срочные вклады"
   funds: "Цели сборов"
   leaderboard: "Таблица лидеров"
+  rankings: "Рейтинги"
   account-menu: "Меню счёта"
   away-summary: "Сводка за отсутствие"
   player-menu: "Пункты меню игрока"
@@ -1048,6 +1049,7 @@ switches:
   term-deposits: "Срочные вклады с процентами"
   funds: "Сборы пожертвований с возвратом"
   leaderboard: "Рейтинг (/baltop)"
+  rankings: "Рейтинг xpvault:balance для табло и плейсхолдеров (нужен Vystorm Core 0.67.0)"
   account-menu: "Меню счёта (/economy, главное меню)"
   away-summary: "Сводка платежей, полученных вне игры"
   player-menu: "Пункты в меню игрока"
@@ -1067,3 +1069,7 @@ placeholder:
   reward_remaining: "Секунды до следующего бонуса"
   accounts: "Количество счетов"
 config-error: "<red>config.yml не загружен: ошибка YAML в {problem}. Файл не изменён, действуют последние рабочие настройки."
+rankings:
+  balance:
+    label: "Самые богатые игроки"
+    description: "Баланс опыта; игроки, скрывшие баланс, не показываются"

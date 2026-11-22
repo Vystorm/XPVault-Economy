@@ -1009,6 +1009,7 @@ switch-names:
   term-deposits: "Festgeld"
   funds: "Spendenziele"
   leaderboard: "Bestenliste"
+  rankings: "Ranglisten"
   account-menu: "Kontomenü"
   away-summary: "Abwesenheits-Übersicht"
   player-menu: "Einträge im Spielermenü"
@@ -1032,6 +1033,7 @@ switches:
   term-deposits: "Festgeld mit Zinsen"
   funds: "Spendenziele mit Rückzahlung"
   leaderboard: "Rangliste (/baltop)"
+  rankings: "Rangliste xpvault:balance für Tafeln und Platzhalter (braucht Vystorm Core 0.67.0)"
   account-menu: "Kontomenü (/economy, Hauptmenü)"
   away-summary: "Zusammenfassung der Zahlungen, die offline eingingen"
   player-menu: "Einträge im Spielermenü"
@@ -1051,3 +1053,7 @@ placeholder:
   reward_remaining: "Sekunden bis zur nächsten Bonuszahlung"
   accounts: "Anzahl der Konten"
 config-error: "<red>config.yml wurde nicht geladen: YAML-Fehler bei {problem}. Die Datei bleibt unverändert, die letzten gültigen Einstellungen bleiben aktiv."
+rankings:
+  balance:
+    label: "Reichste Spieler"
+    description: "XP-Kontostand; Spieler, die ihren Kontostand verbergen, fehlen"

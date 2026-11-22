@@ -1031,6 +1031,7 @@ switch-names:
   term-deposits: "Dépôts à terme"
   funds: "Objectifs de dons"
   leaderboard: "Classement"
+  rankings: "Classements"
   account-menu: "Menu du compte"
   away-summary: "Résumé d'absence"
   player-menu: "Entrées du menu joueur"
@@ -1054,6 +1055,7 @@ switches:
   term-deposits: "Dépôts à terme avec intérêts"
   funds: "Cagnottes avec remboursement"
   leaderboard: "Classement (/baltop)"
+  rankings: "Classement xpvault:balance pour les panneaux et les placeholders (nécessite Vystorm Core 0.67.0)"
   account-menu: "Menu du compte (/economy, menu principal)"
   away-summary: "Résumé des paiements reçus hors ligne"
   player-menu: "Entrées du menu joueur"
@@ -1073,3 +1075,7 @@ placeholder:
   reward_remaining: "Secondes jusqu'au prochain bonus"
   accounts: "Nombre de comptes"
 config-error: "<red>config.yml n'a pas été chargé : erreur YAML à {problem}. Le fichier n'a pas été modifié et les derniers réglages valides restent actifs."
+rankings:
+  balance:
+    label: "Joueurs les plus riches"
+    description: "Solde d'XP ; les joueurs qui masquent leur solde n'apparaissent pas"

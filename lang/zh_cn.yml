@@ -1010,6 +1010,7 @@ switch-names:
   term-deposits: "定期存款"
   funds: "捐款目标"
   leaderboard: "排行榜"
+  rankings: "排名"
   account-menu: "账户菜单"
   away-summary: "离线摘要"
   player-menu: "玩家菜单条目"
@@ -1033,6 +1034,7 @@ switches:
   term-deposits: "带利息的定期存款"
   funds: "可退款的捐款目标"
   leaderboard: "排行榜（/baltop）"
+  rankings: "用于展板和占位符的排名 xpvault:balance（需要 Vystorm Core 0.67.0）"
   account-menu: "账户菜单（/economy、主菜单）"
   away-summary: "离线期间收到付款的汇总"
   player-menu: "玩家菜单中的条目"
@@ -1052,3 +1054,7 @@ placeholder:
   reward_remaining: "距下一次在线奖励的秒数"
   accounts: "账户数量"
 config-error: "<red>config.yml 未加载：YAML 错误位于 {problem}。文件未被修改，仍使用上次有效的设置。"
+rankings:
+  balance:
+    label: "最富有的玩家"
+    description: "经验余额；隐藏余额的玩家不会列出"
