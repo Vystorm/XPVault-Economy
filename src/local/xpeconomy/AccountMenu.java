@@ -60,6 +60,9 @@ final class AccountMenu {
         if (player.hasPermission("xpeconomy.pay") && XPVaultEconomy.enabled(plugin, Feature.PAYMENTS))
             buttons.add(new DialogButton(lang.component(player, "account.transfer"), lang.component(player, "account.transfer-hover"),
                     (p, response) -> openTransfer(p, "", "", null)));
+        if (requestFormOffered(player))
+            buttons.add(new DialogButton(lang.component(player, "account.request"), lang.component(player, "account.request-hover"),
+                    (p, response) -> openRequestForm(p, null, "", "", "", null)));
         if (player.hasPermission("xpeconomy.top") && XPVaultEconomy.enabled(plugin, Feature.LEADERBOARD))
             buttons.add(new DialogButton(lang.component(player, "account.leaderboard"), lang.component(player, "account.leaderboard-hover"),
                     (p, response) -> openLeaderboard(p, 1)));
@@ -86,6 +89,60 @@ final class AccountMenu {
         buttons.add(MenuButtons.home(core));
         core.dialogs().open(plugin, player, new DialogRequest(lang.component(player, "menu.title"), body, List.of(), buttons,
                 p -> p.isOnline() && plugin.isEnabled(), () -> {}, "Schließen", 2));
+    }
+
+    private boolean requestFormOffered(Player player) {
+        return player.hasPermission("xpeconomy.pay") && XPVaultEconomy.enabled(plugin, Feature.REQUESTS)
+                && XPVaultEconomy.enabled(plugin, Feature.PAYMENTS);
+    }
+
+    /**
+     * "Request XP" for players without a screen (1.28.0): player, XP points and purpose in one dialog. "Choose player"
+     * opens Core's player picker (Core 0.71.0) and comes back to this dialog with the values typed so far; without the
+     * picker the name is typed in the dialog. "Send request" runs the same code as {@code /economy request}.
+     */
+    void openRequestForm(Player player, java.util.UUID targetId, String targetName, String amount, String purpose, Component error) {
+        if (!requestFormOffered(player)) {
+            open(player, lang.component(player, "common.no-permission"));
+            return;
+        }
+        List<DialogBody> body = new ArrayList<>();
+        if (error != null) body.add(DialogBody.plainMessage(error.colorIfAbsent(NamedTextColor.RED)));
+        body.add(DialogBody.plainMessage(lang.component(player, "client.panel-request-intro")));
+        List<DialogInput> inputs = List.of(
+                DialogInput.text("target", lang.component(player, "client.panel-request-player")).initial(targetName).maxLength(16).build(),
+                DialogInput.text("amount", lang.component(player, "transfer.amount",
+                        "currency", plugin.currencyName(lang.language(player), false))).initial(amount).maxLength(10).build(),
+                DialogInput.text("purpose", lang.component(player, "requests.dialog-purpose")).initial(purpose).maxLength(80).build());
+        List<DialogButton> buttons = new ArrayList<>();
+        buttons.add(new DialogButton(lang.component(player, "requests.dialog-send"), (p, response) -> {
+            String name = String.valueOf(response.getText("target")).trim();
+            String points = String.valueOf(response.getText("amount")).trim();
+            String text = String.valueOf(response.getText("purpose")).trim();
+            // a picked player counts while the name field still shows that player
+            java.util.UUID picked = targetId != null && name.equalsIgnoreCase(targetName) ? targetId : null;
+            if (picked == null && name.isEmpty()) {
+                openRequestForm(p, null, name, points, text, lang.component(p, "client.panel-request-missing-player"));
+                return;
+            }
+            PaymentCommands.Outcome outcome = plugin.createRequest(p, picked, name, points, text);
+            Component answer = lang.component(p, outcome.key(), outcome.placeholders());
+            if (outcome.ok()) open(p, answer);
+            else openRequestForm(p, picked, name, points, text, answer);
+        }));
+        if (plugin.playerPickerAvailable())
+            buttons.add(new DialogButton(lang.component(player, "client.panel-request-choose"), lang.component(player, "client.panel-request-player-hint"),
+                    (p, response) -> plugin.pickRequestTarget(p, String.valueOf(response.getText("target")).trim(),
+                            String.valueOf(response.getText("amount")).trim(), String.valueOf(response.getText("purpose")).trim(),
+                            (back, id, name, points, text) -> openRequestForm(back, id, name, points, text, null))));
+        buttons.add(MenuButtons.back(core, this::open));
+        core.dialogs().open(plugin, player, new DialogRequest(lang.component(player, "client.panel-request"), body, inputs, buttons,
+                p -> p.isOnline() && plugin.isEnabled(), () -> {}, "Schließen", 2));
+    }
+
+    /** Where the request dialog goes on after a pick (or Back from the picker). */
+    @FunctionalInterface interface RequestReturn {
+        void open(Player player, java.util.UUID targetId, String targetName, String amount, String purpose);
     }
 
     /** The first leaderboard page (account panel "More"). */

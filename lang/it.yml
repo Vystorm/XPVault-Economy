@@ -138,6 +138,8 @@ account:
   transfer-hover: Pagare XP a un giocatore
   leaderboard: Leaderboard
   leaderboard-hover: La classifica XP di tutti i conti
+  request: "Richiedi XP"
+  request-hover: "Chiedi XP a un giocatore; conferma prima che si muova qualcosa"
   refresh: Rifiuti
   web: Aprire nel web
   web-hover: Il tuo account XP, i pagamenti e la classifica nel browser o il overlay in-game
@@ -349,6 +351,23 @@ client:
   panel-hud-settings: HUD display
   panel-more: Altro
   panel-more-requests: Richieste di pagamento
+  panel-more-request: "Richiedi XP"
+  panel-request: "Richiedi XP"
+  panel-request-intro: "Il giocatore conferma la richiesta prima che si muovano XP. Scade dopo 24 ore."
+  panel-request-choose: "Scegli giocatore"
+  panel-request-player-chosen: "Giocatore: {player}"
+  panel-request-player-hint: "Online, vicini, recenti o ricerca per nome"
+  panel-request-player: "Giocatore"
+  panel-request-player-type: "Nome del giocatore"
+  panel-request-amount: "Punti XP"
+  panel-request-purpose: "Oggetto"
+  panel-request-purpose-hint: "Da 1 a 80 caratteri; il giocatore lo vede"
+  panel-request-send: "Invia richiesta"
+  panel-request-close: "Chiudi"
+  panel-request-missing-player: "Scegli prima un giocatore."
+  panel-request-no-picker: "Scrivi il nome del giocatore nel modulo."
+  panel-request-pick-title: "Richiedi XP a"
+  panel-request-pick-subtitle: "Il giocatore scelto riceve la richiesta"
 privacy:
   title: visibilità dell'account
   description: Si basa su questo server indipendentemente dal backend del saldo. La vostra visione e le domande di amministrazione

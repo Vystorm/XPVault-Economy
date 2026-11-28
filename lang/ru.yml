@@ -138,6 +138,8 @@ account:
   transfer-hover: Платить XP игрокам
   leaderboard: Руководитель
   leaderboard-hover: Список лидеров XP аккаунтов
+  request: "Запросить XP"
+  request-hover: "Попросить у игрока XP; он подтверждает до перевода"
   refresh: освежить
   web: Открыто в Web
   web-hover: Ваша учетная запись XP, платежи и таблица лидеров в браузере или внутриигровое наложение
@@ -350,6 +352,23 @@ client:
   panel-hud-settings: Дисплей HUD
   panel-more: Ещё
   panel-more-requests: Запросы на оплату
+  panel-more-request: "Запросить XP"
+  panel-request: "Запросить XP"
+  panel-request-intro: "Игрок подтверждает запрос до того, как XP будут переведены. Запрос истекает через 24 часа."
+  panel-request-choose: "Выбрать игрока"
+  panel-request-player-chosen: "Игрок: {player}"
+  panel-request-player-hint: "Онлайн, рядом, недавние или поиск по имени"
+  panel-request-player: "Игрок"
+  panel-request-player-type: "Имя игрока"
+  panel-request-amount: "Очки XP"
+  panel-request-purpose: "Цель"
+  panel-request-purpose-hint: "От 1 до 80 символов; игрок его видит"
+  panel-request-send: "Отправить запрос"
+  panel-request-close: "Закрыть"
+  panel-request-missing-player: "Сначала выберите игрока."
+  panel-request-no-picker: "Введите имя игрока в форме."
+  panel-request-pick-title: "Запросить XP у"
+  panel-request-pick-subtitle: "Выбранный игрок получит запрос"
 privacy:
   title: Видимость счета
   description: Применяется на этом сервере независимо от баланса бэкэнда. Ваш собственный взгляд и авторизованные запросы

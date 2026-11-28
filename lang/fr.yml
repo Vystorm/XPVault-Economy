@@ -140,6 +140,8 @@ account:
   transfer-hover: Payez XP à un joueur
   leaderboard: Tableau de bord
   leaderboard-hover: Le tableau de bord XP de tous les comptes
+  request: "Demander de l'XP"
+  request-hover: "Demander de l'XP à un joueur ; il confirme avant tout transfert"
   refresh: Actualiser
   web: Ouvrir dans le web
   web-hover: Votre compte XP, les paiements et le classement dans le navigateur ou la superposition dans le jeu
@@ -352,6 +354,23 @@ client:
   panel-hud-settings: Affichage HUD
   panel-more: Plus
   panel-more-requests: Demandes de paiement
+  panel-more-request: "Demander XP"
+  panel-request: "Demander de l'XP"
+  panel-request-intro: "Le joueur confirme la demande avant tout transfert d'XP. Elle expire après 24 heures."
+  panel-request-choose: "Choisir joueur"
+  panel-request-player-chosen: "Joueur : {player}"
+  panel-request-player-hint: "En ligne, à proximité, récents ou recherche par nom"
+  panel-request-player: "Joueur"
+  panel-request-player-type: "Nom du joueur"
+  panel-request-amount: "Points d'XP"
+  panel-request-purpose: "Objet"
+  panel-request-purpose-hint: "1 à 80 caractères ; le joueur le voit"
+  panel-request-send: "Envoyer la demande"
+  panel-request-close: "Fermer"
+  panel-request-missing-player: "Choisissez d'abord un joueur."
+  panel-request-no-picker: "Saisissez le nom du joueur dans le formulaire."
+  panel-request-pick-title: "Demander de l'XP à"
+  panel-request-pick-subtitle: "Le joueur choisi reçoit la demande"
 privacy:
   title: Visibilité des comptes
   description: Applique sur ce serveur indépendamment du moteur d'équilibre. Votre propre vue et les requêtes administratives

@@ -44,13 +44,8 @@ final class PaymentCommands {
                         if (target == null || !plugin.hasAccount(target.getUniqueId())) throw new IOException("account");
                         ids.add(target.getUniqueId());
                     }
-                    var rows = desk.split(p.getUniqueId(), ids, total, String.join(" ", Arrays.copyOfRange(args, 2, args.length)));
-                    lang.send(p, "requests.created", "count", rows.size(), "amount", plugin.formatPoints(p, total));
-                    for (var row : rows) {
-                        Player recipient = plugin.player(row.payer()).getPlayer();
-                        if (recipient != null) lang.send(recipient, "requests.received", "player", p.getName(),
-                                "amount", plugin.formatPoints(recipient, row.amount()), "purpose", row.purpose());
-                    }
+                    int count = create(p, ids, total, String.join(" ", Arrays.copyOfRange(args, 2, args.length)));
+                    lang.send(p, "requests.created", "count", count, "amount", plugin.formatPoints(p, total));
                 }
                 case "requests" -> {
                     if (listsRequests(args)) list(p);
@@ -79,6 +74,45 @@ final class PaymentCommands {
         catch (IllegalArgumentException ex) { lang.send(p, "requests.error.invalid"); }
         return true;
     }
+    /** Stores the requests and tells the online payers; the number of requests created. */
+    private int create(Player payee, List<UUID> payers, long total, String purpose) throws IOException {
+        var rows = desk.split(payee.getUniqueId(), payers, total, purpose);
+        for (var row : rows) {
+            Player recipient = plugin.player(row.payer()).getPlayer();
+            if (recipient != null) lang.send(recipient, "requests.received", "player", payee.getName(),
+                    "amount", plugin.formatPoints(recipient, row.amount()), "purpose", row.purpose());
+        }
+        return rows.size();
+    }
+
+    /** What a menu shows after "Send request": the same text as the chat line of /economy request. */
+    record Outcome(boolean ok, String key, Object... placeholders) { }
+
+    /**
+     * "Request XP" of the account menu (1.28.0): the same checks, storage and messages as
+     * {@code /economy request <player> <XP> <purpose>}, for a player the menu already knows (picker) or by name.
+     */
+    Outcome request(Player payee, UUID targetId, String targetName, String rawAmount, String purpose) {
+        if (!payee.hasPermission("xpeconomy.pay")) return new Outcome(false, "common.no-permission");
+        if (!XPVaultEconomy.enabled(plugin, Feature.REQUESTS))
+            return new Outcome(false, "feature-off");
+        if (!desk.readable()) return new Outcome(false, "requests.error.storage");
+        if (!XPVaultEconomy.enabled(plugin, Feature.PAYMENTS))
+            return new Outcome(false, "feature-needs", "switch", Feature.PAYMENTS.path, "name", lang.plain(payee, Feature.PAYMENTS.label()));
+        try {
+            long total = amount(rawAmount == null ? "" : rawAmount.trim());
+            OfflinePlayer target = targetId != null ? plugin.player(targetId)
+                    : targetName == null || targetName.isBlank() ? null : plugin.resolveKnownPlayer(targetName.trim());
+            if (target == null || !plugin.hasAccount(target.getUniqueId())) throw new IOException("account");
+            int count = create(payee, List.of(target.getUniqueId()), total, purpose == null ? "" : purpose.trim());
+            return new Outcome(true, "requests.created", "count", count, "amount", plugin.formatPoints(payee, total));
+        } catch (IOException ex) {
+            return new Outcome(false, errorKey(known(ex.getMessage())));
+        } catch (IllegalArgumentException ex) {
+            return new Outcome(false, "requests.error.invalid");
+        }
+    }
+
     /** Player menu: asks for amount and purpose, then runs the same logic as /economy request &lt;target&gt; &lt;XP&gt; &lt;purpose&gt;. */
     void openRequest(Player player, String target) {
         List<DialogBody> body = List.of(DialogBody.plainMessage(lang.component(player, "requests.dialog-intro", "player", target)));
@@ -199,8 +233,10 @@ final class PaymentCommands {
         };
     }
     private void error(Player p, IOException ex) {
-        String code = ex.getMessage();
-        if (!Set.of("usage", "invalid", "account", "purpose", "capacity", "rate", "blocked", "not-open", "single", "daily").contains(code == null ? "" : code)) code = "storage";
-        lang.send(p, errorKey(code));
+        lang.send(p, errorKey(known(ex.getMessage())));
+    }
+    private static String known(String code) {
+        return Set.of("usage", "invalid", "account", "purpose", "capacity", "rate", "blocked", "not-open", "single", "daily")
+                .contains(code == null ? "" : code) ? code : "storage";
     }
 }

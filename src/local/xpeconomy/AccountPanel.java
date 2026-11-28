@@ -5,6 +5,7 @@ import Vystorm.vystorm_core.lang.Lang;
 import Vystorm.vystorm_core.panel.Panel;
 import Vystorm.vystorm_core.panel.PanelAction;
 import Vystorm.vystorm_core.panel.PanelContext;
+import Vystorm.vystorm_core.panel.PanelSession;
 import Vystorm.vystorm_core.panel.PanelSpec;
 import Vystorm.vystorm_core.panel.Panels;
 import Vystorm.vystorm_core.panel.PanelsInterface;
@@ -63,7 +64,28 @@ final class AccountPanel {
         default boolean leaderboardEnabled() { return true; }
         /** account-menu.enabled: the panel in /vmenu and /economy. */
         default boolean accountMenuEnabled() { return true; }
+        /** requests.enabled and payments.enabled: the "Request XP" form (1.28.0). */
+        default boolean requestFormEnabled() { return false; }
+        /** Core's player picker is there (Core 0.71.0, {@code player-picker}); without it the player is typed. */
+        default boolean playerPicker() { return false; }
+        /** Settings list rows on Vystorm Screens (Core 0.66.0, {@code panel-list-layout}). */
+        default boolean listLayout() { return false; }
+        /**
+         * Opens Core's player picker for the request's player; the pick writes {@link #REQ_TARGET} and
+         * {@link #REQ_TARGET_NAME} into the carried session and comes back to this panel. Null when there is no picker.
+         */
+        default Result pickRequestTarget(PanelAction action) { return null; }
+        /** Creates the request like {@code /economy request}; the outcome carries the same text as the chat line. */
+        default PaymentCommands.Outcome createRequest(Player payee, UUID target, String targetName, String amount, String purpose) {
+            return new PaymentCommands.Outcome(false, "requests.error.storage");
+        }
     }
+
+    /** Session values of the "Request XP" form; they survive a pick that returns to the panel. */
+    static final String REQ_OPEN = "req-open", REQ_TARGET = "req-target", REQ_TARGET_NAME = "req-target-name",
+            REQ_AMOUNT = "req-amount", REQ_PURPOSE = "req-purpose";
+    /** Id of the "Request XP" button in the "More" section. */
+    static final String MORE_REQUEST = "more-request";
 
     /**
      * The buttons of the "More" section in display order: features that have their own dialog. Permissions are the ones
@@ -204,14 +226,17 @@ final class AccountPanel {
             }
         }
         List<More> more = more(player::hasPermission, plugin::featureEnabled);
-        if (!more.isEmpty()) {
-            Ui.Button[] buttons = new Ui.Button[more.size()];
-            for (int i = 0; i < buttons.length; i++) {
-                More feature = more.get(i);
-                buttons[i] = Ui.button(feature.id).label(ctx.text(feature.label)).onClick(a -> openMore(a, feature));
+        boolean requestForm = requestOffered(player);
+        if (!more.isEmpty() || requestForm) {
+            List<Ui.Button> buttons = new ArrayList<>();
+            for (More feature : more) {
+                buttons.add(Ui.button(feature.id).label(ctx.text(feature.label)).onClick(a -> openMore(a, feature)));
+                if (feature == More.REQUESTS && requestForm) buttons.add(requestButton(ctx));
             }
-            page.child(Ui.section(ctx.text("client.panel-more")).children(Ui.buttons(buttons).wrap()));
+            if (requestForm && !more.contains(More.REQUESTS)) buttons.add(requestButton(ctx));
+            page.child(Ui.section(ctx.text("client.panel-more")).children(Ui.buttons(buttons.toArray(Ui.Button[]::new)).wrap()));
         }
+        if (requestForm && Boolean.TRUE.equals(ctx.session().get(REQ_OPEN))) page.child(requestSection(ctx));
         if (player.hasPermission("xpeconomy.top") && plugin.leaderboardEnabled()) page.child(leaderboard(ctx, language));
         List<Ui.Button> footer = new ArrayList<>();
         footer.add(Ui.button("refresh").label(ctx.text("client.panel-refresh")).onClick(a -> {
@@ -236,6 +261,107 @@ final class AccountPanel {
             return Result.error(lang.plain(player, "common.no-permission"));
         action.closeAndThen(next -> plugin.openFeature(next, feature));
         return Result.ok();
+    }
+
+    // ------------------------------------------------------------------ "Request XP" (1.28.0)
+
+    /** The form is offered: permission of /economy request, requests.enabled and payments.enabled. */
+    boolean requestOffered(Player player) {
+        return player.hasPermission("xpeconomy.pay") && plugin.requestFormEnabled();
+    }
+
+    private Ui.Button requestButton(PanelContext ctx) {
+        return Ui.button(MORE_REQUEST).label(ctx.text("client.panel-more-request")).tooltip(ctx.text("client.panel-request-intro"))
+                .onClick(this::openRequest);
+    }
+
+    /** "Request XP" in "More": shows the form in this panel (values already typed stay). */
+    Result openRequest(PanelAction action) {
+        if (!requestOffered(action.player())) return Result.error(lang.plain(action.player(), "common.no-permission"));
+        action.session().put(REQ_OPEN, Boolean.TRUE);
+        action.refresh();
+        return Result.ok();
+    }
+
+    /**
+     * Player, XP points and purpose as one form. Each row keeps its value in the panel session, so a trip to Core's
+     * player picker comes back with everything typed so far; "Send request" runs the same code as
+     * {@code /economy request PLAYER XP PURPOSE}.
+     */
+    private Ui.Section requestSection(PanelContext ctx) {
+        PanelSession session = ctx.session();
+        Ui.Section section = Ui.section(ctx.text("client.panel-request"));
+        if (plugin.listLayout()) section.list();
+        section.child(Ui.text(ctx.text("client.panel-request-intro")).style(Ui.TextStyle.MUTED));
+        String targetName = session.get(REQ_TARGET_NAME);
+        if (plugin.playerPicker()) {
+            section.child(Ui.button("request-player")
+                    .label(targetName == null ? ctx.text("client.panel-request-choose") : ctx.text("client.panel-request-player-chosen", "player", targetName))
+                    .icon(Ui.item(Material.PLAYER_HEAD)).tooltip(ctx.text("client.panel-request-player-hint"))
+                    .onClick(this::pickRequestTarget));
+        } else {
+            // Core before 0.71.0: the name is typed (a text window on Vystorm Screens)
+            section.child(Ui.input("request-target", ctx.text("client.panel-request-player")).chars(Ui.Chars.NAME).maxLength(16)
+                    .value(targetName == null ? "" : targetName).placeholder(ctx.text("client.panel-request-player-type"))
+                    .onChange((a, value) -> keep(a, REQ_TARGET_NAME, value)));
+        }
+        String amount = session.get(REQ_AMOUNT);
+        section.child(Ui.input("request-amount", ctx.text("client.panel-request-amount")).chars(Ui.Chars.INTEGER)
+                .maxLength(10).value(amount == null ? "" : amount)
+                .onChange((a, value) -> keep(a, REQ_AMOUNT, value)));
+        String purpose = session.get(REQ_PURPOSE);
+        section.child(Ui.input("request-purpose", ctx.text("client.panel-request-purpose")).maxLength(80)
+                .value(purpose == null ? "" : purpose).placeholder(ctx.text("client.panel-request-purpose-hint"))
+                .tooltip(ctx.text("client.panel-request-purpose-hint"))
+                .onChange((a, value) -> keep(a, REQ_PURPOSE, value)));
+        section.child(Ui.button("request-send").label(ctx.text("client.panel-request-send")).primary().onClick(this::sendRequest));
+        section.child(Ui.button("request-close").label(ctx.text("client.panel-request-close")).ghost().onClick(a -> {
+            clearRequest(a.session());
+            a.refresh();
+            return Result.ok();
+        }));
+        return section;
+    }
+
+    private static Result keep(PanelAction action, String key, String value) {
+        String text = value == null ? "" : value.trim();
+        if (text.isEmpty()) action.session().remove(key);
+        else action.session().put(key, text);
+        // a typed name replaces a picked player
+        if (key.equals(REQ_TARGET_NAME)) action.session().remove(REQ_TARGET);
+        action.refresh();
+        return Result.ok();
+    }
+
+    private static void clearRequest(PanelSession session) {
+        for (String key : List.of(REQ_OPEN, REQ_TARGET, REQ_TARGET_NAME, REQ_AMOUNT, REQ_PURPOSE)) session.remove(key);
+    }
+
+    /** "Choose player": Core's picker, back to this panel with the form's values. */
+    Result pickRequestTarget(PanelAction action) {
+        if (!requestOffered(action.player())) return Result.error(lang.plain(action.player(), "common.no-permission"));
+        Result picking = plugin.pickRequestTarget(action);
+        return picking != null ? picking : Result.error(lang.plain(action.player(), "client.panel-request-no-picker"));
+    }
+
+    /** "Send request": the same code as /economy request; on success the form closes. */
+    Result sendRequest(PanelAction action) {
+        Player payee = action.player();
+        if (!requestOffered(payee)) return Result.error(lang.plain(payee, "common.no-permission"));
+        PanelSession session = action.session();
+        String targetName = session.get(REQ_TARGET_NAME);
+        String targetId = session.get(REQ_TARGET);
+        if (targetName == null && targetId == null) return Result.error(lang.plain(payee, "client.panel-request-missing-player"));
+        UUID id = null;
+        if (targetId != null) {
+            try { id = UUID.fromString(targetId); } catch (IllegalArgumentException ignored) { }
+        }
+        PaymentCommands.Outcome outcome = plugin.createRequest(payee, id, targetName, session.get(REQ_AMOUNT), session.get(REQ_PURPOSE));
+        String text = lang.plain(payee, outcome.key(), outcome.placeholders());
+        if (!outcome.ok()) return Result.error(text);
+        clearRequest(session);
+        action.refresh();
+        return Result.ok(text);
     }
 
     private Ui.Section rewardSection(PanelContext ctx, RewardView reward, String language) {

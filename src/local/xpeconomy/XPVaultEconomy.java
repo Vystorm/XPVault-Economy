@@ -2,6 +2,8 @@ package local.xpeconomy;
 
 import Vystorm.vystorm_core.API;
 import Vystorm.vystorm_core.CoreApi;
+import Vystorm.vystorm_core.panel.PanelAction;
+import Vystorm.vystorm_core.panel.Result;
 import Vystorm.vystorm_core._coreMethods.eventRegulator.EventStage;
 import Vystorm.vystorm_core._parsersDebuggerEtc.debugger.DebugMessages;
 import Vystorm.vystorm_core.lang.Lang;
@@ -244,6 +246,40 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
         paymentCommands.openRequest(player, target);
     }
 
+    /** "Request XP" of the account panel and dialog: the same code as /economy request. */
+    PaymentCommands.Outcome createRequest(Player payee, UUID target, String targetName, String amount, String purpose) {
+        return paymentCommands.request(payee, target, targetName, amount, purpose);
+    }
+
+    /** Core's player picker (Core 0.71.0); older Cores type the name. */
+    boolean playerPickerAvailable() {
+        return CoreApi.has("player-picker");
+    }
+
+    /** "Choose player" of the request dialog; without the picker straight back to the dialog. */
+    void pickRequestTarget(Player player, String name, String amount, String purpose, AccountMenu.RequestReturn back) {
+        if (playerPickerAvailable()) {
+            try {
+                EconomyPicks.requestTarget(core, this, lang, player, name, amount, purpose, back);
+                return;
+            } catch (LinkageError olderCore) {
+                getLogger().fine("Player picker not available: " + olderCore);
+            }
+        }
+        back.open(player, null, name, amount, purpose);
+    }
+
+    /** "Choose player" of the request form on a screen; null without the picker. */
+    private Result pickRequestTarget(PanelAction action) {
+        if (!playerPickerAvailable()) return null;
+        try {
+            return EconomyPicks.requestTarget(core, this, lang, action);
+        } catch (LinkageError olderCore) {
+            getLogger().fine("Player picker not available: " + olderCore);
+            return null;
+        }
+    }
+
     /** The player's savings goal, or null when none is set or savings-goal.enabled is off. */
     PersonalEconomyPrefs.Goal goal(Player player) {
         return on(Feature.SAVINGS_GOAL) ? PersonalEconomyPrefs.goal(core.settings().prefs(), this, player) : null;
@@ -280,6 +316,13 @@ public final class XPVaultEconomy extends JavaPlugin implements Listener {
             public boolean accountMenuEnabled() { return on(Feature.ACCOUNT_MENU); }
             public OfflinePlayer player(UUID uuid) { return economy.player(uuid); }
             public String hudSettingsKey() { return client == null ? null : client.settingsKey(); }
+            public boolean requestFormEnabled() { return on(Feature.REQUESTS) && on(Feature.PAYMENTS); }
+            public boolean playerPicker() { return playerPickerAvailable(); }
+            public boolean listLayout() { return CoreApi.has("panel-list-layout"); }
+            public Result pickRequestTarget(PanelAction action) { return economy.pickRequestTarget(action); }
+            public PaymentCommands.Outcome createRequest(Player payee, UUID target, String targetName, String amount, String purpose) {
+                return economy.createRequest(payee, target, targetName, amount, purpose);
+            }
             public boolean featureEnabled(AccountPanel.More feature) {
                 return switch (feature) {
                     case BANKS -> banksEnabled();

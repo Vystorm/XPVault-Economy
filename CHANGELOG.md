@@ -1,3 +1,10 @@
+## 1.28.0-26.2 — 2026-11-27
+
+- New in the XP account menu: **Request XP** in the "More" area. It opens a form in the same menu with the player, the XP points and the purpose, and "Send request" does what `/economy request <player> <XP> <purpose>` does, with the same checks, limits and messages. The player confirms the request before any XP moves, as before.
+- The player is chosen with Vystorm Core's player picker (online, nearby, recent, search) on Core 0.71.0 or newer; after the pick you are back in the menu with the XP points and the purpose you already typed. With an older Core you type the name in the form.
+- Players who see the account menu as a dialog (no Vystorm Screen, for example on Spigot or Paper 1.20.6) get a "Request XP" button there with the same three fields and, on Core 0.71.0 or newer, a "Choose player" button.
+- The button shows for players with `xpeconomy.pay` while `requests.enabled` and `payments.enabled` are on. All commands stay as they were. Still runs with Vystorm Core 0.65.0 or newer; `config.yml` and the data files are unchanged.
+
 ## 1.27.0-26.2 — 2026-11-22
 
 - New ranking `xpvault:balance`: the richest players by XP balance, the same list as `/baltop`. Vystorm Boards shows it on a board with `{type: top, source: "xpvault:balance", rows: 10}`, and the same values are placeholders, for example `%vystorm_xpvault_top_balance_1_name%` and `%vystorm_xpvault_rank_balance%`. Offline players are listed from the first start, because the balances are already stored.
